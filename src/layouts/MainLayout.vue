@@ -49,6 +49,7 @@
         <q-item
           clickable
           v-ripple
+          :to="{name:'MeusNegocios'}"
         >
           <q-item-section avatar>
             <q-icon name="business" color="grey-9" />
@@ -156,7 +157,7 @@
       :breakpoint="400"
       v-model="drawer"
     >
-      <q-list  padding class="rounded-borders  full-width" style="margin-top:150px">
+      <q-list  padding class="rounded-borders  full-width" style="">
         <q-item
           clickable
           v-ripple
@@ -216,9 +217,7 @@
         </q-item>
 
       </q-list>
-      <q-img  class="absolute-top" src="https://cdn.quasar.dev/img/material.png" style="height: 150px">
-      <q-btn color="white" @click="drawer = !drawer" class=" absolute-top-right" icon="keyboard_backspace" flat size="17px" />
-      </q-img>
+     
     </q-drawer>
     <q-page-container >
       <router-view />
@@ -423,6 +422,16 @@ export default {
         if(this.paginaAtual == "Favoritos")this.labelHeader = 'Favoritos'
         if(this.paginaAtual == "PagamentoFornecedor")this.labelHeader = 'Pagamento'
         if(this.paginaAtual == "Mais")this.labelHeader = 'Opções'
+        if(this.paginaAtual == "MeusNegocios")this.labelHeader = 'Meus Negócios'
+        if(this.paginaAtual == "InformacaoNegocio")this.labelHeader = 'Meu negócio'
+        if(this.paginaAtual == "CidadeNegocio")this.labelHeader = 'Cidade do Negócio'
+        if(this.paginaAtual == "CategoriaNegocio")this.labelHeader = 'Categoria do Negócio'
+        if(this.paginaAtual == "NomeNegocio")this.labelHeader = 'Nome do Negócio'
+        if(this.paginaAtual == "ContatoNegocio")this.labelHeader = 'Contato'
+        if(this.paginaAtual == "RedesSociaisNegocio")this.labelHeader = 'Redes Sociais'
+        if(this.paginaAtual == "FotosVideosNegocio")this.labelHeader = 'Fotos e Videos'
+        if(this.paginaAtual == "DescricaoNegocio")this.labelHeader = 'Descrição'
+        if(this.paginaAtual == "Localizacao")this.labelHeader = 'Qual sua Localização'
       }
     },
   },

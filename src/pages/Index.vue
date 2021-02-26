@@ -80,7 +80,7 @@ export default {
       }
       
       if(this.slide == 'slide3')
-        this.$router.push({name:'Home'})
+        this.$router.push({name:'Localizacao'})
     },
  
   },
