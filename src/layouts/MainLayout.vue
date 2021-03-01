@@ -144,7 +144,7 @@
       <q-img class="absolute-top" src="https://cdn.quasar.dev/img/material.png" style="height: 150px">
       <q-btn @click="drawer = !drawer" class=" absolute-top-right" icon="keyboard_backspace" flat size="17px" />
         <div class="absolute-bottom bg-transparent">
-          <q-avatar @click="irEditProfile"  size="80px" class="q-mb-sm">
+          <q-avatar @click="$router.push({name:'EditProfile'})"  size="80px" class="q-mb-sm">
             <img src="https://cdn.quasar.dev/img/boy-avatar.png">
           </q-avatar>
         </div>
@@ -230,7 +230,8 @@
     <q-page-container class="q-pa-xs">
       <router-view />
     </q-page-container>
-      <footer v-show="footer" :class="!teclado?'fixed-bottom':''">
+
+    <footer v-show="footer" :class="!teclado?'fixed-bottom':''">
         <q-tabs
           v-if="tabFooter"
           v-model="tab"
@@ -241,12 +242,12 @@
           active-color="pink"
           narrow-indicator
         >
-          <q-tab @click="irHome" name="Home" icon="home" label="Home" no-caps />
-          <q-tab @click="irCategorias" name="Categorias" icon="restaurant_menu" label="Categorias" no-caps />
-          <q-tab @click="irFavoritos" name="Favoritos" icon="favorite_border" label="Favoritos" no-caps />
+          <q-tab @click="$router.push({name:'Home'})" name="Home" icon="home" label="Home" no-caps />
+          <q-tab @click="$router.push({name:'Categorias'})" name="Categorias" icon="restaurant_menu" label="Categorias" no-caps />
+          <q-tab @click="$router.push({name:'Favoritos'})" name="Favoritos" icon="favorite_border" label="Favoritos" no-caps />
           <q-tab @click="drawer = !drawer" name="Mais" icon="more_horiz" label="Mais" no-caps />
         </q-tabs>
-        <div v-if="botaoFooter"  style="padding:10px 0px 20px" class="row justify-center">
+        <div v-if="botaoFooter"  style="padding:10px 0px 20px" class="row justify-center bg-white">
             <q-btn @click="acaoBotaoFooter"  class="col-8" :label="labelFooter" rounded no-caps color="pink" />
         </div>
     </footer>
@@ -315,7 +316,7 @@
         </q-card-section>
       </q-card>
       <div class="row justify-center bg-grey-5" style="border-radius:50px">
-          <q-btn   @click="mudarDialogPagamento(false)" round  text-color="black" icon="close"  />
+          <q-btn size="21px"  @click="mudarDialogPagamento(false)" round  text-color="black" icon="close"  />
       </div >
     </q-dialog>
   </q-layout>
@@ -347,7 +348,6 @@ export default {
       paginaAnterior:'',
 
       teclado:false
-
     }
   },
   computed:{
@@ -372,21 +372,7 @@ export default {
     mudarStatusLogado(val){
       this.$store.commit('EuQueroFesta/mudarStatusLogado',val)
     },
-    irMais(){
-      this.$router.push({name:'Mais'})
-    },
-    irEditProfile(){
-      this.$router.push({name:'EditProfile'})
-    },
-    irHome(){
-      this.$router.push({name:'Home'})
-    },
-    irFavoritos(){
-      this.$router.push({name:'Favoritos'})
-    },
-    irCategorias(){
-      this.$router.push({name:'Categorias'})
-    },
+
     //HEADER
     inicializarHeader(){
       if(this.paginaAtual == "Index"){

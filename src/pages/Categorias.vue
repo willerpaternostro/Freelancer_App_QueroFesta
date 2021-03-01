@@ -1,7 +1,7 @@
 <template>
 <div>
     <div class="row">
-        <q-input class="col" standout bottom-slots v-model="text" label="Item ou loja" style="padding:8px">
+        <q-input class="col" bg-color="grey-2" filled color="pink" bottom-slots v-model="text" label="Item ou loja" style="padding:8px">
         <template v-slot:prepend>
           <q-icon color="pink" name="search" />
         </template>

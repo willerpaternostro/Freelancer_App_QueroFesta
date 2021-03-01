@@ -24,7 +24,7 @@
                     </template>
                 </q-input>
             </div><br>
-            <div class="row " style="padding:16px"> 
+            <div class="row " style="padding:16px 16px 40px 16px"> 
                 <div class="col-6  row"> 
                     <div class="col-12">
                         <label class="text-weight-bold text-grey-7">Data de Expiração </label>

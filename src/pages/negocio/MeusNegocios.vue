@@ -1,15 +1,5 @@
 <template>
     <div style="padding:8px">
-        <div class="row">
-            <q-input class="col" standout bottom-slots v-model="text" label="Find a food recipient" >
-                <template v-slot:prepend>
-                    <q-icon color="pink" name="search" />
-                </template>
-                <template v-slot:append>
-                    <q-icon color="pink" name="more_horiz" />
-                </template>
-            </q-input>
-        </div>
         <q-card   flat v-for="(item,index) in items" :key="index" class="my-card" style="padding:8px">
             <q-card-section horizontal >
                 <q-img

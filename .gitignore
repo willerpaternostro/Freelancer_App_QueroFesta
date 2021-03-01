@@ -7,8 +7,8 @@
 node_modules/
 dist/
 
-src-capacitor
-src-pwa
+src-capacitor/
+src-pwa/
 # Compiled Java class files
 *.class
 

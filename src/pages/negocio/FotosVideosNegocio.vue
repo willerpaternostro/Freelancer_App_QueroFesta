@@ -76,7 +76,7 @@
                 </template>
                 </q-uploader>
             </div>
-            <div class="row">
+            <div class="row" style="padding-bottom:60px">
                 <label>Video</label>
                  <q-uploader
                

@@ -1,7 +1,7 @@
 <template>
     <div style="padding:8px">
         <div class="row">
-            <q-input class="col" standout bottom-slots v-model="text" label="Digite CEP, Cidade ou endereço" >
+            <q-input class="col" filled bg-color="grey-2"  color="pink" bottom-slots v-model="text" label="Digite CEP, Cidade ou endereço" >
                 <template v-slot:prepend>
                     <q-icon color="pink" name="search" />
                 </template>
