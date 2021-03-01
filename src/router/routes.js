@@ -10,12 +10,17 @@ const routes = [
       { path: 'categorias', component: () => import('pages/Categorias.vue'), name:'Categorias' },
       { path: 'fornecedores', component: () => import('pages/Fornecedores.vue'), name:'Fornecedores' },
       { path: 'fornecedor', component: () => import('pages/Fornecedor.vue'), name:'Fornecedor' },
-      //SOU FORNECEDOR
+      //SOU FORNECEDOR CallCenterFornecedor
+      { path: 'callCenter', component: () => import('pages/souFornecedor/CallCenterFornecedor.vue'), name:'CallCenterFornecedor' },
+      { path: 'cobrancaDetalhes', component: () => import('pages/souFornecedor/CobrancaDetalhes.vue'), name:'CobrancaDetalhes' },
+      { path: 'cobrancasFornecedor', component: () => import('pages/souFornecedor/CobrancasFornecedor.vue'), name:'CobrancasFornecedor' },
       { path: 'inicioFornecedor', component: () => import('pages/souFornecedor/InicioFornecedor.vue'), name:'InicioFornecedor' },
       { path: 'loginFornecedor', component: () => import('pages/souFornecedor/LoginFornecedor.vue'), name:'LoginFornecedor' },
       { path: 'cadastroFornecedor', component: () => import('pages/souFornecedor/CadastroFornecedor.vue'), name:'CadastroFornecedor' },
       { path: 'planosFornecedor', component: () => import('pages/souFornecedor/PlanosFornecedor.vue'), name:'PlanosFornecedor' },
       { path: 'pagamentoFornecedor', component: () => import('pages/souFornecedor/PagamentoFornecedor.vue'), name:'PagamentoFornecedor' },
+      { path: 'editProfile', component: () => import('pages/souFornecedor/EditProfile.vue'), name:'EditProfile' }, 
+      { path: 'configuracoesFornecedor', component: () => import('pages/souFornecedor/ConfiguracoesFornecedor.vue'), name:'ConfiguracoesFornecedor' }, 
       //NEGÓCIOS
       { path: 'meusNegocios', component: () => import('pages/negocio/MeusNegocios.vue'), name:'MeusNegocios' },
       { path: 'informacaoNegocio', component: () => import('pages/negocio/InformacaoNegocio.vue'), name:'InformacaoNegocio' },

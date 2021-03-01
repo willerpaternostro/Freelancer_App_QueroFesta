@@ -1,5 +1,5 @@
 <template>
-    <div style="padding:8px">
+    <div >
         <q-form class="text-grey-7">
             <div class="row">
                 <label>Facebook</label>
@@ -18,9 +18,7 @@
                 <q-input class="col-12" bottom-slots v-model="youtube" label="Digite o nome"  :dense="true" />
             </div>
         </q-form>
-        <div class="row justify-center absolute-bottom" style="padding:10px">
-            <q-btn @click="irContatoNegocio"  class="col-10" label="Salvar" rounded no-caps color="pink" />
-        </div>
+        
     </div>
 </template>
 <script>
@@ -34,13 +32,18 @@ export default {
         instagram:'',
         linkedin:'',
         youtube:'',
-        items:[1,2,3,4,5]
+        items:[1,2,3,4,5],
+        botaoFundo:''
       }
   },
   methods:{
    irContatoNegocio(){
        this.$router.push({name:'DescricaoNegocio'})
    }
+  },
+  mounted(){
+      this.botaoFundo = this.$q.screen.height
+      this.botaoFundo = this.botaoFundo/4
   }
 }
 </script>

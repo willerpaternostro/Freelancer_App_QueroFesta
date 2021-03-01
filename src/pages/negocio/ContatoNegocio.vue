@@ -18,9 +18,7 @@
                 <q-input class="col-12" bottom-slots v-model="website" label="Digite o nome"  :dense="true" />
             </div>
         </q-form>
-        <div class="row justify-center absolute-bottom" style="padding:10px">
-            <q-btn @click="irContatoNegocio"  class="col-10" label="Salvar" rounded no-caps color="pink" />
-        </div>
+     
     </div>
 </template>
 <script>

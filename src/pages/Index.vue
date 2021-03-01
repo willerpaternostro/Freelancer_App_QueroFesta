@@ -1,17 +1,14 @@
 <template>
-  <div  :style="'padding:6px; height:'+height+'px'"  >
+  <div >
     <q-carousel
       v-show="mostrarApresentacaoHenvio"
       v-model="slide"
       transition-prev="scale"
       transition-next="scale"
       animated
-      padding
       class="text-grey-7 shadow-1 rounded-borders"
       swipeable
-      navigation 
-      
-  
+      :style="'max-height:'+height+'px'" 
     >
       <q-carousel-slide name="slide1" >
         <q-img
@@ -23,23 +20,25 @@
       </q-carousel-slide>
       <q-carousel-slide name="slide2" >
         <q-img
-        height="250px"
+          height="250px"
           src="~assets/logo_euquero.png"
           contain
         />
       </q-carousel-slide>
       <q-carousel-slide name="slide3" >
         <q-img
+          height="250px"
           src="~assets/logo_euquero.png"
           contain
         />
       </q-carousel-slide>
     </q-carousel>
+    <div class="absolute-bottom">
     <div class="row ">
-      <span class="col text-center text-h5">Apresentação</span>
+      <span class="col-12 text-center text-h5">Apresentação</span>
     </div>
-    <div class="row" style="margin-top:10px">
-      <p class="col text-center text-grey-7">Aqui é para colocar um texto sobre o aplicativo de festas, pode colocar qualquer coisa</p>
+    <div class="row justify-center" style="margin-top:10px">
+      <p class="col-10 text-center text-grey-7">Aqui é para colocar um texto sobre o aplicativo de festas, pode colocar qualquer coisa</p>
     </div>
     <div class="row justify-center">
       <q-btn-group flat>
@@ -48,8 +47,9 @@
         <q-btn flat :color="slide =='slide3'?'pink':'grey-5'" icon="fas fa-window-minimize" />
       </q-btn-group>
     </div>
-    <div class="row justify-center absolute-bottom" style="padding:10px">
+    <div class="row justify-center " style="padding:20px">
      <q-btn @click="continuar" class="col-8" label="Continuar" rounded no-caps color="pink" />
+    </div>
     </div>
   </div>
 </template>
@@ -61,7 +61,7 @@ export default {
   name: 'PageIndex',
   data(){
     return{
-      height:600,
+      height:'',
       mostrarApresentacaoHenvio: true,
       slide: 'slide1',
       }
@@ -88,6 +88,7 @@ export default {
   mounted(){
     console.log(this)
     this.height = this.$q.screen.height-50
+    this.height = parseInt(this.height/2)
     this.height = this.height.toString()
   }
 }

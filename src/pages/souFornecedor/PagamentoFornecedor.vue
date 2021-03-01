@@ -1,5 +1,5 @@
 <template>
-    <div class="q-pa-md">
+    <div >
         <vue-paycard :value-fields="valueFields" />
         <div class="row justify-center"> 
             <span class="text-caption text-center">
@@ -9,7 +9,7 @@
         <div class="row justify-center"> 
             <q-btn flat no-caps color="primary" >{{'Terms & Condition'}}</q-btn>  
         </div>
-        <q-form style="margin-top:40px">
+        <q-form style="margin-top:10px">
             <div class="row justify-center">
                 <q-input class="col-11" v-model="valueFields['cardName']" label="Nome">
                     <template v-slot:prepend>
@@ -61,10 +61,7 @@
             </div><br>
             
         </q-form>
-        <div class="row justify-center">
-            <q-btn @click="pagamentoRealizado" rounded class="col-8" label="Continuar" color="pink"/>
-        </div>
-       
+        
     </div>
 </template>
 
@@ -92,25 +89,10 @@ export default {
         }
     },
     computed:{
-        dialogPagamento(){
-            return this.$store.state.EuQueroFesta.dialogPagamento
-        },
-        logado(){
-            return this.$store.state.EuQueroFesta.logado
-        }
+      
     },
     methods:{
-        mudarLogado(val){
-            this.$store.commit('EuQueroFesta/mudarLogado',val)
-        },
-        pagamentoRealizado(){
-            this.$router.push({name:'Home'})
-            this.mudarDialogPagamento(true)
-            this.mudarLogado(true)
-        },
-        mudarDialogPagamento(dado){
-            return this.$store.commit('EuQueroFesta/mudarDialogPagamento',dado)
-        }
+    
     },
     mounted() {
    

@@ -30,6 +30,7 @@
                         label="Fotos"
                         multiple
                         color="pink-6"
+                        class="col-12"
                       
                     >
                 <template v-slot:list="scope">
@@ -83,13 +84,11 @@
                     label="Video"
                     multiple
                     color="pink-6"
+                    class="col-12"
                     
                 />
             </div>
         </q-form>
-        <div class="row justify-center absolute-bottom" style="padding:10px">
-            <q-btn @click="irContatoNegocio"  class="col-10" label="Salvar" rounded no-caps color="pink" />
-        </div>
     </div>
 </template>
 <script>

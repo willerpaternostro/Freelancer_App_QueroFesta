@@ -16,14 +16,14 @@
             </div>
         </q-img>
         <q-carousel
-        v-model="slides"
-        transition-prev="slide-right"
-        transition-next="slide-left"
-        swipeable
-        animated
-        arrows
-        height="150px"
-        class="bg-grey-1  rounded-borders"
+            v-model="slides"
+            transition-prev="slide-right"
+            transition-next="slide-left"
+            swipeable
+            animated
+            arrows
+            height="150px"
+            class="bg-grey-1  rounded-borders"
         >
         <q-carousel-slide :name="1" class="column no-wrap">
             <div class="row fit justify-start items-center q-gutter-xs q-col-gutter no-wrap">

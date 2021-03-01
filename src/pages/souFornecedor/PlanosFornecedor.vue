@@ -9,7 +9,7 @@
         <div class=" row justify-center">  
             <p class="text-grey-7 text-weight-bold">Now we need to verify your identity</p>
         </div>
-        <q-list bordered padding >
+        <q-list>
             <q-item class="listaPlanos">
                 <q-item-section style="max-width:60px" >
                     <q-avatar color="positive" text-color="white"> 1</q-avatar>
@@ -39,14 +39,6 @@
                 </q-item-section>
             </q-item>
     </q-list>
-    
-    <div class="row justify-center absolute-bottom" style="padding:20px 10px 20px 10px">
-      <q-btn 
-       :to="{name:'PagamentoFornecedor'}"
-        rounded
-        text-color="white"
-        color="pink" class="col-8"  no-caps>Continue </q-btn>
-    </div>
    </div>
 </template>
 <script>

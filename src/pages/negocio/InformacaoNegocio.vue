@@ -86,7 +86,7 @@
             </div>
         </div>
         <div  >
-            <q-list padding bordered class="rounded-borders" style="padding:16px 0px 0px 0px">
+            <q-list class="rounded-borders" style="padding:16px 0px 0px 0px">
                 <q-expansion-item
                     dense
                     dense-toggle

@@ -91,11 +91,11 @@ export default {
   },
     methods:{
       fazerLogin(){
-        this.mudarLogado(true)
+        this.mudarStatusLogado(true)
         this.$router.push({name:'Home'})
       },
-      mudarLogado(val){
-      this.$store.commit('EuQueroFesta/mudarLogado',val)
+     mudarStatusLogado(val){
+      this.$store.commit('EuQueroFesta/mudarStatusLogado',val)
     },
     },
     beforeMount(){

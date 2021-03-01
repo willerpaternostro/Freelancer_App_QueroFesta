@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf"   >
-    <q-header v-if="mostrarHeader"  class="bg-white text-black" style="padding-top:10px;padding-bottom:10px">
+    <q-header v-if="header"  class="bg-white text-black" style="padding-top:10px;padding-bottom:10px">
       <div class="row">
         <div class="col-2">
           <q-btn
@@ -10,7 +10,7 @@
             icon="keyboard_backspace"
             aria-label="Menu"
             @click="acaoBotaoHeaderEsquerdo"
-            
+            v-show="botaoHeaderEsquerdo"
           />
         </div>
         <div class="text-center text-pink-4 text-h5 text-weight-bold col-8">
@@ -21,7 +21,7 @@
     </q-header>
     <!-- ESTÁ LOGADO -->
     <q-drawer
-      v-if="logado"
+      v-if="statusLogado"
       v-model="drawer"
       show-if-above
       :width="360"
@@ -34,7 +34,7 @@
         <q-item
           clickable
           v-ripple
-          :to="{name:'InicioFornecedor'}"
+          @click="$router.push({name:'InicioFornecedor'})"
         >
           <q-item-section avatar>
             <q-icon name="account_circle" color="grey-9" />
@@ -49,7 +49,7 @@
         <q-item
           clickable
           v-ripple
-          :to="{name:'MeusNegocios'}"
+          @click="$router.push({name:'MeusNegocios'})"
         >
           <q-item-section avatar>
             <q-icon name="business" color="grey-9" />
@@ -64,6 +64,7 @@
         <q-item
           clickable
           v-ripple
+          @click="$router.push({name:'Home'})"
         >
           <q-item-section avatar>
             <q-icon name="shopping_cart" color="grey-9" />
@@ -79,6 +80,7 @@
         <q-item
           clickable
           v-ripple
+          @click="$router.push({name:'CobrancasFornecedor'})"
         >
           <q-item-section avatar>
             <q-icon name="add_chart" color="grey-9" />
@@ -94,6 +96,7 @@
         <q-item
           clickable
           v-ripple
+          @click="$router.push({name:'CallCenterFornecedor'})"
         >
           <q-item-section avatar>
             <q-icon name="support_agent" color="grey-9" />
@@ -108,6 +111,7 @@
         <q-item
           clickable
           v-ripple
+          @click="$router.push({name:'ConfiguracoesFornecedor'})"
         >
           <q-item-section avatar>
             <q-icon name="settings" color="grey-9" />
@@ -122,12 +126,13 @@
         <q-item
           clickable
           v-ripple
+          @click="logout"
         >
           <q-item-section avatar>
             <q-icon name="logout" color="grey-9" />
           </q-item-section>
 
-          <q-item-section @click="logout" class="text-h6 text-grey-8">Sair</q-item-section>
+          <q-item-section  class="text-h6 text-grey-8">Sair</q-item-section>
 
           <q-item-section avatar>
             <q-icon name="keyboard_arrow_right" />
@@ -139,7 +144,7 @@
       <q-img class="absolute-top" src="https://cdn.quasar.dev/img/material.png" style="height: 150px">
       <q-btn @click="drawer = !drawer" class=" absolute-top-right" icon="keyboard_backspace" flat size="17px" />
         <div class="absolute-bottom bg-transparent">
-          <q-avatar size="80px" class="q-mb-sm">
+          <q-avatar @click="irEditProfile"  size="80px" class="q-mb-sm">
             <img src="https://cdn.quasar.dev/img/boy-avatar.png">
           </q-avatar>
         </div>
@@ -151,7 +156,7 @@
     </q-drawer>
     <!-- NÃO ESTÁ LOGADO -->
     <q-drawer 
-      v-if="!logado"
+      v-if="!statusLogado"
       show-if-above
       :width="360"
       :breakpoint="400"
@@ -161,7 +166,7 @@
         <q-item
           clickable
           v-ripple
-          :to="{name:'InicioFornecedor'}"
+          @click="$router.push({name:'InicioFornecedor'})"
         >
           <q-item-section avatar>
             <q-icon name="account_circle" color="grey-9" />
@@ -176,6 +181,7 @@
         <q-item
           clickable
           v-ripple
+          @click="$router.push({name:'ConfiguracoesFornecedor'})"
         >
           <q-item-section avatar>
             <q-icon name="settings" color="grey-9" />
@@ -190,6 +196,7 @@
         <q-item
           clickable
           v-ripple
+          @click="$router.push({name:'CallCenterFornecedor'})"
         >
           <q-item-section avatar>
             <q-icon name="support_agent" color="grey-9" />
@@ -204,6 +211,7 @@
         <q-item
           clickable
           v-ripple
+          @click="$router.push({name:'CallCenterFornecedor'})"
         >
           <q-item-section avatar>
             <q-icon name="work" color="grey-9" />
@@ -219,11 +227,12 @@
       </q-list>
      
     </q-drawer>
-    <q-page-container >
+    <q-page-container class="q-pa-xs">
       <router-view />
     </q-page-container>
-      <q-footer v-show="mostrarFooter" class="">
+      <footer v-show="footer" :class="!teclado?'fixed-bottom':''">
         <q-tabs
+          v-if="tabFooter"
           v-model="tab"
           dense
           class="bg-white text-grey-6"
@@ -237,7 +246,10 @@
           <q-tab @click="irFavoritos" name="Favoritos" icon="favorite_border" label="Favoritos" no-caps />
           <q-tab @click="drawer = !drawer" name="Mais" icon="more_horiz" label="Mais" no-caps />
         </q-tabs>
-    </q-footer>
+        <div v-if="botaoFooter"  style="padding:10px 0px 20px" class="row justify-center">
+            <q-btn @click="acaoBotaoFooter"  class="col-8" :label="labelFooter" rounded no-caps color="pink" />
+        </div>
+    </footer>
 
     <!--DIALOG PAGAMENTO -->
     <q-dialog
@@ -310,41 +322,46 @@
 </template>
 
 <script>
-
+import { Plugins, KeyboardInfo } from '@capacitor/core';
+const { Keyboard } = Plugins;
 export default {
   name: 'MainLayout',
   data () {
     return {
-      mostrarBotaoHeaderEsquerdo:false,
-      // mostrarBotaoHeaderDireito:false, 
-      labelHeader:'',
-
       drawer: false,
-     
-   
       height:'600px',
+    
+    //FOOTER
+      footer:false,
+      tabFooter:false,
+      botaoFooter:false ,
       tab:'Home',
+      labelFooter:'',
 
-      mostrarFooter:false,
-      mostrarHeader:false,
+    //HEADER
+      header:false,
+      botaoHeaderEsquerdo:false,
+      labelHeader:'',
 
       paginaAtual:'',
       paginaAnterior:'',
 
-    
+      teclado:false
+
     }
   },
   computed:{
     dialogPagamento(){
       return this.$store.state.EuQueroFesta.dialogPagamento
     },
-    logado(){
-      return this.$store.state.EuQueroFesta.logado
+    statusLogado(){
+      return this.$store.state.EuQueroFesta.statusLogado
     }
   },
+
   methods:{
     logout(){
-      this.mudarLogado(false)
+      this.mudarStatusLogado(false)
       this.drawer = false
       if(this.paginaAtual != 'Home')
         this.$router.push({name:'Home'})
@@ -352,11 +369,14 @@ export default {
     mudarDialogPagamento(val){
       this.$store.commit('EuQueroFesta/mudarDialogPagamento',val)
     },
-    mudarLogado(val){
-      this.$store.commit('EuQueroFesta/mudarLogado',val)
+    mudarStatusLogado(val){
+      this.$store.commit('EuQueroFesta/mudarStatusLogado',val)
     },
     irMais(){
       this.$router.push({name:'Mais'})
+    },
+    irEditProfile(){
+      this.$router.push({name:'EditProfile'})
     },
     irHome(){
       this.$router.push({name:'Home'})
@@ -367,24 +387,168 @@ export default {
     irCategorias(){
       this.$router.push({name:'Categorias'})
     },
-    inicializarFooter(){
-       if(
-          this.paginaAtual == 'Home' || this.paginaAtual == 'Categorias'  || this.paginaAtual == 'Favoritos' || 
-          this.paginaAtual == 'Fornecedores' 
-        ){
-        this.mostrarFooter = true 
-      }else{
-         this.mostrarFooter = false 
-      }
-    },
+    //HEADER
     inicializarHeader(){
-      console.log("mostrarFooter")
-      if(this.paginaAtual == 'Index' || this.paginaAtual == 'Home' || this.paginaAtual == 'Fornecedor'){
-        this.mostrarHeader = false
-      }else{
-        this.mostrarHeader = true;
-        this.inicializarLabelHeader()
+      if(this.paginaAtual == "Index"){
+        this.header = false;
+        this.labelHeader = "";
+        this.botaoHeaderEsquerdo = false
+        return
+      } 
+      if(this.paginaAtual == "Localizacao"){
+        this.header = true;
+        this.botaoHeaderEsquerdo = false
+        this.labelHeader = "Qual a sua Localização?";
+        return
+      } 
+      if(this.paginaAtual == "Home"){
+        this.header = false;
+        this.botaoHeaderEsquerdo = false
+        this.labelHeader = "";  
+        return
+      }   
+      if(this.paginaAtual == "Categorias"){
+        this.header = true;
+        this.botaoHeaderEsquerdo = false
+        this.labelHeader = "Categorias"; 
+        return
+      } 
+      if(this.paginaAtual == "Favoritos"){
+        this.header = true;
+        this.botaoHeaderEsquerdo = false
+        this.labelHeader = "Favoritos"; 
+        return
+      } 
+      if(this.paginaAtual == "Fornecedores"){
+        this.header = true;
+        this.botaoHeaderEsquerdo = false
+        this.labelHeader = "Fornecedores"; 
+        return
       }
+      if(this.paginaAtual == "Fornecedor"){
+        this.header = false;
+        this.labelHeader = "";
+        this.botaoHeaderEsquerdo = false
+        return
+      }
+
+      //SOU FORNECEDOR  
+      if(this.paginaAtual == "CadastroFornecedor"){
+        this.header = true;
+        this.labelHeader = "";
+        this.botaoHeaderEsquerdo = true
+        return;
+      }
+      if(this.paginaAtual == "CallCenterFornecedor"){
+        this.header = true;
+        this.labelHeader = "Call Center";
+        this.botaoHeaderEsquerdo = true
+        return
+      }
+      if(this.paginaAtual == "CobrancaDetalhes"){
+        this.header = true;
+        this.botaoHeaderEsquerdo = true
+        this.labelHeader = "Cobranças"; 
+        return
+      }
+      if(this.paginaAtual == "CobrancasFornecedor"){
+        this.header = true;
+        this.labelHeader = "Cobranças";
+        this.botaoHeaderEsquerdo = true;
+        return
+      }
+      if(this.paginaAtual == "ConfiguracoesFornecedor"){
+        this.header = true;
+        this.labelHeader = "Configurações";
+        this.botaoHeaderEsquerdo = true
+        return
+      }
+      if(this.paginaAtual == "EditProfile"){
+        this.header = true;
+        this.labelHeader = "Edit Profile";
+        this.botaoHeaderEsquerdo = true
+        return
+      }
+      if(this.paginaAtual == "LoginFornecedor"){
+        this.header = true;
+        this.labelHeader = "";
+        this.botaoHeaderEsquerdo = true
+        return
+      }
+      if(this.paginaAtual == "InicioFornecedor"){
+        this.header = true;
+        this.labelHeader = "";
+        this.botaoHeaderEsquerdo = true
+        return
+      }
+      if(this.paginaAtual == "PagamentoFornecedor"){
+        this.header = true;
+        this.labelHeader = "Pagamento";
+        this.botaoHeaderEsquerdo = true
+        return
+      }
+      if(this.paginaAtual == "PlanosFornecedor"){
+        this.header = true;
+        this.labelHeader = "";
+        this.botaoHeaderEsquerdo = true
+        return
+      }
+     
+      //NEGÓCIOS
+      if(this.paginaAtual == "MeusNegocios"){
+        this.header = true;
+        this.labelHeader = "Meus Negócios";
+        this.botaoHeaderEsquerdo = true
+        return
+      } 
+      if(this.paginaAtual == "InformacaoNegocio"){
+        this.header = true;
+        this.labelHeader = "Meu Negócio";
+        this.botaoHeaderEsquerdo = true
+        return
+      } 
+      if(this.paginaAtual == "CidadeNegocio"){
+        this.header = true;
+        this.labelHeader = "Cidade do Negócio";
+        this.botaoHeaderEsquerdo = true
+        return
+      }  
+      if(this.paginaAtual == "CategoriaNegocio"){
+        this.header = true;
+        this.labelHeader = "Categoria do Negócio";
+        this.botaoHeaderEsquerdo = true
+        return
+      }  
+      if(this.paginaAtual == "NomeNegocio"){
+        this.header = true;
+        this.labelHeader = "Nome do Negócio";
+        this.botaoHeaderEsquerdo = true
+        return
+      }  
+      if(this.paginaAtual == "ContatoNegocio"){
+        this.header = true;
+        this.labelHeader = "Contato";
+        this.botaoHeaderEsquerdo = true
+        return
+      } 
+      if(this.paginaAtual == "RedesSociaisNegocio"){
+        this.header = true;
+        this.labelHeader = "Redes Sociais";
+        this.botaoHeaderEsquerdo = true
+        return
+      } 
+      if(this.paginaAtual == "FotosVideosNegocio"){
+        this.header = true;
+        this.labelHeader = "Fotos e Videos";
+        this.botaoHeaderEsquerdo = true
+        return
+      }  
+      if(this.paginaAtual == "DescricaoNegocio"){
+        this.header = true;
+        this.labelHeader = "Descrição do Negócio";
+        this.botaoHeaderEsquerdo = true
+        return
+      } 
     },
     acaoBotaoHeaderEsquerdo(){
       if(this.paginaAtual == 'Categorias' || this.paginaAtual == 'Fornecedor' || this.paginaAtual == 'Favoritos'){
@@ -395,6 +559,7 @@ export default {
         this.$router.push({name:'Home'})
         return
       } 
+      
       if(this.paginaAtual == 'LoginFornecedor' || this.paginaAtual == 'CadastroFornecedor'){
         this.$router.push({name:'InicioFornecedor'})
         return
@@ -407,38 +572,190 @@ export default {
         this.$router.push({name:'PlanosFornecedor'})
         return
       }
-
+      //NEGÓCIOS
+       if(this.paginaAtual == "MeusNegocios"){
+         this.$router.push({name:'Home'})
+        return
+      } 
+      if(this.paginaAtual == "InformacaoNegocio"){
+        this.$router.push({name:'MeusNegocios'})
+        return
+      } 
+      if(this.paginaAtual == "CidadeNegocio"){
+        this.$router.push({name:'MeusNegocios'})
+        return
+      }  
+      if(this.paginaAtual == "CategoriaNegocio"){
+        this.$router.push({name:'CidadeNegocio'})
+        return
+      }  
+      if(this.paginaAtual == "NomeNegocio"){
+        this.$router.push({name:'CategoriaNegocio'})
+        return
+      }  
+      if(this.paginaAtual == "ContatoNegocio"){
+        this.$router.push({name:'NomeNegocio'})
+        return
+      } 
+      if(this.paginaAtual == "RedesSociaisNegocio"){
+        this.$router.push({name:'FotosVideosNegocio'})
+        return
+      } 
+      if(this.paginaAtual == "FotosVideosNegocio"){
+        this.$router.push({name:'ContatoNegocio'})
+        return
+      }  
+      if(this.paginaAtual == "DescricaoNegocio"){
+        this.$router.push({name:'RedesSociaisNegocio'})
+        return
+      } 
+      this.$router.push({name:this.paginaAnterior})
     },
-    inicializarLabelHeader(){
-      if(
-          this.paginaAtual == 'Index' || this.paginaAtual == 'Home' || this.paginaAtual == 'Fornecedor' ||
-          this.paginaAtual == 'CadastroFornecedor' || this.paginaAtual == 'LoginFornecedor' || this.paginaAtual == 'InicioFornecedor' ||
-          this.paginaAtual == 'PlanosFornecedor'
-      ){
-        this.labelHeader = ""
-      } else {
-        if(this.paginaAtual == "Categorias")this.labelHeader = 'Categorias';
-        if(this.paginaAtual == "Fornecedores")this.labelHeader = 'Fornecedores'
-        if(this.paginaAtual == "Favoritos")this.labelHeader = 'Favoritos'
-        if(this.paginaAtual == "PagamentoFornecedor")this.labelHeader = 'Pagamento'
-        if(this.paginaAtual == "Mais")this.labelHeader = 'Opções'
-        if(this.paginaAtual == "MeusNegocios")this.labelHeader = 'Meus Negócios'
-        if(this.paginaAtual == "InformacaoNegocio")this.labelHeader = 'Meu negócio'
-        if(this.paginaAtual == "CidadeNegocio")this.labelHeader = 'Cidade do Negócio'
-        if(this.paginaAtual == "CategoriaNegocio")this.labelHeader = 'Categoria do Negócio'
-        if(this.paginaAtual == "NomeNegocio")this.labelHeader = 'Nome do Negócio'
-        if(this.paginaAtual == "ContatoNegocio")this.labelHeader = 'Contato'
-        if(this.paginaAtual == "RedesSociaisNegocio")this.labelHeader = 'Redes Sociais'
-        if(this.paginaAtual == "FotosVideosNegocio")this.labelHeader = 'Fotos e Videos'
-        if(this.paginaAtual == "DescricaoNegocio")this.labelHeader = 'Descrição'
-        if(this.paginaAtual == "Localizacao")this.labelHeader = 'Qual sua Localização'
+ 
+    //FOOTER
+    inicializarFooter(){
+      if(this.paginaAtual == "Index"){this.footer = false; return} 
+      if(this.paginaAtual == "Localizacao"){this.footer = false; return} 
+      if(this.paginaAtual == "Fornecedor"){this.footer = false; return}
+      if(this.paginaAtual == "Home"){
+        this.footer = true; 
+        this.botaoFooter = false;
+        this.tabFooter = true;
+        this.labelFooter = ''; 
+        return
+      }   
+      if(this.paginaAtual == "Categorias"){
+        this.footer = true;
+        this.botaoFooter = false;
+        this.tabFooter = true;
+        this.labelFooter = ''
+        return;
+      } 
+      if(this.paginaAtual == "Favoritos"){
+        this.footer = true; 
+        this.botaoFooter = false;
+        this.tabFooter = true;
+        this.labelFooter = ''
+        return;
+      } 
+      if(this.paginaAtual == "Fornecedores"){
+        this.footer = true; 
+        this.botaoFooter = false;
+        this.tabFooter = true;
+        this.labelFooter = ''
+        return;
       }
+      
+      //SOU FORNECEDOR  
+      if(this.paginaAtual == "CadastroFornecedor"){this.footer = false; return}
+      if(this.paginaAtual == "CallCenterFornecedor"){this.footer = false; return}
+      if(this.paginaAtual == "CobrancaDetalhes"){this.footer = false; return}
+      if(this.paginaAtual == "CobrancasFornecedor"){this.footer = false; return}
+      if(this.paginaAtual == "ConfiguracoesFornecedor"){this.footer = false; return}
+      if(this.paginaAtual == "LoginFornecedor"){this.footer = false; return}
+      if(this.paginaAtual == "InicioFornecedor"){this.footer = false; return}
+
+      if(this.paginaAtual == "EditProfile"){
+        this.footer = true;
+        this.botaoFooter = true;
+        this.tabFooter = false;
+        this.labelFooter="Salvar" 
+        return
+      }
+      
+      if(this.paginaAtual == "PagamentoFornecedor"){
+        this.footer = true;
+        this.botaoFooter = true;
+        this.tabFooter = false;
+        this.labelFooter="Continuar" 
+        return;
+      }
+      if(this.paginaAtual == "PlanosFornecedor"){
+        this.footer = true; 
+        this.botaoFooter = true;
+        this.tabFooter = false;
+        this.labelFooter = "Continuar"
+        return
+      }
+      //NEGÓCIOS
+      if(this.paginaAtual == "MeusNegocios"){this.footer = false; return} 
+      if(this.paginaAtual == "InformacaoNegocio"){this.footer = false; return} 
+      if(this.paginaAtual == "CidadeNegocio"){this.footer = false; return}  
+      if(this.paginaAtual == "CategoriaNegocio"){this.footer = false; return}  
+      if(this.paginaAtual == "NomeNegocio"){
+        this.footer = true;
+        this.botaoFooter = true;
+        this.tabFooter = false;
+        this.labelFooter="Salvar"  
+        return
+      }  
+      if(this.paginaAtual == "ContatoNegocio"){
+        this.footer = true;
+        this.botaoFooter = true;
+        this.tabFooter = false;
+        this.labelFooter="Salvar" 
+        return
+      } 
+      if(this.paginaAtual == "RedesSociaisNegocio"){
+        this.footer = true; 
+        this.botaoFooter = true;
+        this.tabFooter = false;
+        this.labelFooter="Salvar" 
+        return
+      } 
+      if(this.paginaAtual == "FotosVideosNegocio"){
+        this.footer = true; 
+        this.botaoFooter = true;
+        this.tabFooter = false;
+        this.labelFooter="Salvar" 
+        return
+      }  
+      if(this.paginaAtual == "DescricaoNegocio"){
+        this.footer = true; 
+        this.botaoFooter = true;
+        this.tabFooter = false;
+        this.labelFooter="Salvar" 
+        return
+      } 
     },
+    acaoBotaoFooter(){
+      //SOU FORNECEDOR  
+      if(this.paginaAtual == "EditProfile"){this.botaoFooter = true; return}
+      if(this.paginaAtual == "PagamentoFornecedor"){
+        this.mudarDialogPagamento(true)
+        this.mudarStatusLogado(true)
+        this.$router.push({name:'CidadeNegocio'})
+      }
+      if(this.paginaAtual == "PlanosFornecedor"){
+        this.$router.push({name:'PagamentoFornecedor'}) 
+        return
+      }
+      //NEGÓCIOS
+      if(this.paginaAtual == "NomeNegocio"){
+        this.$router.push({name:'ContatoNegocio'}); 
+        return;
+      }  
+      if(this.paginaAtual == "ContatoNegocio"){
+        this.$router.push({name:'FotosVideosNegocio'});  
+        return
+      } 
+      if(this.paginaAtual == "RedesSociaisNegocio"){
+        this.$router.push({name:'DescricaoNegocio'});
+        return
+      } 
+      if(this.paginaAtual == "FotosVideosNegocio"){
+        this.$router.push({name:'RedesSociaisNegocio'});
+        return
+      }  
+      if(this.paginaAtual == "DescricaoNegocio"){
+        this.$router.push({name:'MeusNegocios'});
+        return
+      } 
+    }
   },
   watch:{
     $route: function(atual,anterior){
       console.log("WATCH - $route")
-
       this.paginaAtual = atual.name
       this.paginaAnterior = anterior.name
       this.tab = this.$route.name
@@ -448,10 +765,16 @@ export default {
     }
   },
   mounted(){
-    console.log(this.$store)
-    console.log(this.$store.state.EuQueroFesta)
-   this.widthTela = this.$q.screen.width
-   this.heightTela = this.$q.screen.height
+    const ctx = this
+    this.widthTela = this.$q.screen.width
+    this.heightTela = this.$q.screen.height
+   
+    window.addEventListener('keyboardWillShow', (e) => {
+       ctx.teclado = true
+    });
+    window.addEventListener('keyboardWillHide', () => {
+        ctx.teclado = false
+    });
   }
 }
 </script>

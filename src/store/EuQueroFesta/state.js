@@ -1,5 +1,5 @@
 export default {
   dialogPagamento:false,
-  logado:false
+  statusLogado:false
   
 }
