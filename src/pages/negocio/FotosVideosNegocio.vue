@@ -1,35 +1,39 @@
 <template>
-    <div style="padding:8px">
+    <div >
+        <div class="row justify-end">
+           <span class="col-2 text-gre-7" style="font-size:16px">6 de 7</span>
+        </div>
         <q-form class="text-grey-7">
             <div class="row">
-                <label>Foto Principal</label>
-                    <q-file filled bottom-slots v-model="model" label="Label" counter>
-                        <template v-slot:prepend>
-                        <q-icon name="cloud_upload" @click.stop />
-                        </template>
-                        <template v-slot:append>
-                        <q-icon name="close" @click.stop="model = null" class="cursor-pointer" />
-                        </template>
-                    </q-file>
+                 <label>Foto Principal</label>
+                    <q-uploader
+                        url="http://localhost:8080/upload"
+                        label="Fotos"
+                        color="pink"
+                        class="col-12"
+                        hide-upload-btn
+                      
+                    />
             </div>
-            <div class="row">
-                <label>Foto de Fundo</label>
-                <q-file filled bottom-slots v-model="model" label="Label" counter>
-                        <template v-slot:prepend>
-                        <q-icon name="cloud_upload" @click.stop />
-                        </template>
-                        <template v-slot:append>
-                        <q-icon name="close" @click.stop="model = null" class="cursor-pointer" />
-                        </template>
-                    </q-file>
+            <div class="row" style="margin-top:8px">
+                 <label>Foto de capa</label>
+                    <q-uploader
+                        url="http://localhost:8080/upload"
+                        label="Fotos"
+                        color="pink"
+                        class="col-12"
+                        hide-upload-btn
+                      
+                    />
             </div>
-            <div class="row">
-                <label>Fotos do Negócio</label>
+        
+            <div class="row" style="margin-top:8px">
+                <label>Fotos do Negócio</label> 
                     <q-uploader
                         url="http://localhost:8080/upload"
                         label="Fotos"
                         multiple
-                        color="pink-6"
+                        color="pink"
                         class="col-12"
                       
                     >
@@ -76,18 +80,23 @@
                 </template>
                 </q-uploader>
             </div>
-            <div class="row" style="padding-bottom:60px">
+            <div class="row" style="margin-top:8px;padding-bottom:60px">
                 <label>Video</label>
                  <q-uploader
                
                     url="http://localhost:8080/upload"
                     label="Video"
                     multiple
-                    color="pink-6"
+                    color="pink"
                     class="col-12"
                     
                 />
             </div>
+            <q-footer class="bg-white" >
+            <div class="row justify-center" style="padding:8px 0px 8px">
+                <q-btn class="col-6" color="pink" label="Salvar" @click="validarInputs" />
+            </div>
+        </q-footer> 
         </q-form>
     </div>
 </template>
@@ -99,17 +108,27 @@ export default {
   data(){
     return{
         model:null,
-        facebook:'',
-        instagram:'',
-        linkedin:'',
-        youtube:'',
+        fotoPrincipal:'',
+        fotoCapa:'',
+        fotosNegocio:[],
+        video:[],
         items:[1,2,3,4,5]
       }
   },
-  methods:{
-   irContatoNegocio(){
-       this.$router.push({name:'RedesSociaisNegocio'})
-   }
+    methods:{
+    validarInputs(){
+        this.prosseguirCadastroLoja()
+    },
+    prosseguirCadastroLoja(){
+        let fotosVideo = { fotoPrincipal:this.fotoPrincipal, fotoCapa:this.fotoCapa, fotosNegocio:this.fotosNegocio, video:this.video}
+        this.$q.localStorage.set('cadastroNegocio_fotosVideosNegocio',fotosVideo)
+        this.$router.push({name:'DescricaoNegocio'})
+    },
+  },
+  mounted(){
+      if(this.$q.localStorage.getItem('cadastroNegocio_fotosVideosNegocio')){
+          this.nomeNegocio = this.$q.localStorage.getItem('cadastroNegocio_fotosVideosNegocio')
+      }
   }
 }
 </script>

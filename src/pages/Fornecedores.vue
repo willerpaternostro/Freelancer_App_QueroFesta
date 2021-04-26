@@ -1,24 +1,21 @@
 <template>
-    <div style="padding:8px">
+    <div>
         <div class="row">
             <q-input class="col" bg-color="grey-2" filled color="pink" bottom-slots v-model="text" label="Find a food recipient" >
-                <template v-slot:prepend>
-                    <q-icon color="pink" name="search" />
-                </template>
                 <template v-slot:append>
-                    <q-icon color="pink" name="more_horiz" />
+                    <q-icon color="pink" name="search" />
                 </template>
             </q-input>
         </div>
         <q-card @click="irFornecedor" flat v-for="(item,index) in items" :key="index" class="my-card">
-            <q-card-section horizontal>
+            <q-card-section horizontal class="row">
                 <q-img
                 style="border-radius:10px"
                 height="90px"
-                class="col-4"
+                class="col-5"
                 src="https://cdn.quasar.dev/img/chicken-salad.jpg"
                 />
-                <q-card-section >
+                <q-card-section class="col-7">
                     <div class="row">
                         <span class="text-h6 col" >
                             Título fornecedor {{index}}
@@ -26,12 +23,12 @@
                     </div>
                     <div class="row" style="margin-top:10px">
                         <span class=" text-grey-6" >
-                            <q-icon name="room" color="grey-6" />    87 Botsford
-                        </span><br><br>
+                            Categoria {{index}}
+                        </span><br>
                     </div>
                     <span class=" text-black text-subtitle1 text-weight-bold row justify-end">
-                        <q-icon size="19px" name="grade" color="yellow-7" />  4.3
-                    </span><br>
+                        <q-icon size="19px" name="far fa-heart" color="pink" />  
+                    </span>
                 </q-card-section>
             </q-card-section>
         </q-card>

@@ -7,7 +7,7 @@
                 </div>
                 <div class="absolute-top-right">
                     <q-btn round color="pink" icon="share" style="margin-right:10px" />
-                    <q-btn round color="pink" icon="far fa-star" />
+                    <q-btn round color="pink" icon="far fa-heart" flat />
                 </div>
                 <div class="absolute-bottom-right ">
                     <q-badge  transparent align="middle" color="grey-7">
@@ -30,15 +30,7 @@
 
             </q-card-section>
         </q-card>
-        <div style="padding:16px">
-            <div class="row" style="margin-top:30px">
-                <div class="col-1">
-                    <q-icon size="21px"  color="pink" name="verified" /> 
-                </div>
-                <div class="col">
-                     <span  class="text-pink text-h6">Preferred Merchants </span>
-                </div>
-            </div>
+        <div >
             <div class="row" style="margin-top:8px;margin-bottom:8px">
                 <span class="col text-h5 text-weight-bold">McDonald's - Hoang Dao Thuy</span>
             </div>
@@ -46,8 +38,8 @@
                 <span class="col  text-grey-6">Fast Food</span>
             </div>
             <div class="row justify-end">
-                    <q-rating
-                    class="offset-6 col"
+                <div class="col-6"> 
+                     <q-rating
                         v-model="estrelas"
                         max="5"
                         size="19px"
@@ -55,8 +47,9 @@
                         icon="star_border"
                         icon-selected="star"
                         icon-half="star_half" />
-                        <span class="text-pink col-1 "  style="padding-left:5px">{{estrelas}}</span>
+                        <span class="text-pink col-1 "  style="padding-left:5px">{{estrelas+' '}}</span>
                         <span class="text-grey-7 col-1 text-weight-bold" >(500+)</span>
+                </div>  
             </div>
             <q-list >
                 <q-item v-for="(item,index) in items" :key="index" clickable v-ripple>

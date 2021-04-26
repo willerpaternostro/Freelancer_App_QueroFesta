@@ -1,32 +1,29 @@
 <template>
     <div>
-        <q-card flat v-for="(item,index) in items" :key="index" class="my-card" style="margin-top:20px">
-            
-            <q-card-section horizontal>
-                <q-img
-                height="200  px"
-                class="col-5"
-                src="https://cdn.quasar.dev/img/chicken-salad.jpg"
-                />
-                <q-card-section >
-                    <div class="row justify-end">
-                <q-btn flat round icon="close" />
-            </div>
-                    <div class="row">
-                        <span class="text-h6 col" >
-                            The Cheeses Guide Spaghetti
+        <q-card @click="$router.push({name:'Home'})" flat v-for="(item,index) in items" :key="index" class="my-card  ">
+                <q-card-section horizontal class="row" >
+                    <q-img
+                    style="border-radius:10px"
+                    height="90px"
+                    class="col-5"
+                    src="https://cdn.quasar.dev/img/chicken-salad.jpg"
+                    />
+                    <q-card-section class="col-7">
+                        <div class="row">
+                            <span class="text-h6 col" >
+                                Título fornecedor {{index}}
+                            </span>
+                        </div>
+                        <div class="row" style="margin-top:10px">
+                            <span class=" text-grey-6" >
+                                Categoria {{index}}
+                            </span><br>
+                        </div>
+                        <span class=" text-black text-subtitle1 text-weight-bold row justify-end">
+                            <q-icon size="19px" name="fas fa-trash" color="grey" />  
                         </span>
-                    </div>
-                    <div class="row" style="margin-top:10px">
-                        <span class=" text-grey-6" >
-                            <q-icon name="room" color="grey-6" />    87 Botsford
-                        </span><br><br>
-                    </div>
-                    <span class=" text-black text-subtitle1 text-weight-bold">
-                        <q-icon size="19px" name="grade" color="red-6" />  4.3
-                    </span><br>
+                    </q-card-section>
                 </q-card-section>
-            </q-card-section>
         </q-card>
     </div>
 </template>

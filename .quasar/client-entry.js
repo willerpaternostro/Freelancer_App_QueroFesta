@@ -51,13 +51,13 @@ Vue.config.productionTip = false
 
 
 
-console.info('[Quasar] Running CAPACITOR.')
+console.info('[Quasar] Running SPA.')
 
 
 
 
 
-const publicPath = ``
+const publicPath = `/`
 
 
 async function start () {
@@ -116,8 +116,6 @@ async function start () {
 
     
 
-    
-    Vue.prototype.$q.capacitor = window.Capacitor
     
 
     

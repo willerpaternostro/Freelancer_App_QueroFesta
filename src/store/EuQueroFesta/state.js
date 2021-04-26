@@ -1,5 +1,7 @@
 export default {
   dialogPagamento:false,
-  statusLogado:false
-  
+  statusLogado:false,
+  categorias:null,
+  user:null
+
 }

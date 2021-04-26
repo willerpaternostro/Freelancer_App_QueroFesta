@@ -22,10 +22,13 @@
                     input-class="text-pink"
                     v-model="nome" 
                     label="Nome do Responsável"  
-                    style=" "
-                    />
-            </div> <br/>
-            <div class="row justify-center " >
+                    style=" ">
+                    <template v-slot:prepend>
+                    <q-icon name="fas fa-user" />
+                </template>
+                </q-input>
+            </div>
+            <div class="row justify-center " style="padding-top:8px">
             <q-input 
                 color="pink"
                 class="campos col-xs-11 col-sm-6" 
@@ -34,9 +37,13 @@
                 v-model="cpf" 
                 label="CPF"  
                 style=" padding-bottom:0px"
-            />
-            </div><br/>
-            <div class="row justify-center " >
+                >
+             <template v-slot:prepend>
+                    <q-icon name="fas fa-id-card" />
+                </template>
+            </q-input>
+            </div>
+            <div class="row justify-center " style="padding-top:8px" >
             <q-input 
                 color="pink"
                 class="campos col-xs-11 col-sm-6" 
@@ -45,9 +52,27 @@
                 v-model="email" 
                 label="Email"  
                 style=" padding-bottom:0px "
-            />
-            </div><br/>
-            <div class="row justify-center " >
+             >
+              <template v-slot:prepend>
+                    <q-icon name="fas fa-at" />
+                </template>
+            </q-input>
+            </div>
+            <div class="row justify-center" style="padding-top:8px">
+            <div class=" col-xs-11 col-sm-6" >
+            <q-input 
+            color="pink"
+            outlined 
+            input-class="text-pink"
+            v-model="telefone" 
+            label="Telefone/ Whatsapp"  >
+              <template v-slot:prepend>
+                    <q-icon name="fab fa-whatsapp" />
+                </template>
+            </q-input>
+        </div>
+        </div>
+            <div class="row justify-center " style="padding-top:8px">
             <q-input 
                 color="pink"
                 class="campos col-xs-11 col-sm-6" 
@@ -56,7 +81,11 @@
                 v-model="senha" 
                 label="Senha"  
                 style=" padding-bottom:0px "
-            />
+           >
+               <template v-slot:prepend>
+                    <q-icon name="fas fa-lock" />
+                </template>
+            </q-input>
             </div><br/>
         </q-form>
        

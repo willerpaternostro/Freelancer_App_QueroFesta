@@ -1,56 +1,22 @@
 <template>
-  <div class=" " :style="'height:'+height+'px'" >
-    <q-carousel
-      v-show="mostrarApresentacaoHenvio"
-      v-model="slide"
-      transition-prev="scale"
-      transition-next="scale"
-      animated
-      padding
-      class="text-grey-7 shadow-1 rounded-borders"
-      swipeable
-      navigation 
-      :height="(height/2)+'px'"
-    >
-      
-      <q-carousel-slide name="slide1" >
-        <q-img
-        src="~assets/logo_euquero.png"
-        :height="(height/3)+'px'"
-        contain
-        />
-        
-      </q-carousel-slide>
-      <q-carousel-slide name="slide2" >
-        <q-img
-          src="~assets/logo_euquero.png"
-          :height="(height/3)+'px'"
-          contain
-        />
-      </q-carousel-slide>
-      <q-carousel-slide name="slide3" >
-        <q-img
-          src="~assets/logo_euquero.png"
-          :height="(height/3)+'px'"
-          contain
-        />
-      </q-carousel-slide>
-    </q-carousel>
-    <div class="row justify-center">
-      <q-btn-group flat>
-        <q-btn flat :color="slide=='slide1'?'pink':'grey-5'" icon="fas fa-window-minimize" />
-        <q-btn flat :color="slide=='slide2'?'pink':'grey-5'" icon="fas fa-window-minimize" />
-        <q-btn flat :color="slide=='slide3'?'pink':'grey-5'" icon="fas fa-window-minimize" />
-      </q-btn-group>
-    </div>
-    <div class="absolute-bottom">
-      <div class="row justify-center" style="padding:10px">
-      <q-btn :to="{name:'LoginFornecedor'}" class="col-8" label="Entrar" rounded no-caps color="pink" />
+  <div class="" :style="'height:'+height+'px'" >
+    <q-header class="bg-white text-pink" style="padding-top:8px" >
+      <div class="row"> 
+        <div class="col-1"><q-btn :to="{name:'Mais'}" text-color="black" icon="keyboard_backspace" flat /> </div>
+        <div class="col text-h5 text-pink text-weight-bold text-center">Vamos começar a festa!</div>
       </div>
-      <div class="row justify-center" style="padding:10px 10px 20px">
-        <q-btn :to="{name:'CadastroFornecedor'}" class="col-8" label="Cadastre-se" rounded no-caps color="blue-6" />
+    </q-header>
+     <div class="row justify-center">
+            <q-img width="90%" src="~assets/logo_euquero.png"  />
       </div>
-    </div>
+    
+        <div class="row justify-center" style="padding:10px; margin-top:150px">
+          <q-btn :to="{name:'LoginFornecedor'}" class="col-8" label="Entrar" rounded no-caps color="pink" />
+        </div>
+        <div class="row justify-center" style="padding:10px 10px 20px">
+          <q-btn :to="{name:'CadastroFornecedor'}" class="col-8" label="Cadastre-se" rounded no-caps color="blue-6" />
+        </div>
+     
   </div>
 </template>
 

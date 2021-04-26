@@ -3,5 +3,17 @@
   "appName": "EuQueroFesta",
   "bundledWebRuntime": false,
   "npmClient": "npm",
-  "webDir": "www"
+  "webDir": "www",
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 6000,
+      "launchAutoHide": false,
+      "backgroundColor": "#FFCC02",
+      "androidSplashResourceName": "splash",
+      "androidScaleType": "CENTER",
+      "showSpinner": false,
+      "splashFullScreen": false,
+      "splashImmersive": false
+    }
+  }
 }

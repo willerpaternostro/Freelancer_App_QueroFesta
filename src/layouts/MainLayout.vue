@@ -19,215 +19,8 @@
         <div class="col-2"></div>
       </div>
     </q-header>
-    <!-- ESTÁ LOGADO -->
-    <q-drawer
-      v-if="statusLogado"
-      v-model="drawer"
-      show-if-above
-      :width="360"
-      :breakpoint="400"
-      >
-      
-      <q-scroll-area style="height: calc(100% - 150px); margin-top: 150px; border-right: 1px solid #ddd">
-        
-        <q-list  padding class="rounded-borders  full-width">
-        <q-item
-          clickable
-          v-ripple
-          @click="$router.push({name:'InicioFornecedor'})"
-        >
-          <q-item-section avatar>
-            <q-icon name="account_circle" color="grey-9" />
-          </q-item-section>
-
-          <q-item-section class="text-h6 text-grey-8">Alterar Contas</q-item-section>
-
-          <q-item-section avatar>
-            <q-icon name="keyboard_arrow_right" />
-          </q-item-section>
-        </q-item>
-        <q-item
-          clickable
-          v-ripple
-          @click="$router.push({name:'MeusNegocios'})"
-        >
-          <q-item-section avatar>
-            <q-icon name="business" color="grey-9" />
-          </q-item-section>
-
-          <q-item-section class="text-h6 text-grey-8">Meus Negócios</q-item-section>
-
-          <q-item-section avatar>
-            <q-icon name="keyboard_arrow_right" />
-          </q-item-section>
-        </q-item>
-        <q-item
-          clickable
-          v-ripple
-          @click="$router.push({name:'Home'})"
-        >
-          <q-item-section avatar>
-            <q-icon name="shopping_cart" color="grey-9" />
-          </q-item-section>
-
-          <q-item-section class="text-h6 text-grey-8">Meu Plano</q-item-section>
-
-          <q-item-section avatar>
-            <q-icon name="keyboard_arrow_right" />
-          </q-item-section>
-        </q-item>
-        
-        <q-item
-          clickable
-          v-ripple
-          @click="$router.push({name:'CobrancasFornecedor'})"
-        >
-          <q-item-section avatar>
-            <q-icon name="add_chart" color="grey-9" />
-          </q-item-section>
-
-          <q-item-section class="text-h6 text-grey-8">Cobranças</q-item-section>
-
-          <q-item-section avatar>
-            <q-icon name="keyboard_arrow_right" />
-          </q-item-section>
-        </q-item>
-       
-        <q-item
-          clickable
-          v-ripple
-          @click="$router.push({name:'CallCenterFornecedor'})"
-        >
-          <q-item-section avatar>
-            <q-icon name="support_agent" color="grey-9" />
-          </q-item-section>
-
-          <q-item-section class="text-h6 text-grey-8">Fale conosco</q-item-section>
-
-          <q-item-section avatar>
-            <q-icon name="keyboard_arrow_right" />
-          </q-item-section>
-        </q-item>
-        <q-item
-          clickable
-          v-ripple
-          @click="$router.push({name:'ConfiguracoesFornecedor'})"
-        >
-          <q-item-section avatar>
-            <q-icon name="settings" color="grey-9" />
-          </q-item-section>
-
-          <q-item-section class="text-h6 text-grey-8">Configurações</q-item-section>
-
-          <q-item-section avatar>
-            <q-icon name="keyboard_arrow_right" />
-          </q-item-section>
-        </q-item>
-        <q-item
-          clickable
-          v-ripple
-          @click="logout"
-        >
-          <q-item-section avatar>
-            <q-icon name="logout" color="grey-9" />
-          </q-item-section>
-
-          <q-item-section  class="text-h6 text-grey-8">Sair</q-item-section>
-
-          <q-item-section avatar>
-            <q-icon name="keyboard_arrow_right" />
-          </q-item-section>
-        </q-item>
-      </q-list>
-      </q-scroll-area>
-
-      <q-img class="absolute-top" src="https://cdn.quasar.dev/img/material.png" style="height: 150px">
-      <q-btn @click="drawer = !drawer" class=" absolute-top-right" icon="keyboard_backspace" flat size="17px" />
-        <div class="absolute-bottom bg-transparent">
-          <q-avatar @click="$router.push({name:'EditProfile'})"  size="80px" class="q-mb-sm">
-            <img src="https://cdn.quasar.dev/img/boy-avatar.png">
-          </q-avatar>
-        </div>
-        <div class="absolute-center bg-transparent" style="margin-left:10px">
-          <div class="text-h6">Kevas</div>
-          <div>kevasevander@gmail.com</div>
-        </div>
-      </q-img>
-    </q-drawer>
-    <!-- NÃO ESTÁ LOGADO -->
-    <q-drawer 
-      v-if="!statusLogado"
-      show-if-above
-      :width="360"
-      :breakpoint="400"
-      v-model="drawer"
-    >
-      <q-list  padding class="rounded-borders  full-width" style="">
-        <q-item
-          clickable
-          v-ripple
-          @click="$router.push({name:'InicioFornecedor'})"
-        >
-          <q-item-section avatar>
-            <q-icon name="account_circle" color="grey-9" />
-          </q-item-section>
-
-          <q-item-section class="text-h6 text-grey-8">Sou um Fornecedor</q-item-section>
-
-          <q-item-section avatar>
-            <q-icon name="keyboard_arrow_right" />
-          </q-item-section>
-        </q-item>
-        <q-item
-          clickable
-          v-ripple
-          @click="$router.push({name:'ConfiguracoesFornecedor'})"
-        >
-          <q-item-section avatar>
-            <q-icon name="settings" color="grey-9" />
-          </q-item-section>
-
-          <q-item-section class="text-h6 text-grey-8">Configurações</q-item-section>
-
-          <q-item-section avatar>
-            <q-icon name="keyboard_arrow_right" />
-          </q-item-section>
-        </q-item>
-        <q-item
-          clickable
-          v-ripple
-          @click="$router.push({name:'CallCenterFornecedor'})"
-        >
-          <q-item-section avatar>
-            <q-icon name="support_agent" color="grey-9" />
-          </q-item-section>
-
-          <q-item-section class="text-h6 text-grey-8">Fale conosco</q-item-section>
-
-          <q-item-section avatar>
-            <q-icon name="keyboard_arrow_right" />
-          </q-item-section>
-        </q-item>
-        <q-item
-          clickable
-          v-ripple
-          @click="$router.push({name:'CallCenterFornecedor'})"
-        >
-          <q-item-section avatar>
-            <q-icon name="work" color="grey-9" />
-          </q-item-section>
-
-          <q-item-section class="text-h6 text-grey-8">Trabalhe conosco</q-item-section>
-
-          <q-item-section avatar>
-            <q-icon name="keyboard_arrow_right" />
-          </q-item-section>
-        </q-item>
-
-      </q-list>
-     
-    </q-drawer>
-    <q-page-container class="q-pa-xs">
+ 
+    <q-page-container class="q-pa-sm">
       <router-view />
     </q-page-container>
 
@@ -245,7 +38,7 @@
           <q-tab @click="$router.push({name:'Home'})" name="Home" icon="home" label="Home" no-caps />
           <q-tab @click="$router.push({name:'Categorias'})" name="Categorias" icon="restaurant_menu" label="Categorias" no-caps />
           <q-tab @click="$router.push({name:'Favoritos'})" name="Favoritos" icon="favorite_border" label="Favoritos" no-caps />
-          <q-tab @click="drawer = !drawer" name="Mais" icon="more_horiz" label="Mais" no-caps />
+          <q-tab @click="$router.push({name:'Mais'})" name="Mais" icon="more_horiz" label="Mais" no-caps />
         </q-tabs>
         <div v-if="botaoFooter"  style="padding:10px 0px 20px" class="row justify-center bg-white">
             <q-btn @click="acaoBotaoFooter"  class="col-8" :label="labelFooter" rounded no-caps color="pink" />
@@ -324,6 +117,8 @@
 
 <script>
 import { Plugins, KeyboardInfo } from '@capacitor/core';
+const { Device } = Plugins;
+const { PushNotifications } = Plugins;
 const { Keyboard } = Plugins;
 export default {
   name: 'MainLayout',
@@ -344,7 +139,7 @@ export default {
       botaoHeaderEsquerdo:false,
       labelHeader:'',
 
-      paginaAtual:'',
+      paginaAtual:'Index',
       paginaAnterior:'',
 
       teclado:false
@@ -360,20 +155,7 @@ export default {
   },
 
   methods:{
-    logout(){
-      this.mudarStatusLogado(false)
-      this.drawer = false
-      if(this.paginaAtual != 'Home')
-        this.$router.push({name:'Home'})
-    },
-    mudarDialogPagamento(val){
-      this.$store.commit('EuQueroFesta/mudarDialogPagamento',val)
-    },
-    mudarStatusLogado(val){
-      this.$store.commit('EuQueroFesta/mudarStatusLogado',val)
-    },
-
-    //HEADER
+     //HEADER
     inicializarHeader(){
       if(this.paginaAtual == "Index"){
         this.header = false;
@@ -392,22 +174,28 @@ export default {
         this.botaoHeaderEsquerdo = false
         this.labelHeader = "";  
         return
-      }   
+      }
+      if(this.paginaAtual == "Mais"){
+        this.header = false;
+        this.botaoHeaderEsquerdo = false
+        this.labelHeader = ""; 
+        return
+      }    
       if(this.paginaAtual == "Categorias"){
         this.header = true;
-        this.botaoHeaderEsquerdo = false
+        this.botaoHeaderEsquerdo = true
         this.labelHeader = "Categorias"; 
         return
       } 
       if(this.paginaAtual == "Favoritos"){
         this.header = true;
-        this.botaoHeaderEsquerdo = false
+        this.botaoHeaderEsquerdo = true
         this.labelHeader = "Favoritos"; 
         return
       } 
       if(this.paginaAtual == "Fornecedores"){
         this.header = true;
-        this.botaoHeaderEsquerdo = false
+        this.botaoHeaderEsquerdo = true
         this.labelHeader = "Fornecedores"; 
         return
       }
@@ -421,7 +209,7 @@ export default {
       //SOU FORNECEDOR  
       if(this.paginaAtual == "CadastroFornecedor"){
         this.header = true;
-        this.labelHeader = "";
+        this.labelHeader = "Cadastro";
         this.botaoHeaderEsquerdo = true
         return;
       }
@@ -457,14 +245,14 @@ export default {
       }
       if(this.paginaAtual == "LoginFornecedor"){
         this.header = true;
-        this.labelHeader = "";
+        this.labelHeader = "Login";
         this.botaoHeaderEsquerdo = true
         return
       }
       if(this.paginaAtual == "InicioFornecedor"){
-        this.header = true;
+        this.header = false;
         this.labelHeader = "";
-        this.botaoHeaderEsquerdo = true
+        this.botaoHeaderEsquerdo = false
         return
       }
       if(this.paginaAtual == "PagamentoFornecedor"){
@@ -547,7 +335,11 @@ export default {
       } 
       
       if(this.paginaAtual == 'LoginFornecedor' || this.paginaAtual == 'CadastroFornecedor'){
-        this.$router.push({name:'InicioFornecedor'})
+        if(!this.statusLogado){
+          this.$router.push({name:'InicioFornecedor'})
+        }else{
+          this.$router.push({name:'Mais'})
+        }
         return
       }
       if(this.paginaAtual == 'PlanosFornecedor'){
@@ -584,20 +376,31 @@ export default {
         return
       } 
       if(this.paginaAtual == "RedesSociaisNegocio"){
-        this.$router.push({name:'FotosVideosNegocio'})
+        this.$router.push({name:'ContatoNegocio'})
         return
       } 
       if(this.paginaAtual == "FotosVideosNegocio"){
-        this.$router.push({name:'ContatoNegocio'})
+        this.$router.push({name:'RedesSociaisNegocio'})
         return
       }  
       if(this.paginaAtual == "DescricaoNegocio"){
-        this.$router.push({name:'RedesSociaisNegocio'})
+        this.$router.push({name:'FotosVideosNegocio'})
         return
       } 
+       if(this.paginaAtual == "Fornecedores"){
+        this.$router.push({name:'Home'})
+        return
+      }
+       if(this.paginaAtual == "CobrancaDetalhes"){
+        this.$router.push({name:'CobrancasFornecedor'})
+        return
+      }
+       if(this.paginaAtual == "CobrancasFornecedor"){
+        this.$router.push({name:'Mais'})
+        return
+      }
       this.$router.push({name:this.paginaAnterior})
     },
- 
     //FOOTER
     inicializarFooter(){
       if(this.paginaAtual == "Index"){this.footer = false; return} 
@@ -626,6 +429,13 @@ export default {
       } 
       if(this.paginaAtual == "Fornecedores"){
         this.footer = true; 
+        this.botaoFooter = false;
+        this.tabFooter = true;
+        this.labelFooter = ''
+        return;
+      }
+      if(this.paginaAtual == "Mais"){
+        this.footer = false; 
         this.botaoFooter = false;
         this.tabFooter = true;
         this.labelFooter = ''
@@ -668,41 +478,11 @@ export default {
       if(this.paginaAtual == "InformacaoNegocio"){this.footer = false; return} 
       if(this.paginaAtual == "CidadeNegocio"){this.footer = false; return}  
       if(this.paginaAtual == "CategoriaNegocio"){this.footer = false; return}  
-      if(this.paginaAtual == "NomeNegocio"){
-        this.footer = true;
-        this.botaoFooter = true;
-        this.tabFooter = false;
-        this.labelFooter="Salvar"  
-        return
-      }  
-      if(this.paginaAtual == "ContatoNegocio"){
-        this.footer = true;
-        this.botaoFooter = true;
-        this.tabFooter = false;
-        this.labelFooter="Salvar" 
-        return
-      } 
-      if(this.paginaAtual == "RedesSociaisNegocio"){
-        this.footer = true; 
-        this.botaoFooter = true;
-        this.tabFooter = false;
-        this.labelFooter="Salvar" 
-        return
-      } 
-      if(this.paginaAtual == "FotosVideosNegocio"){
-        this.footer = true; 
-        this.botaoFooter = true;
-        this.tabFooter = false;
-        this.labelFooter="Salvar" 
-        return
-      }  
-      if(this.paginaAtual == "DescricaoNegocio"){
-        this.footer = true; 
-        this.botaoFooter = true;
-        this.tabFooter = false;
-        this.labelFooter="Salvar" 
-        return
-      } 
+      if(this.paginaAtual == "NomeNegocio"){this.footer = false; return}
+      if(this.paginaAtual == "ContatoNegocio"){this.footer = false; return}
+      if(this.paginaAtual == "RedesSociaisNegocio"){this.footer = false; return}
+      if(this.paginaAtual == "FotosVideosNegocio"){this.footer = false; return}
+      if(this.paginaAtual == "DescricaoNegocio"){this.footer = false; return}
     },
     acaoBotaoFooter(){
       //SOU FORNECEDOR  
@@ -737,7 +517,59 @@ export default {
         this.$router.push({name:'MeusNegocios'});
         return
       } 
-    }
+    },
+    logout(){
+      this.mudarStatusLogado(false)
+      this.drawer = false
+      if(this.paginaAtual != 'Home')
+        this.$router.push({name:'Home'})
+    },
+    mudarDialogPagamento(val){
+      this.$store.commit('EuQueroFesta/mudarDialogPagamento',val)
+    },
+    mudarStatusLogado(val){
+      this.$store.commit('EuQueroFesta/mudarStatusLogado',val)
+    },
+    async obterInformacoesDispositivo(info){
+      info = await Device.getInfo()
+      console.log(info)
+      this.$q.localStorage.set('plataforma', info.platform)
+      if(info.uuid){
+        this.$q.localStorage.set('_capuid', info.uuid)
+      }
+      
+      if(this.$q.localStorage.getItem('plataforma') != 'web' ){
+      
+      PushNotifications.register()
+    
+      PushNotifications.addListener('registration', (token)=>{ 
+        console.log('>>>> ADD LISTENER REGISTRATION - return TOKEN')
+      if(this.$q.localStorage.getItem('plataforma') != 'web'){
+        if(!this.$q.localStorage.getItem('token-fcm'))
+          this.$q.localStorage.set('token-fcm',token.value)
+      }
+      })
+    
+    PushNotifications.addListener('registrationError', (error) => {
+      console.log(">>>>>>> ADD LISTENER REGISTRATION_ERROR <<<<<<<<")
+      console.log(error);
+      })
+    
+    // Mostrar a carga útil da notificação se o aplicativo estiver aberto no dispositivo
+    PushNotifications.addListener('pushNotificationReceived', 
+    (notification) => {
+      console.log('>>>>>>Chegou notificação received <<<<<<<<')
+      console.log(notification)
+    })
+    // Método chamado ao tocar em uma notificação
+    PushNotifications.addListener('pushNotificationActionPerformed', 
+    (notification) => {
+      console.log('>>>>>> Chegou notificação ACTION_PERFORMED <<<<<<<<')
+      console.log(notification)
+    })
+    } 
+  },
+   
   },
   watch:{
     $route: function(atual,anterior){
@@ -761,6 +593,10 @@ export default {
     window.addEventListener('keyboardWillHide', () => {
         ctx.teclado = false
     });
+
+    if(this.paginaAtual == 'Index'){
+      this.obterInformacoesDispositivo()
+    }
   }
 }
 </script>

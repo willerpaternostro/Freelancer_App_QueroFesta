@@ -1,12 +1,25 @@
 <template>
-       <div style="padding:8px">
+    <div >
+        <div class="row justify-end">
+           <span class="col-2 text-gre-7" style="font-size:16px">2 de 7</span>
+        </div>
         <div class="row">
-            <q-input class="col" bg-color="grey-2" filled color="pink" bottom-slots v-model="text" label="Digite CEP, Cidade ou endereço" >
+            <q-input 
+                class="col-12" 
+                bg-color="grey-2" 
+                filled 
+                color="pink" 
+                bottom-slots 
+                v-model="nomeCategoriaNegocio" 
+                label="Digite CEP, Cidade ou endereço" 
+                :error="checkErro_nomeCategoriaNegocio"
+                :error-message="msgErro_nomeCategoriaNegocio"
+            >
                 <template v-slot:prepend>
                     <q-icon color="pink" name="search" />
                 </template>
                 <template v-slot:append>
-                    <q-icon @click="irNomeNegocio" color="pink" name="send" />
+                    <q-icon @click="validarInputs" color="pink" name="send" />
                 </template>
             </q-input>
         </div>
@@ -19,25 +32,7 @@
                     <q-badge  color="blue" label="10k" />
                 </q-item-section>
             </q-item>
-            <q-separator />
-            <q-item>
-                <q-item-section>
-                    <q-item-label>Araraquara</q-item-label>
-                </q-item-section>
-                <q-item-section side top>
-                    <q-badge  color="blue" label="10k" />
-                </q-item-section>
-            </q-item>
-            <q-separator />
-            <q-item>
-                <q-item-section>
-                    <q-item-label>Campinas</q-item-label>
-                </q-item-section>
-                <q-item-section side top>
-                    <q-badge  color="blue" label="10k" />
-                </q-item-section>
-            </q-item>
-            <q-separator />
+            
         </q-list>
     </div>
 </template>
@@ -48,14 +43,33 @@ export default {
   name: 'PageIndex',
   data(){
     return{
-        text:'',
+        nomeCategoriaNegocio:'',
+        checkErro_nomeCategoriaNegocio:false,
+        msgErro_nomeCategoriaNegocio:'',
         items:[1,2,3,4,5]
       }
   },
   methods:{
-   irNomeNegocio(){
-       this.$router.push({name:'NomeNegocio'})
-   }
+    validarInputs(){
+        this.checkErro_nomeCategoriaNegocio = false
+        if(this.nomeCategoriaNegocio.length == 0){
+            this.checkErro_nomeCategoriaNegocio = true
+            this.msgErro_nomeCategoriaNegocio = "Campo obrigatório"
+        }
+        if(!this.checkErro_nomeCategoriaNegocio){
+            this.prosseguirCadastroLoja()
+        }
+    },
+    prosseguirCadastroLoja(){
+        this.$q.localStorage.set('cadastroNegocio_nomeCategoriaNegocio',this.nomeCategoriaNegocio)
+            this.$router.push({name:'NomeNegocio'})
+    },
+   
+  },
+  mounted(){
+      if(this.$q.localStorage.getItem('cadastroNegocio_nomeCategoriaNegocio')){
+          this.nomeCategoriaNegocio = this.$q.localStorage.getItem('cadastroNegocio_nomeCategoriaNegocio')
+      }
   }
 }
 </script>

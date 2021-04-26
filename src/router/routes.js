@@ -10,6 +10,7 @@ const routes = [
       { path: 'categorias', component: () => import('pages/Categorias.vue'), name:'Categorias' },
       { path: 'fornecedores', component: () => import('pages/Fornecedores.vue'), name:'Fornecedores' },
       { path: 'fornecedor', component: () => import('pages/Fornecedor.vue'), name:'Fornecedor' },
+      { path: 'mais', component: () => import('pages/Mais.vue'), name:'Mais' },
       //SOU FORNECEDOR CallCenterFornecedor
       { path: 'callCenter', component: () => import('pages/souFornecedor/CallCenterFornecedor.vue'), name:'CallCenterFornecedor' },
       { path: 'cobrancaDetalhes', component: () => import('pages/souFornecedor/CobrancaDetalhes.vue'), name:'CobrancaDetalhes' },

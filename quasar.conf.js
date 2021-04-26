@@ -118,7 +118,7 @@ module.exports = function (/* ctx */) {
         description: `Aplicativo para organização de festas`,
         display: 'standalone',
         orientation: 'portrait',
-        background_color: '#ffffff',
+        background_color: '#FFCC02',
         theme_color: '#027be3',
         icons: [
           {

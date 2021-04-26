@@ -22,9 +22,6 @@ import createStore from 'app/src/store/index'
 import createRouter from 'app/src/router/index'
 
 
-import { Plugins } from '@capacitor/core'
-const { SplashScreen } = Plugins
-
 
 
 
@@ -49,14 +46,7 @@ export default async function () {
   const app = {
     router,
     store,
-    render: h => h(App),
-    mounted () {
-      
-      SplashScreen.hide()
-      
-
-      
-    }
+    render: h => h(App)
   }
 
 

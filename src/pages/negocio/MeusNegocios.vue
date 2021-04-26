@@ -1,16 +1,16 @@
 <template>
-    <div style="padding:8px">
-        <q-card   flat v-for="(item,index) in items" :key="index" class="my-card" style="padding:8px">
-            <q-card-section horizontal >
+    <div >
+        <q-card   flat v-for="(item,index) in items" :key="index" class="my-card" style="padding-bottom:8px">
+            <q-card-section horizontal class="row" >
                 <q-img
                 @click="irInfo"
                 style="border-radius:10px"
                 height="90px"
-                class="col-4"
+                class="col-5"
                 src="https://cdn.quasar.dev/img/chicken-salad.jpg"
                 />
            
-                <q-card-section >
+                <q-card-section class="col-7" >
                     <div class="row" @click="irInfo">
                         <span class="text-h6 col-12" >
                             Título Negócio {{index}}

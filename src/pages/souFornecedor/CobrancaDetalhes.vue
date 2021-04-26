@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-md">
+  <div>
     <div class="row"> 
         <div class="col-6 self-center"> 
             <label>Valor</label> 

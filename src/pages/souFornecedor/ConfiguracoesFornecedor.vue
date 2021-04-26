@@ -1,35 +1,35 @@
 <template>
-    <div>
-      <q-list  padding class="rounded-borders  full-width">
-        <q-item
-          clickable
-          v-ripple
-        >
-          <q-item-section class="text-h6 text-grey-8">Light Mode</q-item-section>
-          <q-item-section side >
-            <q-toggle color="blue" v-model="dark" val="battery" />
-          </q-item-section>
-        </q-item>
-        <q-item clickable v-ripple>
-          <q-item-section class="text-h6 text-grey-8">Privacy Policy</q-item-section>
+  <div>
+    <q-list >
+      <q-item
+        clickable
+        v-ripple
+      >
+        <q-item-section class="text-h6 text-grey-8">Light Mode</q-item-section>
+        <q-item-section side >
+          <q-toggle color="blue" v-model="dark" val="battery" />
+        </q-item-section>
+      </q-item>
+      <q-item clickable v-ripple>
+        <q-item-section class="text-h6 text-grey-8">Privacy Policy</q-item-section>
 
-          <q-item-section avatar>
-            <q-icon name="keyboard_arrow_right" />
-          </q-item-section>
-        </q-item>
-        <q-item
-          clickable
-          v-ripple
-        >
-          <q-item-section class="text-h6 text-grey-8">Terms and Conditions</q-item-section>
+        <q-item-section avatar>
+          <q-icon name="keyboard_arrow_right" />
+        </q-item-section>
+      </q-item>
+      <q-item
+        clickable
+        v-ripple
+      >
+        <q-item-section class="text-h6 text-grey-8">Terms and Conditions</q-item-section>
 
-          <q-item-section avatar>
-            <q-icon name="keyboard_arrow_right" />
-          </q-item-section>
-        </q-item>
-      
-      </q-list>
-    </div>
+        <q-item-section avatar>
+          <q-icon name="keyboard_arrow_right" />
+        </q-item-section>
+      </q-item>
+    
+    </q-list>
+  </div>
 </template>
 
 <script>
