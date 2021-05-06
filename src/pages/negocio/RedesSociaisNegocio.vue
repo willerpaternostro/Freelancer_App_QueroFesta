@@ -65,13 +65,19 @@ export default {
     },
     prosseguirCadastroLoja(){
         let redesSociaisNegocio = { facebook:this.facebook, instagram:this.instagram, linkedin:this.linkedin, youtube:this.youtube}
-        this.$q.localStorage.set('cadastroNegocio_redesSociaisNegocio',redesSociaisNegocio)
+        redesSociaisNegocio = JSON.stringify(redesSociaisNegocio)
+        this.$q.localStorage.set('cadastroNegocio_redesSociais',redesSociaisNegocio)
         this.$router.push({name:'FotosVideosNegocio'})
     },
   },
   mounted(){
-      if(this.$q.localStorage.getItem('cadastroNegocio_redesSociaisNegocio')){
-        //  this.redesSociaisNegocio = this.$q.localStorage.getItem('cadastroNegocio_nomeNegocio')
+      if(this.$q.localStorage.getItem('cadastroNegocio_redesSociais')){
+        let redesSociaisNegocio = this.$q.localStorage.getItem('cadastroNegocio_redesSociais')
+        redesSociaisNegocio = JSON.parse(redesSociaisNegocio)
+        this.facebook = redesSociaisNegocio.facebook
+        this.instagram = redesSociaisNegocio.instagram
+        this.linkedin = redesSociaisNegocio.linkedin
+        this.youtube = redesSociaisNegocio.youtube
       }
   }
 }

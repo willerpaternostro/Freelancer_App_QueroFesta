@@ -114,16 +114,17 @@
       </q-list>
       </div>
 
-      <q-img class="absolute-top " src="https://cdn.quasar.dev/img/material.png" style="height: 150px">
+      <q-img @click="$router.push({name:'EditProfile'})" class="absolute-top " src="https://cdn.quasar.dev/img/material.png" style="height: 150px">
       <q-btn :to="{name:'Home'}" text-color="white" class=" absolute-top-right" icon="keyboard_backspace" flat size="17px" />
         <div class="absolute-bottom bg-transparent">
-          <q-avatar @click="$router.push({name:'EditProfile'})"  size="80px" class="q-mb-sm">
-            <img src="https://cdn.quasar.dev/img/boy-avatar.png">
+          <q-avatar   size="80px" class="q-mb-sm">
+            <q-img height="80px"  :src="'http://beta.prcweb.com.br/api/Users/getImg/1/'+user.usu_image" />
+          <!--<q-img height="80px"  :src="user.usu_image?'http://beta.prcweb.com.br/api/Etc/anonGetImg/'+user.usu_image:'https://cdn.quasar.dev/img/boy-avatar.png'" /> -->
           </q-avatar>
         </div>
-        <div class="absolute-center bg-transparent" style="margin-left:10px">
-          <div class="text-h6">Kevas</div>
-          <div>kevasevander@gmail.com</div>
+        <div class="absolute-center bg-transparent" style="margin-left:20px">
+          <div class="text-h6">{{user.usu_name}}</div>
+          <div>{{user.usu_email}}</div>
         </div>
       </q-img>
     </div>
@@ -200,9 +201,11 @@
   </div>
 </template>
 <script>
-
+import { axiosInstance } from 'boot/axios'
+const config = { headers: { 'Content-Type': 'multipart/form-data'} };
 
 export default {
+  
   name: 'PageIndex',
   data(){
     return{
@@ -213,21 +216,27 @@ export default {
   computed:{
      statusLogado(){
       return this.$store.state.EuQueroFesta.statusLogado
+    },
+   user(){
+      return this.$store.state.EuQueroFesta.user
     }
+    
   },
   methods:{
     irCategoriaNegocio(){
       this.$router.push({name:'Home'})
     },
     logout(){
-      this.mudarStatusLogado(false)
-      this.drawer = false
       if(this.paginaAtual != 'Home')
         this.$router.push({name:'Home'})
-    },
-     mudarStatusLogado(val){
-      this.$store.commit('EuQueroFesta/mudarStatusLogado',val)
-    },
+      
+      return this.$store.commit('EuQueroFesta/logout')
+    }
+  },
+  mounted(){
+    console.log("MOMUNTED");
+    console.log(this.user);
+  
   }
 }
 </script>

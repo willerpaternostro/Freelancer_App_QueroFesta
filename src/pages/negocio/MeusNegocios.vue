@@ -1,9 +1,9 @@
 <template>
     <div >
-        <q-card   flat v-for="(item,index) in items" :key="index" class="my-card" style="padding-bottom:8px">
+        <q-card   flat v-for="(store,index) in stores" :key="index" class="my-card" style="padding-bottom:8px">
             <q-card-section horizontal class="row" >
                 <q-img
-                @click="irInfo"
+                @click="$router.push({name:'InformacaoNegocio'})"
                 style="border-radius:10px"
                 height="90px"
                 class="col-5"
@@ -11,15 +11,15 @@
                 />
            
                 <q-card-section class="col-7" >
-                    <div class="row" @click="irInfo">
+                    <div class="row" @click="$router.push({name:'InformacaoNegocio'})">
                         <span class="text-h6 col-12" >
-                            Título Negócio {{index}}
+                            {{store.sto_title}}
                         </span>
                     </div>
                     <div class="row" style="margin-top:10px">
-                        <div @click="irInfo" class="col-10"> 
+                        <div @click="$router.push({name:'InformacaoNegocio'})" class="col-10"> 
                             <span class=" text-grey-6" >
-                                <q-icon name="room" color="grey-6" />    87 Botsford
+                                <q-icon name="room" color="grey-6" /> {{store.sto_city + ' - ' + store.sto_uf}}
                             </span>
                         </div>
                         <div class="col-2">
@@ -32,9 +32,7 @@
         <q-page-sticky position="bottom-right" :offset="[18, 18]">
             <q-btn :to="{name:'CidadeNegocio'}" round color="yellow-8" icon="add" size="19px" />
         </q-page-sticky>
-        <q-dialog
-            v-model="excluirNegocio"
-        >
+        <q-dialog v-model="excluirNegocio" >
             <q-card style="width: 300px; ">
                 <q-card-section >
                 <div class="text-h5 text-center text-weight-bold" style="padding-top:40px ">
@@ -63,13 +61,19 @@ export default {
     return{
         excluirNegocio:false,
         text:'',
-        items:[1,2,3,4,5]
+      
       }
   },
-  methods:{
-    irInfo(){
-        this.$router.push({name:'InformacaoNegocio'})
+    computed:{
+        stores(){
+            return this.$store.state.EuQueroFesta.stores
+        }
     },
+  methods:{
+ 
+  },
+  mounted(){
+      console.log(this.stores);
   }
 }
 </script>

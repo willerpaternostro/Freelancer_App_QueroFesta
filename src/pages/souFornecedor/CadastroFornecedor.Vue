@@ -14,7 +14,7 @@
       </div>
         <div class="row justify-center" v-if="foto">
         <q-avatar size="150px">
-            <q-img contain height="150px" v-if="foto"  :src="foto" />
+            <q-img  height="150px" v-if="foto"  :src="foto" />
         </q-avatar>
         </div>
         <div class="row justify-center" v-if="foto" style="margin-top:8px">
@@ -301,6 +301,7 @@ export default {
             let dados = {nome:this.nome, email:this.email, telefone:this.telefone, cpf:this.cpf, senha:this.senha, fotoPerfil:this.fotoEnviar}
             
             console.log('aguarde...')
+            //this.$router.push({name:'CidadeNegocio'})
             return this.$store.dispatch('EuQueroFesta/cadastrarUsuario',dados)
         },
 

@@ -55,17 +55,19 @@
 
     <div class="row justify-center">
       <q-btn 
-      @click="fazerLogin"
+        @click="login"
         rounded
         text-color="white"
-        color="pink" class="col-8" 
-        >Entrar </q-btn>
+        color="pink" 
+        class="col-8" 
+        label="Entrar"
+        /> 
     </div>
      
        <br>
-         <div class="row justify-center" >
+         <div class="row justify-center" v-if="!statusLogado">
              <div class="col row justify-center">
-                 <p >Não tem uma conta?<span class="text-orange"> Cadastre-se aqui</span></p>
+                 <p >Não tem uma conta?<span class="text-orange" @click="$router.push({name:'CadastroFornecedor'})"> Cadastre-se aqui</span></p>
              </div><br>
         </div>
   </div>
@@ -89,20 +91,26 @@ export default {
       height:600
     }
   },
-    methods:{
-      fazerLogin(){
-        this.mudarStatusLogado(true)
-        this.$router.push({name:'Home'})
-      },
-     mudarStatusLogado(val){
-      this.$store.commit('EuQueroFesta/mudarStatusLogado',val)
+    computed:{
+      statusLogado(){
+        return this.$store.state.EuQueroFesta.statusLogado
+      }
     },
+    methods:{
+      login(){
+        let dados = {email:this.email, senha:this.senha}
+        return this.$store.dispatch('EuQueroFesta/login',dados)
+       
+      },
+      mudarStatusLogado(val){
+        this.$store.commit('EuQueroFesta/mudarStatusLogado',val)
+      },
     },
     beforeMount(){
-    console.log("BEFORE-MOUNTED")
+      console.log("BEFORE-MOUNTED")
     },
     mounted(){
-    console.log("MOUNTED")
+      console.log("MOUNTED")
   }
 }
 </script>

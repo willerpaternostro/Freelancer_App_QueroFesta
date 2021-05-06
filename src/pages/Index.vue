@@ -82,6 +82,17 @@ export default {
       if(this.slide == 'slide3')
         this.$router.push({name:'Localizacao'})
     },
+    requisitarCategories(){
+         console.log("Vai chamar requisitar Categories");
+         return this.$store.dispatch('EuQueroFesta/requisitarCategories')
+     },
+     requisitarBanners(){
+         console.log("REQUISITAR BANNERS");
+         return this.$store.dispatch('EuQueroFesta/requisitarBanners')
+     },
+     requisitarStores(){
+         return this.$store.dispatch('EuQueroFesta/requisitarStores')
+     }
  
   },
 
@@ -90,6 +101,9 @@ export default {
     this.height = this.$q.screen.height-50
     this.height = parseInt(this.height/2)
     this.height = this.height.toString()
+
+    this.requisitarStores()
+    this.requisitarCategories()
   }
 }
 </script>

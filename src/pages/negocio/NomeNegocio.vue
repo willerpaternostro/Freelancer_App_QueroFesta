@@ -49,14 +49,14 @@ export default {
         }
     },
     prosseguirCadastroLoja(){
-        this.$q.localStorage.set('cadastroNegocio_nomeNegocio',this.nomeNegocio)
+        this.$q.localStorage.set('cadastroNegocio_nome',this.nomeNegocio)
             this.$router.push({name:'ContatoNegocio'})
     },
    
   },
   mounted(){
-      if(this.$q.localStorage.getItem('cadastroNegocio_nomeNegocio')){
-          this.nomeNegocio = this.$q.localStorage.getItem('cadastroNegocio_nomeNegocio')
+      if(this.$q.localStorage.getItem('cadastroNegocio_nome')){
+          this.nomeNegocio = this.$q.localStorage.getItem('cadastroNegocio_nome')
       }
   }
 }

@@ -35,30 +35,30 @@
             class="bg-grey-1  rounded-borders"
             style="padding:0px"
         >
-        <q-carousel-slide :name="1" class="column no-wrap">
-            <div class="row fit justify-start items-center q-gutter-xs q-col-gutter no-wrap">
-                <q-img  class="rounded-borders col-10 full-height" src="https://cdn.quasar.dev/img/chicken-salad.jpg"  />
-                <q-img class="rounded-borders col-2 full-height"  src="https://cdn.quasar.dev/img/donuts.png"  />
-            </div>
-        </q-carousel-slide>
-        <q-carousel-slide :name="2" class="column no-wrap">
-            <div class="row fit justify-start items-center q-gutter-xs q-col-gutter no-wrap">
-                <q-img class="rounded-borders col-10 full-height"  src="https://cdn.quasar.dev/img/donuts.png"  />
-                <q-img class="rounded-borders col-2 full-height" src="https://cdn.quasar.dev/img/chicken-salad.jpg"  />
-            </div>
-        </q-carousel-slide>
-        <q-carousel-slide :name="3" class="column no-wrap">
-            <div class="row fit justify-start items-center q-gutter-xs q-col-gutter no-wrap">
-            <q-img class="rounded-borders col-6 full-height" src="https://cdn.quasar.dev/img/chicken-salad.jpg"  />
-            <q-img class="rounded-borders col-6 full-height"  src="https://cdn.quasar.dev/img/donuts.png" />
-            </div>
-        </q-carousel-slide>
-        <q-carousel-slide :name="4" class="column no-wrap">
-            <div class="row fit justify-start items-center q-gutter-xs q-col-gutter no-wrap">
-                <q-img class="rounded-borders col-6 full-height" src="https://cdn.quasar.dev/img/donuts.png" />
+            <q-carousel-slide :name="1" class="column no-wrap">
+                <div class="row fit justify-start items-center q-gutter-xs q-col-gutter no-wrap">
+                    <q-img  class="rounded-borders col-10 full-height" src="https://cdn.quasar.dev/img/chicken-salad.jpg"  />
+                    <q-img class="rounded-borders col-2 full-height"  src="https://cdn.quasar.dev/img/donuts.png"  />
+                </div>
+            </q-carousel-slide>
+            <q-carousel-slide :name="2" class="column no-wrap">
+                <div class="row fit justify-start items-center q-gutter-xs q-col-gutter no-wrap">
+                    <q-img class="rounded-borders col-10 full-height"  src="https://cdn.quasar.dev/img/donuts.png"  />
+                    <q-img class="rounded-borders col-2 full-height" src="https://cdn.quasar.dev/img/chicken-salad.jpg"  />
+                </div>
+            </q-carousel-slide>
+            <q-carousel-slide :name="3" class="column no-wrap">
+                <div class="row fit justify-start items-center q-gutter-xs q-col-gutter no-wrap">
                 <q-img class="rounded-borders col-6 full-height" src="https://cdn.quasar.dev/img/chicken-salad.jpg"  />
-            </div>
-        </q-carousel-slide>
+                <q-img class="rounded-borders col-6 full-height"  src="https://cdn.quasar.dev/img/donuts.png" />
+                </div>
+            </q-carousel-slide>
+            <q-carousel-slide :name="4" class="column no-wrap">
+                <div class="row fit justify-start items-center q-gutter-xs q-col-gutter no-wrap">
+                    <q-img class="rounded-borders col-6 full-height" src="https://cdn.quasar.dev/img/donuts.png" />
+                    <q-img class="rounded-borders col-6 full-height" src="https://cdn.quasar.dev/img/chicken-salad.jpg"  />
+                </div>
+            </q-carousel-slide>
         </q-carousel>
         <div class="row" style="">
             <div class="col-6"> 
@@ -72,6 +72,7 @@
         </div>
         <q-carousel
             v-model="slidesCategorias"
+          
             transition-prev="slide-right"
             transition-next="slide-left"
             swipeable
@@ -82,12 +83,13 @@
             class="bg-grey-1  rounded-borders"
         >
         <!-- Obs: elementos dinâmicos em carrossel não podem ter mesmo nome de váriavel -->
-        <q-carousel-slide :name="index+1" class="column no-wrap" v-for="(item,index) in novasCategorias" :key="index">
+ 
+        <q-carousel-slide  v-for="(item,index) in qtdCategoria" :key="index"  :name="index" >
            <div class="row fit justify-start items-center q-gutter-xs q-col-gutter no-wrap" >
-                <q-img v-for="(elemento,index) in item" :key="index"  contain   class="rounded-borders offset-1 col-3 full-height" :src="'http://beta.prcweb.com.br/api/Etc/getImg/1/'+elemento.cat_image"  />
+                <q-img  v-for="(element,index) in categorias" :key="index"  class=" col-xs-6 " :src="'http://beta.prcweb.com.br/api/Users/getImg/1/'+element.cat_image"  />
             </div>
         </q-carousel-slide>
-        
+     
         </q-carousel>
         <!-- SUGESTÕES DE FORNECEDORES -->
         <div class="row" style="">
@@ -95,6 +97,7 @@
         </div>
         <q-carousel
             v-model="slidesUltimosVistos"
+            v-if="ultimosVistos"
             transition-prev="slide-right"
             transition-next="slide-left"
             swipeable
@@ -104,9 +107,9 @@
             class="bg-grey-1  rounded-borders"
             style=" margin-bottom:60px"
         >
-          <q-carousel-slide :name="index+1" class="column no-wrap" v-for="(novo,index) in novosVistos" :key="index">
+          <q-carousel-slide :name="index+1" class="column no-wrap" v-for="(novo,index) in ultimosVistos" :key="index">
            <div class="row fit justify-start items-center q-gutter-xs q-col-gutter no-wrap" >
-                <q-img v-for="(itemNovo,index) in novo" :key="index"  contain   class="rounded-borders offset-1 col-3 full-height" :src="'http://beta.prcweb.com.br/api/Etc/getImg/1/'+itemNovo.cat_image"  />
+                <q-img v-for="(itemNovo,index) in novo" :key="index"   class="rounded-borders  col-xs-6" :src="'http://beta.prcweb.com.br/api/Etc/anonGetImg/'+itemNovo.cat_image"  />
             </div>
         </q-carousel-slide>
       
@@ -127,60 +130,33 @@ export default {
         novasCategorias:[],
         // Últimos vistos
         slidesUltimosVistos:1,
-        novosVistos:[]
+        ultimosVistos:null,
+        categorias:[],
+        qtdCategoria:[]
       }
   },
   computed:{
-      categorias(){
-          return this.$store.state.EuQueroFesta.categorias
-      }
+    
   },
   methods:{
-     
-    atualizarPagina(){
-    // Atualiza categorias e últimos vistos
-    console.log("Atualizando Página - caregorias e ultimos vistos");
-        if(this.categorias){
-        let qtd = Math.ceil(this.categorias.length/3)
-        if(qtd > 0){
-            this.novasCategorias = [];
-            for(let rodada = 0; rodada < qtd; rodada++){
-                let tresCategorias = [];
-                for( let posicaoDoAdd = rodada*3;posicaoDoAdd <= (rodada*3)+2; posicaoDoAdd++){
-                    if(this.categorias[posicaoDoAdd]){
-                        tresCategorias.push(this.categorias[posicaoDoAdd]);
-                    }  
-                }    
-                this.novasCategorias.push(tresCategorias)
-                this.novosVistos.push(tresCategorias)
-            }
-        };
-    }   
-     },
-       requisitarCategorias(){
-         console.log("Vai chamar requisitar Categories");
-         return this.$store.dispatch('EuQueroFesta/requisitarCategorias')
-     },
-     requisitarBanners(){
-         console.log("REQUISITAR BANNERS");
-         return this.$store.dispatch('EuQueroFesta/requisitarBanners')
-     },
+   
+  
   },
   watch:{
-      categorias: function(valor){
-          console.log("valor categorias")
-          console.log(valor);
-          this.atualizarPagina()
-      }
+  
+  },
+  created(){
+      
   },
   beforeMount(){
-     this.atualizarPagina()
+    
+ 
   },
   mounted(){
     console.log("MOUNTED-HOME");
+    this.categorias = this.$q.localStorage.getItem('categories')
+    this.categorias.forEach((elemento,index) => {this.qtdCategoria.push(index)})
     console.log(this.categorias);
-    console.log("Before Mount - Home");
-    this.requisitarCategorias()
   }
   
 }

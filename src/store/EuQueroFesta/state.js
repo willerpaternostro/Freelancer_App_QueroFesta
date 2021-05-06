@@ -2,6 +2,7 @@ export default {
   dialogPagamento:false,
   statusLogado:false,
   categorias:null,
-  user:null
+  user:null,
+  stores:null
 
 }

@@ -118,7 +118,7 @@
 <script>
 import { Plugins, KeyboardInfo } from '@capacitor/core';
 const { Device } = Plugins;
-const { PushNotifications } = Plugins;
+//const { PushNotifications } = Plugins;
 const { Keyboard } = Plugins;
 export default {
   name: 'MainLayout',
@@ -537,38 +537,7 @@ export default {
       if(info.uuid){
         this.$q.localStorage.set('_capuid', info.uuid)
       }
-      
-      if(this.$q.localStorage.getItem('plataforma') != 'web' ){
-      
-      PushNotifications.register()
-    
-      PushNotifications.addListener('registration', (token)=>{ 
-        console.log('>>>> ADD LISTENER REGISTRATION - return TOKEN')
-      if(this.$q.localStorage.getItem('plataforma') != 'web'){
-        if(!this.$q.localStorage.getItem('token-fcm'))
-          this.$q.localStorage.set('token-fcm',token.value)
-      }
-      })
-    
-    PushNotifications.addListener('registrationError', (error) => {
-      console.log(">>>>>>> ADD LISTENER REGISTRATION_ERROR <<<<<<<<")
-      console.log(error);
-      })
-    
-    // Mostrar a carga útil da notificação se o aplicativo estiver aberto no dispositivo
-    PushNotifications.addListener('pushNotificationReceived', 
-    (notification) => {
-      console.log('>>>>>>Chegou notificação received <<<<<<<<')
-      console.log(notification)
-    })
-    // Método chamado ao tocar em uma notificação
-    PushNotifications.addListener('pushNotificationActionPerformed', 
-    (notification) => {
-      console.log('>>>>>> Chegou notificação ACTION_PERFORMED <<<<<<<<')
-      console.log(notification)
-    })
-    } 
-  },
+    },
    
   },
   watch:{

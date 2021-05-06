@@ -27,14 +27,17 @@ export default {
         this.prosseguirCadastroLoja()
     },
     prosseguirCadastroLoja(){
-        this.$q.localStorage.set('cadastroNegocio_descricaoNegocio',this.descricaoNegocio)
-        this.$router.push({name:'InformacaoNegocio'})
+        this.$q.localStorage.set('cadastroNegocio_descricao',this.descricaoNegocio)
+        this.cadastrarLoja()
     },
+    cadastrarLoja(){
+        return this.$store.dispatch('EuQueroFesta/cadastrarLoja')
+    }
    
   },
   mounted(){
-      if(this.$q.localStorage.getItem('cadastroNegocio_descricaoNegocio')){
-          this.nomeNegocio = this.$q.localStorage.getItem('cadastroNegocio_descricaoNegocio')
+      if(this.$q.localStorage.getItem('cadastroNegocio_descricao')){
+          this.nomeNegocio = this.$q.localStorage.getItem('cadastroNegocio_descricao')
       }
   }
 }

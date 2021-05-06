@@ -11,7 +11,7 @@
                 color="pink" 
                 bottom-slots 
                 v-model="nomeCategoriaNegocio" 
-                label="Digite CEP, Cidade ou endereço" 
+                label="Selecione a categoria" 
                 :error="checkErro_nomeCategoriaNegocio"
                 :error-message="msgErro_nomeCategoriaNegocio"
             >
@@ -61,14 +61,14 @@ export default {
         }
     },
     prosseguirCadastroLoja(){
-        this.$q.localStorage.set('cadastroNegocio_nomeCategoriaNegocio',this.nomeCategoriaNegocio)
+        this.$q.localStorage.set('cadastroNegocio_categoria',this.nomeCategoriaNegocio)
             this.$router.push({name:'NomeNegocio'})
     },
    
   },
   mounted(){
-      if(this.$q.localStorage.getItem('cadastroNegocio_nomeCategoriaNegocio')){
-          this.nomeCategoriaNegocio = this.$q.localStorage.getItem('cadastroNegocio_nomeCategoriaNegocio')
+      if(this.$q.localStorage.getItem('cadastroNegocio_categoria')){
+          this.nomeCategoriaNegocio = this.$q.localStorage.getItem('cadastroNegocio_categoria')
       }
   }
 }

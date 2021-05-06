@@ -64,7 +64,7 @@ export default {
     },
     prosseguirCadastroLoja(){
         this.$q.localStorage.set('cadastroNegocio_nomeCidadeNegocio',this.nomeCidadeNegocio)
-            this.$router.push({name:'CategoriaNegocio'})
+        this.$router.push({name:'CategoriaNegocio'})
     },
    
   },

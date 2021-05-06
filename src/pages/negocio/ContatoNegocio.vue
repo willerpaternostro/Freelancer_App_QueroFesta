@@ -64,15 +64,31 @@ export default {
         this.prosseguirCadastroLoja()
     },
     prosseguirCadastroLoja(){
-        let contatoNegocio = { endereco:this.endereco, telefone:this.telefone, whatsapp:this.whatsapp, website:this.website}
-        this.$q.localStorage.set('cadastroNegocio_contatoNegocio',contatoNegocio)
+        this.$q.localStorage.set('cadastroNegocio_endereco',this.endereco)
+        this.$q.localStorage.set('cadastroNegocio_numero',this.numero)
+        this.$q.localStorage.set('cadastroNegocio_telefone',this.telefone)
+        this.$q.localStorage.set('cadastroNegocio_celular',this.whatsapp)
+        this.$q.localStorage.set('cadastroNegocio_site',this.website)
+        
         this.$router.push({name:'RedesSociaisNegocio'})
     },
    
   },
   mounted(){
-      if(this.$q.localStorage.getItem('cadastroNegocio_contatoNegocio')){
-          this.nomeNegocio = this.$q.localStorage.getItem('cadastroNegocio_contatoNegocio')
+      if(this.$q.localStorage.getItem('cadastroNegocio_endereco')){
+          this.endereco = this.$q.localStorage.getItem('cadastroNegocio_endereco')
+      }
+      if(this.$q.localStorage.getItem('cadastroNegocio_numero')){
+          this.numero = this.$q.localStorage.getItem('cadastroNegocio_numero')
+      }
+      if(this.$q.localStorage.getItem('cadastroNegocio_telefone')){
+          this.telefone = this.$q.localStorage.getItem('cadastroNegocio_telefone')
+      }
+      if(this.$q.localStorage.getItem('cadastroNegocio_celular')){
+          this.whatsapp = this.$q.localStorage.getItem('cadastroNegocio_celular')
+      }
+      if(this.$q.localStorage.getItem('cadastroNegocio_site')){
+          this.website = this.$q.localStorage.getItem('cadastroNegocio_site')
       }
   }
 }

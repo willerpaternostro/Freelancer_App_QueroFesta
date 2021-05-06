@@ -1,13 +1,11 @@
 <template>
   <div  >
       <div class="row justify-center" style="margin-bottom:20px"> 
-          <div class="col-4">
-              <q-btn
-                size="35px"
-                round
-                color="grey-5"
-                icon="fas fa-user"
-                />
+          <div class="col-4">  
+            <q-avatar size="100px" icon="fas fa-user" color="grey" text-color="grey-2" v-if="!user.usu_image" />
+                <q-avatar size="100px" v-if="user.usu_image">
+                  <q-img height="100px"  :src="'http://beta.prcweb.com.br/api/Users/getImg/1/'+user.usu_image" />
+                </q-avatar>
           </div>
       </div>
         <q-page-sticky position="top" :offset="[0, 80]">
@@ -79,7 +77,7 @@
                 outlined 
                 input-class="text-pink"
                 v-model="senha" 
-                label="Senha"  
+                label="Senha nova"  
                 style=" padding-bottom:0px "
            >
                <template v-slot:prepend>
@@ -103,10 +101,16 @@ export default {
         email:'',
         cpf:'',
         senha:'',
+        telefone:'',
         height:600,
         mostrarApresentacaoHenvio: true,
         slide: 'slide1',
       }
+  },
+  computed:{
+    user(){
+      return this.$store.state.EuQueroFesta.user
+    }
   },
   methods:{
     continuar(){
@@ -131,6 +135,11 @@ export default {
     console.log(this)
     this.height = this.$q.screen.height-50
     this.height = this.height.toString()
+    this.nome = this.user.usu_name
+    this.email = this.user.usu_email
+    this.cpf = this.user.usu_document
+    this.telefone = this.user.usu_celphone
+    this.img = this.user.usu_image
   }
 }
 </script>
