@@ -21,7 +21,7 @@
     </q-header>
  
     <q-page-container class="q-pa-sm">
-      <router-view />
+      <router-view  />
     </q-page-container>
 
     <footer v-show="footer" :class="!teclado?'fixed-bottom':''">
