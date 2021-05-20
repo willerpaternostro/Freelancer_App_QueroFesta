@@ -3,7 +3,7 @@
     <q-list >
       <q-item :to="{name:'CobrancaDetalhes'}" v-for="(item,index) in 10" :key="index">
           <q-item-section top avatar>
-          <q-avatar color="primary" text-color="white" icon="bluetooth" />
+          <q-icon name="fas fa-file-alt" />
           </q-item-section>
 
           <q-item-section>

@@ -4,12 +4,7 @@ import {Loading} from 'quasar'
 import {Notify} from 'quasar'
 
 export async function requisitarCategories ({commit}) {
-    await axiosInstance.get('categories/list').then((response) => {
-        console.log("requisitarCategorias")
-        console.log(response);
-        LocalStorage.set('categories',response.data.categories)
-        //commit('atualizarCategorias',response.data.categories);
-    }).catch((erro) => { console.log("Erro")})
+    
 }
 export async function requisitarBanners({commit}) {
     axiosInstance.get('Banners/get/').then((response) => {
@@ -47,8 +42,8 @@ export async function cadastrarLoja({commit}){
     
     formdata.set('sto_social_data',LocalStorage.getItem("cadastroNegocio_redesSociais"))
     formdata.set('sto_video',LocalStorage.getItem("cadastroNegocio_video"))
-    formdata.set('sto_image',LocalStorage.getItem("cadastroNegocio_fotoPrincipal"))
-    formdata.set('sto_cover',LocalStorage.getItem("cadastroNegocio_fotoCapa"))
+    formdata.append('sto_image',LocalStorage.getItem("cadastroNegocio_fotoPrincipal"))
+    formdata.append('sto_cover',LocalStorage.getItem("cadastroNegocio_fotoCapa"))
     
     formdata.set('sto_photos_data',LocalStorage.getItem("cadastroNegocio_fotosNegocio"))
     formdata.set('sto_description',LocalStorage.getItem("cadastroNegocio_descricao"))
@@ -61,7 +56,25 @@ export async function cadastrarLoja({commit}){
         let idStores = []
         idStores.push(idStore)
         LocalStorage.set('idStores',idStores)
-        this.$router.push({name:'InformacaoNegocio'})
+        
+        let meuNegocio = {
+            sto_city:LocalStorage.getItem("cadastroNegocio_cidade"),
+            sto_categories:LocalStorage.getItem("cadastroNegocio_categoria"),
+            sto_title:LocalStorage.getItem("cadastroNegocio_nome"),
+            sto_address:LocalStorage.getItem("cadastroNegocio_endereco"),
+            sto_adnumber:LocalStorage.getItem("cadastroNegocio_numero"),
+            sto_phone:LocalStorage.getItem("cadastroNegocio_telefone"),
+            sto_celphone:LocalStorage.getItem("cadastroNegocio_celular"),
+            sto_website:LocalStorage.getItem("cadastroNegocio_site"),
+            sto_social_data:LocalStorage.getItem("cadastroNegocio_redesSociais"),
+            sto_video:LocalStorage.getItem("cadastroNegocio_video"),
+            sto_image:LocalStorage.getItem("cadastroNegocio_fotoPrincipal"),
+            sto_cover:LocalStorage.getItem("cadastroNegocio_fotoCapa"),
+            sto_photos_data:LocalStorage.getItem("cadastroNegocio_fotosNegocio"),
+            sto_description:LocalStorage.getItem("cadastroNegocio_descricao"),
+        }
+        this.$router.push({name:'InformacaoNegocio', params:{ meuNegocio:meuNegocio }})
+       
         //commit('atualizarUsuario',response.data.user);
     }).catch((erro) => { 
         console.log("Erro")

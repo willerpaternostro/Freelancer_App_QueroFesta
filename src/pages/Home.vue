@@ -72,7 +72,6 @@
         </div>
         <q-carousel
             v-model="slidesCategorias"
-          
             transition-prev="slide-right"
             transition-next="slide-left"
             swipeable
@@ -84,40 +83,43 @@
         >
         <!-- Obs: elementos dinâmicos em carrossel não podem ter mesmo nome de váriavel -->
  
-        <q-carousel-slide  v-for="(item,index) in qtdCategoria" :key="index"  :name="index" >
-           <div class="row fit justify-start items-center q-gutter-xs q-col-gutter no-wrap" >
-                <q-img  v-for="(element,index) in categorias" :key="index"  class=" col-xs-6 " :src="'http://beta.prcweb.com.br/api/Users/getImg/1/'+element.cat_image"  />
-            </div>
+        <q-carousel-slide :name="1" class="column no-wrap">
+            <div class="row fit justify-start items-center q-gutter-xs q-col-gutter no-wrap">
+            <q-img class="rounded-borders col-6 full-height" src="https://cdn.quasar.dev/img/mountains.jpg" />
+            <q-img class="rounded-borders col-6 full-height" src="https://cdn.quasar.dev/img/parallax1.jpg" />
+            </div> 
         </q-carousel-slide>
-     
         </q-carousel>
         <!-- SUGESTÕES DE FORNECEDORES -->
         <div class="row" style="">
             <span class="text-h6 text-grey-9 text-weight-bold">Últimos vistos</span>
         </div>
-        <q-carousel
+       <q-carousel
             v-model="slidesUltimosVistos"
-            v-if="ultimosVistos"
+          
             transition-prev="slide-right"
             transition-next="slide-left"
             swipeable
             animated
+            infinite
             arrows
             height="150px"
             class="bg-grey-1  rounded-borders"
-            style=" margin-bottom:60px"
+            style="margin-bottom:80px"
         >
-          <q-carousel-slide :name="index+1" class="column no-wrap" v-for="(novo,index) in ultimosVistos" :key="index">
+        <!-- Obs: elementos dinâmicos em carrossel não podem ter mesmo nome de váriavel -->
+ 
+        <q-carousel-slide   v-for="(element,index) in categorias"  :key="index"  :name="index" >
            <div class="row fit justify-start items-center q-gutter-xs q-col-gutter no-wrap" >
-                <q-img v-for="(itemNovo,index) in novo" :key="index"   class="rounded-borders  col-xs-6" :src="'http://beta.prcweb.com.br/api/Etc/anonGetImg/'+itemNovo.cat_image"  />
+                <q-img height="150px" class=" col-xs-6 " :src="element.cat_image"  />
             </div>
         </q-carousel-slide>
-      
+     
         </q-carousel>
     </div>
 </template>
 <script>
-
+import { axiosInstance } from 'boot/axios'
 
 export default {
   name: 'PageIndex',
@@ -127,6 +129,7 @@ export default {
         slides:1,
         //Categorias
         slidesCategorias:1,
+        qtdCarrousselCategoria:[],
         novasCategorias:[],
         // Últimos vistos
         slidesUltimosVistos:1,
@@ -139,11 +142,30 @@ export default {
     
   },
   methods:{
-   
+    async requisitarCategories(){
+        await axiosInstance.get('categories/list').then((response) => {
+        console.log("requisitarCategorias")
+        console.log(response.data);
+  
+        let qtdCarroussel = Math.ceil(response.data.categories.length/2)
+        console.log(qtdCarroussel);
+        for(let i=0; i<qtdCarroussel; i++){
+            this.qtdCarrousselCategoria.push(i)
+            if( i == (qtdCarroussel-1)){
+                 response.data.categories.forEach(element => {
+                this.categorias.push(element)
+            });
+        console.log(this.categorias);
+            }
+        } 
+    }).catch((erro) => { 
+        console.log(erro);
+        console.log("Erro")})
+     },
   
   },
   watch:{
-  
+
   },
   created(){
       
@@ -153,10 +175,8 @@ export default {
  
   },
   mounted(){
-    console.log("MOUNTED-HOME");
-    this.categorias = this.$q.localStorage.getItem('categories')
-    this.categorias.forEach((elemento,index) => {this.qtdCategoria.push(index)})
-    console.log(this.categorias);
+    console.log("MOUNTED-HOME");  
+    this.requisitarCategories()
   }
   
 }

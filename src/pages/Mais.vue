@@ -118,7 +118,7 @@
       <q-btn :to="{name:'Home'}" text-color="white" class=" absolute-top-right" icon="keyboard_backspace" flat size="17px" />
         <div class="absolute-bottom bg-transparent">
           <q-avatar   size="80px" class="q-mb-sm">
-            <q-img height="80px"  :src="'http://beta.prcweb.com.br/api/Users/getImg/1/'+user.usu_image" />
+            <q-img height="80px"  :src="user.usu_image" />
           <!--<q-img height="80px"  :src="user.usu_image?'http://beta.prcweb.com.br/api/Etc/anonGetImg/'+user.usu_image:'https://cdn.quasar.dev/img/boy-avatar.png'" /> -->
           </q-avatar>
         </div>

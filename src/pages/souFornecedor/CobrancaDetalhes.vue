@@ -26,7 +26,7 @@
           <q-item-section class="text-h6 text-blue">Ver Cliente</q-item-section>
 
           <q-item-section avatar>
-            <q-icon name="keyboard_arrow_right" />
+            <q-icon name="fab fa-facebook" />
           </q-item-section>
         </q-item>
       </q-list>

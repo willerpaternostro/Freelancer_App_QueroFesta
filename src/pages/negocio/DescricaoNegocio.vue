@@ -27,7 +27,7 @@ export default {
         this.prosseguirCadastroLoja()
     },
     prosseguirCadastroLoja(){
-        this.$q.localStorage.set('cadastroNegocio_descricao',this.descricaoNegocio)
+        this.$q.localStorage.set('cadastroNegocio_descricao', this.descricaoNegocio)
         this.cadastrarLoja()
     },
     cadastrarLoja(){

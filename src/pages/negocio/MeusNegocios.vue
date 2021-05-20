@@ -3,23 +3,23 @@
         <q-card   flat v-for="(store,index) in stores" :key="index" class="my-card" style="padding-bottom:8px">
             <q-card-section horizontal class="row" >
                 <q-img
-                @click="$router.push({name:'InformacaoNegocio'})"
-                style="border-radius:10px"
-                height="90px"
-                class="col-5"
-                src="https://cdn.quasar.dev/img/chicken-salad.jpg"
+                    @click="irMeuNegocio(store)"
+                    style="border-radius:10px"
+                    height="90px"
+                    class="col-5"
+                    src="https://cdn.quasar.dev/img/chicken-salad.jpg"
                 />
            
                 <q-card-section class="col-7" >
-                    <div class="row" @click="$router.push({name:'InformacaoNegocio'})">
+                    <div class="row" @click="irMeuNegocio(store)">
                         <span class="text-h6 col-12" >
-                            {{store.sto_title}}
+                            {{store.sto_title?store.sto_title:''}}
                         </span>
                     </div>
                     <div class="row" style="margin-top:10px">
-                        <div @click="$router.push({name:'InformacaoNegocio'})" class="col-10"> 
+                        <div class="col-10" @click="irMeuNegocio(store)"> 
                             <span class=" text-grey-6" >
-                                <q-icon name="room" color="grey-6" /> {{store.sto_city + ' - ' + store.sto_uf}}
+                                <q-icon name="room" color="grey-6" /> {{store.sto_city && store.sto_uf?store.sto_city + ' - ' + store.sto_uf:'Não informado'}}
                             </span>
                         </div>
                         <div class="col-2">
@@ -30,8 +30,10 @@
             </q-card-section>
         </q-card>
         <q-page-sticky position="bottom-right" :offset="[18, 18]">
-            <q-btn :to="{name:'CidadeNegocio'}" round color="yellow-8" icon="add" size="19px" />
+            <q-btn @click="adicionarNovoNegocio" round color="yellow-8" icon="add" size="19px" />
         </q-page-sticky>
+
+        <!-- EXCLUIR NEGÓCIO --> 
         <q-dialog v-model="excluirNegocio" >
             <q-card style="width: 300px; ">
                 <q-card-section >
@@ -60,6 +62,7 @@ export default {
   data(){
     return{
         excluirNegocio:false,
+
         text:'',
       
       }
@@ -70,9 +73,40 @@ export default {
         }
     },
   methods:{
- 
+      requisitarStores(){
+          return this.$store.dispatch('EuQueroFesta/requisitarStores')
+      },
+      irMeuNegocio(store){
+          console.log("LOJA SELECIONADA");
+          this.$router.push({name:'InformacaoNegocio', params:{ meuNegocio:store }})
+      },
+      adicionarNovoNegocio(){
+          this.limparDadosNegocio()
+          this.$router.push({name:'CidadeNegocio'})
+
+      },
+      limparDadosNegocio(){
+        this.$q.localStorage.set("cadastroNegocio_cidade",'')
+        this.$q.localStorage.set("cadastroNegocio_categoria",'')
+        this.$q.localStorage.set("cadastroNegocio_nome",'')
+        this.$q.localStorage.set("cadastroNegocio_endereco",'')
+        this.$q.localStorage.set("cadastroNegocio_numero",'')
+        this.$q.localStorage.set("cadastroNegocio_telefone",'')
+        this.$q.localStorage.set("cadastroNegocio_celular",'')
+        this.$q.localStorage.set("cadastroNegocio_site",'')
+        this.$q.localStorage.set("cadastroNegocio_redesSociais",'')
+        this.$q.localStorage.set("cadastroNegocio_video",'')
+        this.$q.localStorage.set("cadastroNegocio_fotoPrincipal",'')
+        this.$q.localStorage.set("cadastroNegocio_fotoCapa",'')
+        this.$q.localStorage.set("cadastroNegocio_fotosNegocio",'')
+        this.$q.localStorage.set("cadastroNegocio_descricao",'')
+      }
+  },
+  beforeMount(){
+       this.requisitarStores()
   },
   mounted(){
+     
       console.log(this.stores);
   }
 }
