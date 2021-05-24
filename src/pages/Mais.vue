@@ -1,13 +1,14 @@
  <template>
     <div >
       <!-- ESTÁ LOGADO -->
-      <div v-if="statusLogado" style="height: calc(100% - 150px); margin-top: 150px; border-right: 1px solid #ddd">
+      <div v-if="statusLogado" style="height: calc(100% - 150px);  border-right: 1px solid #ddd">
         <div>
-        <q-list  padding class="rounded-borders  full-width">
+        <q-list  padding class="rounded-borders  full-width" >
         <q-item
           clickable
           v-ripple
           @click="$router.push({name:'LoginFornecedor'})"
+          style="margin-top: 150px;"
         >
           <q-item-section avatar>
             <q-icon name="account_circle" color="grey-9" />
@@ -114,7 +115,7 @@
       </q-list>
       </div>
 
-      <q-img @click="$router.push({name:'EditProfile'})" class="absolute-top " src="https://cdn.quasar.dev/img/material.png" style="height: 150px">
+      <q-img @click="$router.push({name:'EditProfile'})" class="absolute-top " src="https://cdn.quasar.dev/img/material.png" style="height:150px">
       <q-btn :to="{name:'Home'}" text-color="white" class=" absolute-top-right" icon="keyboard_backspace" flat size="17px" />
         <div class="absolute-bottom bg-transparent">
           <q-avatar   size="80px" class="q-mb-sm">

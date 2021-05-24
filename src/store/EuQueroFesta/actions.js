@@ -3,6 +3,7 @@ import  {LocalStorage} from 'quasar'
 import {Loading} from 'quasar'
 import {Notify} from 'quasar'
 
+
 export async function requisitarCategories ({commit}) {
     
 }
@@ -23,7 +24,7 @@ export async function requisitarStores({commit}){
 }
 
 //CADASTRO
-export async function cadastrarLoja({commit}){
+export async function cadastrarLoja({state,commit}){
     const config = { headers: { 'Content-Type': 'multipart/form-data', 'Authorization': LocalStorage.getItem('user').token} };
     const formdata = new FormData();
     formdata.set('users_id',LocalStorage.getItem('user').id)
@@ -42,46 +43,32 @@ export async function cadastrarLoja({commit}){
     
     formdata.set('sto_social_data',LocalStorage.getItem("cadastroNegocio_redesSociais"))
     formdata.set('sto_video',LocalStorage.getItem("cadastroNegocio_video"))
-    formdata.append('sto_image',LocalStorage.getItem("cadastroNegocio_fotoPrincipal"))
-    formdata.append('sto_cover',LocalStorage.getItem("cadastroNegocio_fotoCapa"))
-    
-    formdata.set('sto_photos_data',LocalStorage.getItem("cadastroNegocio_fotosNegocio"))
+
+    if(state.fotoPrincipal){
+        formdata.append('sto_image',state.fotoPrincipal[0])
+    }
+    if(state.fotoCapa){
+        formdata.append('sto_cover',state.fotoCapa[0])
+    }
+    if(state.fotosNegocio){
+        state.fotosNegocio.forEach((element,index) => {
+            formdata.append('sto_photos_data',element)
+        });
+    }
     formdata.set('sto_description',LocalStorage.getItem("cadastroNegocio_descricao"))
   
     //formdata.set('usu_fcm_token',LocalStorage.email)
     await axiosInstance.post("Stores/add/",formdata, config).then((response) => {
         console.log("Entrou API Store/add/")
         console.log(response);
-        let idStore = response.data.stores[0]
-        let idStores = []
-        idStores.push(idStore)
-        LocalStorage.set('idStores',idStores)
-        
-        let meuNegocio = {
-            sto_city:LocalStorage.getItem("cadastroNegocio_cidade"),
-            sto_categories:LocalStorage.getItem("cadastroNegocio_categoria"),
-            sto_title:LocalStorage.getItem("cadastroNegocio_nome"),
-            sto_address:LocalStorage.getItem("cadastroNegocio_endereco"),
-            sto_adnumber:LocalStorage.getItem("cadastroNegocio_numero"),
-            sto_phone:LocalStorage.getItem("cadastroNegocio_telefone"),
-            sto_celphone:LocalStorage.getItem("cadastroNegocio_celular"),
-            sto_website:LocalStorage.getItem("cadastroNegocio_site"),
-            sto_social_data:LocalStorage.getItem("cadastroNegocio_redesSociais"),
-            sto_video:LocalStorage.getItem("cadastroNegocio_video"),
-            sto_image:LocalStorage.getItem("cadastroNegocio_fotoPrincipal"),
-            sto_cover:LocalStorage.getItem("cadastroNegocio_fotoCapa"),
-            sto_photos_data:LocalStorage.getItem("cadastroNegocio_fotosNegocio"),
-            sto_description:LocalStorage.getItem("cadastroNegocio_descricao"),
-        }
+        let meuNegocio = response.data.stores[0]
         this.$router.push({name:'InformacaoNegocio', params:{ meuNegocio:meuNegocio }})
-       
-        //commit('atualizarUsuario',response.data.user);
+        commit('limparDadosNegocio')
+     
     }).catch((erro) => { 
         console.log("Erro")
         console.log(erro)
-      
     })
-  
 }
 export async function cadastrarUsuario({commit},dados) {
     const config = { headers: { 'Content-Type': 'multipart/form-data'} };
@@ -105,6 +92,8 @@ export async function cadastrarUsuario({commit},dados) {
         LocalStorage.set('token',user.token)
         LocalStorage.set('user',user)
         commit('atualizarUsuario',user)
+       
+
         this.$router.push({name:'CidadeNegocio'})
         //commit('atualizarUsuario',response.data.user);
     }).catch((erro) => { 
@@ -114,6 +103,51 @@ export async function cadastrarUsuario({commit},dados) {
     })
 }
 
+//EDITAR
+export async function editarLoja({state,commit},dados){
+    const config = { headers: { 'Content-Type': 'multipart/form-data', 'Authorization': LocalStorage.getItem('user').token} };
+    const formdata = new FormData();
+ 
+    formdata.set('id',dados.idLojaEditar);
+    console.log(dados.idLojaEditar);
+    //formdata.set('sto_adnumber',LocalStorage.getItem("cadastroNegocio_numero"));
+
+    if(dados.nomeNegocio)formdata.set('sto_title',dados.nomeNegocio);
+    if(dados.cidadeNegocio)formdata.set('sto_city',dados.cidadeNegocio);
+    if(dados.categoriaNegocio)formdata.set('sto_categories',dados.categoriaNegocio);
+    if(dados.enderecoNegocio)formdata.set('sto_address',dados.enderecoNegocio);
+    if(dados.telefoneNegocio)formdata.set('sto_phone',dados.telefoneNegocio);
+    if(dados.whatsappNegocio)formdata.set('sto_celphone',dados.whatsappNegocio);
+    if(dados.siteNegocio)formdata.set('sto_website',dados.siteNegocio);
+    if(dados.redesNegocio)formdata.set('sto_social_data',dados.redesNegocio);
+    if(dados.descricaoNegocio)formdata.set('sto_description',dados.descricaoNegocio);
+    if(dados.fotoEditada){
+        if(dados.fotoEditada === 'fotoPrincipal' && state.fotoPrincipal){
+            formdata.append('sto_image',state.fotoPrincipal[0])
+        }
+        if(dados.fotoEditada === 'fotoCapa' && state.fotoCapa){
+            formdata.append('sto_cover',state.fotoCapa[0])
+        }
+        if(dados.fotoEditada === 'fotosNegocio' && state.fotosNegocio){
+            console.log("Entrou fotos Negocio");
+            console.log(state.fotosNegocio);
+            state.fotosNegocio.forEach((element,index) => {
+                formdata.append('sto_photos_data',element)
+            });
+        }
+        if(dados.fotoEditada === 'linkVideo' )formdata.set('sto_video',dados.videoNegocio);
+    }
+
+    await axiosInstance.post("Stores/update/",formdata, config).then((response) => {
+        console.log("Entrou API /Stores/update/")
+        console.log(response);
+        console.log(dados.idLojaEditar);
+        this.$router.push({name:'InformacaoNegocio', params:{ meuNegocio:response.data.stores[0]}})
+    }).catch((erro) => { 
+        console.log("Erro")
+        console.log(erro)
+    })
+}
 //LOGIN
 export async function login({commit},dados){
     const config = { headers: { 'Content-Type': 'multipart/form-data'} };
@@ -134,3 +168,4 @@ export async function login({commit},dados){
     })
     
 }
+

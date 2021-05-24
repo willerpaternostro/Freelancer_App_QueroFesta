@@ -5,26 +5,30 @@
             <q-item>
                 <q-item-section >
                 <q-item-label class="text-h6 text-grey-7">Título</q-item-label>
-                <q-item-label class="text-grey-9"   lines="2">{{meuNegocio.sto_title?meuNegocio.sto_title:'Não informado'}}</q-item-label>
+                <q-item-label class="text-grey-9"   lines="2">{{meuNegocio['sto_title']?meuNegocio['sto_title']:'Não informado'}}</q-item-label>
                 </q-item-section>
                 <q-item-section side top>
-                    <q-icon size="15px" name="fas fa-pen" color="grey-9" />
+                    <q-icon @click="$router.push({name:'NomeNegocio', params:{editar:'editar',negocioAlterar:meuNegocio}})" size="15px" name="fas fa-pen" color="grey-9" />
                 </q-item-section>
             </q-item>
              <!-- DESCRIÇÃO -->
              <q-item>
                 <q-item-section >
                 <q-item-label class="text-h6 text-grey-7">Descrição</q-item-label>
-                <q-item-label class="text-grey-9"   lines="2">{{meuNegocio.sto_description?meuNegocio.sto_description:'Não informado'}}</q-item-label>
+                <q-item-label class="text-grey-9"   lines="2">{{meuNegocio['sto_description']?meuNegocio['sto_description']:'Não informado'}}</q-item-label>
                 </q-item-section>
                 <q-item-section side top>
-                    <q-icon size="15px" name="fas fa-pen" color="grey-9" />
+                    <q-icon  @click="$router.push({name:'DescricaoNegocio', params:{editar:'editar',negocioAlterar:meuNegocio}})" size="15px" name="fas fa-pen" color="grey-9" />
                 </q-item-section>
             </q-item>
              <!-- CONTATO -->
             <q-item>
                 <q-item-section>
                 <q-item-label class="text-h6 text-grey-7">Contato</q-item-label>
+                <q-item-label v-if="meuNegocio['sto_address']"   class="text-grey-9"  lines="2" style="margin-top:10px">
+                    <q-icon name="fas fa-map-marker-alt" />
+                    {{meuNegocio['sto_address']?meuNegocio['sto_address']:''}}
+                </q-item-label>
                 <q-item-label v-if="meuNegocio['sto_phone']"   class="text-grey-9"  lines="2" style="margin-top:10px">
                     <q-icon name="fas fa-phone-alt" />
                     {{meuNegocio['sto_phone']?meuNegocio['sto_phone']:''}}
@@ -40,7 +44,7 @@
                
                 </q-item-section>
                 <q-item-section side top >
-                    <q-icon size="15px" name="fas fa-pen" color="grey-9" />
+                    <q-icon  @click="$router.push({name:'ContatoNegocio', params:{editar:'editar',negocioAlterar:meuNegocio}})" size="15px" name="fas fa-pen" color="grey-9" />
                 </q-item-section>
             </q-item>
         </q-list>
@@ -51,68 +55,46 @@
                 <q-item-label class="text-h6 text-grey-7">Redes Sociais</q-item-label>
                 </q-item-section>
                 <q-item-section side top>
-                    <q-icon size="15px" name="fas fa-pen" color="grey-9" />
+                    <q-icon  @click="$router.push({name:'RedesSociaisNegocio', params:{editar:'editar',negocioAlterar:meuNegocio}})" size="15px" name="fas fa-pen" color="grey-9" />
                 </q-item-section>
             </q-item>
-             <q-item clickable v-ripple>
+             <q-item clickable v-ripple v-for="(redeSocial) in redesSociais" :key="redeSocial.nome">
                 <q-item-section avatar>
-                <q-avatar size="30px" color="blue" text-color="white" icon="fab fa-facebook" />
+                <q-avatar size="30px" :color="redeSocial.corIcone" text-color="white" :icon="redeSocial.icone" />
                 </q-item-section>
-                <q-item-section>htpps://facebook.com/loja</q-item-section>
+                <q-item-section>{{redeSocial.link}}</q-item-section>
             </q-item>
-             <q-item clickable v-ripple>
-                <q-item-section avatar>
-                <q-avatar size="30px"  color="pink" text-color="white" icon="fab fa-instagram" />
-                </q-item-section>
-                <q-item-section>htpps://instagram.com/loja</q-item-section>
-            </q-item>
-             <q-item clickable v-ripple>
-                <q-item-section avatar>
-                <q-avatar size="30px"  color="red" text-color="white" icon="fab fa-youtube" />
-                </q-item-section>
-                <q-item-section>htpps://youtube.com/loja</q-item-section>
-            </q-item>
-            <q-item clickable v-ripple>
-                <q-item-section avatar>
-                <q-avatar size="30px"  color="info" text-color="white" icon="fab fa-twitter" />
-                </q-item-section>
-                <q-item-section>htpps://twitter.com/loja</q-item-section>
-            </q-item>
-            <q-item clickable v-ripple>
-                <q-item-section avatar>
-                <q-avatar size="30px"  color="black" text-color="white" icon="fab fa-tiktok" />
-                </q-item-section>
-                <q-item-section>htpps://tiktok.com/loja</q-item-section>
-            </q-item>
-
-          
         </q-list>
          <!-- FOTOS  -->
         <div class="row" style="padding-left:16px; margin-top:20px">
             <div class="col-5 text-grey-7">Foto Principal </div>
-            <q-icon class="col-1" size="15px" name="fas fa-pen" color="grey-9" style="padding-bottom:8px;" />
+            <q-icon  @click="$router.push({name:'FotosVideosNegocio', params:{editar:'editar',negocioAlterar:meuNegocio,fotoEditar:'fotoPrincipal'}})" class="col-1" size="15px" name="fas fa-pen" color="grey-9" style="padding-bottom:8px;" />
             <div class="offset-1 col-4 text-grey-7">Foto de Capa</div>
-            <q-icon class="col-1" size="15px" name="fas fa-pen" color="grey-9" style="padding-bottom:8px;"  />
+            <q-icon  @click="$router.push({name:'FotosVideosNegocio', params:{editar:'editar',negocioAlterar:meuNegocio,fotoEditar:'fotoCapa'}})" class="col-1" size="15px" name="fas fa-pen" color="grey-9" style="padding-bottom:8px;"  />
         </div>
         <div class="row" style="padding-left:16px">
             <div class="col-6">
                   <q-img
-                    src="https://placeimg.com/500/300/nature"
+                    :src="fotoPrincipal"
                     spinner-color="white"
                     style="height: 70px; max-width: 150px"
                     />
             </div>
             <div class="offset-1 col-5">
                 <q-img
-                    src="https://placeimg.com/500/300/nature"
+                    :src="fotoCapa"
                     spinner-color="white"
                     style="height: 70px; max-width: 150px"
                     />
             </div>
         </div>
+
+        <!-- Fotos do negócio    -->
         <div class="row" style="padding:16px 0px 0px 16px">
-            <div class="col-6 text-grey-7">Foto do Negócio <q-icon class="col-1" size="15px" name="fas fa-pen" color="grey-9" style="padding-bottom:8px;padding-left:16px" /></div>
-            
+            <div class="col-6 text-grey-7">
+                <span>Foto do Negócio</span> 
+                <q-icon  @click="$router.push({name:'FotosVideosNegocio', params:{editar:'editar',negocioAlterar:meuNegocio,fotoEditar:'fotosNegocio'}})" class="col-1" size="15px" name="fas fa-pen" color="grey-9" style="padding-bottom:8px;padding-left:16px" />
+            </div>  
         </div>
          <div class="row" style="padding-left:16px">
             <div v-for="(foto, index) in fotosDoNegocio" :key="index" class="col-3">
@@ -122,8 +104,21 @@
                 style="height: 70px; max-width: 90px"
                 />
             </div>
-          
         </div>
+        <!-- Video Apresentação  -->
+        <div class="row" >
+            <div class="col-12 text-grey-7" style="padding:16px 0px 0px 16px">
+                <span>Video de apresentação</span> 
+                <q-icon  @click="$router.push({name:'FotosVideosNegocio', params:{editar:'editar',negocioAlterar:meuNegocio,fotoEditar:'linkVideo'}})" class="col-1" size="15px" name="fas fa-pen" color="grey-9" style="padding-bottom:8px;padding-left:16px" />
+            </div>  
+            <div class="col-12" style="padding:0px 16px 0px 16px">
+                <q-video
+                    :ratio="16/9"
+                    src="https://www.youtube.com/embed/k3_tw44QsZQ?rel=0"
+                />
+            </div>
+        </div>
+        <!-- Estatísticas -->
         <div  >
             <q-list class="rounded-borders" style="padding:16px 0px 0px 0px">
                 <q-expansion-item
@@ -155,36 +150,125 @@ export default {
         items:[1,2,3,4,5],
         meuNegocio:'',
         fotosDoNegocio:[],
+        fotoPrincipal:'',
+        fotoCapa:'',
+        redesSociais:[],
         statusBotao:false
       }
   },
   methods:{
-      
-  
+      verificarRedesSociais(redesSociais){
+              for(var prop in redesSociais){
+                  let icone = '';
+                  let corIcone = '';
+                  let link = '';
+                  let nome = '';
+                  let verificador = false;
+                    if(prop === 'facebook'){
+                        if(redesSociais[prop]){
+                            verificador = true
+                            icone = 'fab fa-facebook'
+                            corIcone = 'blue'
+                            link = redesSociais[prop]
+                            nome = prop
+                        }
+                    }
+                    if(prop === 'instagram'){
+                        if(redesSociais[prop]){
+                            verificador = true
+                            icone = 'fab fa-instagram'
+                            corIcone = 'pink'
+                            link = redesSociais[prop]
+                            nome = prop
+                        }
+                       
+                    }
+                    if(prop === 'youtube'){
+                        if(redesSociais[prop]){
+                            verificador = true
+                            icone = 'fab fa-youtube'
+                            corIcone = 'red'
+                            link = redesSociais[prop]
+                            nome = prop
+                        }
+                    }
+                    if(prop === 'twitter'){
+                        if(redesSociais[prop]){
+                            verificador = true
+                            icone = 'fab fa-twitter'
+                            corIcone = 'info'
+                            link = redesSociais[prop]
+                            nome = prop
+                        }
+                       
+                    }
+                    if(prop === 'tiktok'){
+                        if(redesSociais[prop]){
+                            verificador = true
+                            icone = 'fab fa-tiktok'
+                            corIcone = 'black'
+                            link = redesSociais[prop]
+                            nome = prop
+                        }
+                    }
+                    if(prop === 'linkedin'){
+                        if(redesSociais[prop]){
+                            verificador = true
+                            icone = 'fab fa-linkedin'
+                            corIcone = 'info'
+                            link = redesSociais[prop]
+                            nome = prop
+                        }
+                    }
+                    
+                    if(verificador){
+                        let redeSocial = { icone:icone, link:link, nome:nome, corIcone:corIcone}
+                        this.redesSociais.push(redeSocial )
+                    }else{
+                        console.log("Rede "+ prop + ' não informada');
+                    } 
+                }
+      },
+
   },
   beforeMount(){
-      console.log(this.$route);
        if(this.$route.params.meuNegocio){
-        console.log(this.$route.params.meuNegocio);
+           console.log(this.$route.params.meuNegocio);
           this.meuNegocio = this.$route.params.meuNegocio 
+          //FOTOS DO NEGÓCIO
           if(this.meuNegocio.sto_photos_data){
               let fotosDoMeuNegocio = this.meuNegocio.sto_photos_data;
               if(typeof this.meuNegocio.sto_photos_data === 'string'){
-                  console.log("ENTROU TYPEOF == STING");
                   fotosDoMeuNegocio = JSON.parse(this.meuNegocio.sto_photos_data)
               }
-
               fotosDoMeuNegocio = fotosDoMeuNegocio.photos
-
               fotosDoMeuNegocio.forEach(element => {
-                 
                   this.fotosDoNegocio.push(element)
               });
+          }
+          //FOTO PRINCIPAL
+          if(this.meuNegocio.sto_image){
+            this.fotoPrincipal =  this.meuNegocio.sto_image
+          }
+          //FOTO DE CAPA
+          if(this.meuNegocio.sto_cover){
+            this.fotoCapa =  this.meuNegocio.sto_cover
+          }
+          //REDES SOCIAIS
+          if(this.meuNegocio.sto_social_data){
+              let redesSociais = this.meuNegocio.sto_social_data
+              if(typeof redesSociais === 'string'){
+                  redesSociais = JSON.parse(redesSociais)
+              }
+              this.verificarRedesSociais(redesSociais)
           }
       }
   },
   mounted(){
      
+  },
+  beforeDestroy(){
+      this.$q.localStorage.set('ultimaLojaVista',this.meuNegocio)
   }
 }
 </script>

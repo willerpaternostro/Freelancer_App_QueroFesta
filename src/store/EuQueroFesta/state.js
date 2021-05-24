@@ -3,6 +3,10 @@ export default {
   statusLogado:false,
   categorias:null,
   user:null,
-  stores:null
+  stores:null,
+
+ fotoPrincipal:[],
+ fotoCapa:[],
+ fotosNegocio:[]
 
 }

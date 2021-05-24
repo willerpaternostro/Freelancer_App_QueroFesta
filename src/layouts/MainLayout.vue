@@ -20,7 +20,7 @@
       </div>
     </q-header>
  
-    <q-page-container class="q-pa-sm">
+    <q-page-container class="">
       <router-view  />
     </q-page-container>
 
@@ -155,7 +155,7 @@ export default {
   },
 
   methods:{
-     //HEADER
+    //HEADER
     inicializarHeader(){
       if(this.paginaAtual == "Index"){
         this.header = false;
@@ -325,81 +325,28 @@ export default {
       } 
     },
     acaoBotaoHeaderEsquerdo(){
-      if(this.paginaAtual == 'Categorias' || this.paginaAtual == 'Fornecedor' || this.paginaAtual == 'Favoritos'){
-        this.$router.push({name:'Home'})
-        return
-      }
-      if(this.paginaAtual == 'InicioFornecedor'){
-        this.$router.push({name:'Home'})
-        return
-      } 
+      if(this.paginaAtual == 'Categorias'){this.botaoVoltar(); return;}
+      if(this.paginaAtual == 'Fornecedor'){this.botaoVoltar(); return;}
+      if(this.paginaAtual == 'Favoritos'){this.botaoVoltar(); return}
+      if(this.paginaAtual == 'InicioFornecedor'){this.botaoVoltar(); return}
+      if(this.paginaAtual == 'LoginFornecedor'){this.botaoVoltar(); return}
+      if(this.paginaAtual == 'CadastroFornecedor'){this.botaoVoltar(); return}
+      if(this.paginaAtual == 'PlanosFornecedor'){this.botaoVoltar(); return}
+      if(this.paginaAtual == 'PagamentoFornecedor'){this.botaoVoltar(); return}
       
-      if(this.paginaAtual == 'LoginFornecedor' || this.paginaAtual == 'CadastroFornecedor'){
-        if(!this.statusLogado){
-          this.$router.push({name:'InicioFornecedor'})
-        }else{
-          this.$router.push({name:'Mais'})
-        }
-        return
-      }
-      if(this.paginaAtual == 'PlanosFornecedor'){
-        this.$router.push({name:'CadastroFornecedor' })
-        return
-      }
-      if(this.paginaAtual == 'PagamentoFornecedor'){
-        this.$router.push({name:'PlanosFornecedor'})
-        return
-      }
       //NEGÓCIOS
-       if(this.paginaAtual == "MeusNegocios"){
-         this.$router.push({name:'Home'})
-        return
-      } 
-      if(this.paginaAtual == "InformacaoNegocio"){
-        this.$router.push({name:'MeusNegocios'})
-        return
-      } 
-      if(this.paginaAtual == "CidadeNegocio"){
-        this.$router.push({name:'MeusNegocios'})
-        return
-      }  
-      if(this.paginaAtual == "CategoriaNegocio"){
-        this.$router.push({name:'CidadeNegocio'})
-        return
-      }  
-      if(this.paginaAtual == "NomeNegocio"){
-        this.$router.push({name:'CategoriaNegocio'})
-        return
-      }  
-      if(this.paginaAtual == "ContatoNegocio"){
-        this.$router.push({name:'NomeNegocio'})
-        return
-      } 
-      if(this.paginaAtual == "RedesSociaisNegocio"){
-        this.$router.push({name:'ContatoNegocio'})
-        return
-      } 
-      if(this.paginaAtual == "FotosVideosNegocio"){
-        this.$router.push({name:'RedesSociaisNegocio'})
-        return
-      }  
-      if(this.paginaAtual == "DescricaoNegocio"){
-        this.$router.push({name:'FotosVideosNegocio'})
-        return
-      } 
-       if(this.paginaAtual == "Fornecedores"){
-        this.$router.push({name:'Home'})
-        return
-      }
-       if(this.paginaAtual == "CobrancaDetalhes"){
-        this.$router.push({name:'CobrancasFornecedor'})
-        return
-      }
-       if(this.paginaAtual == "CobrancasFornecedor"){
-        this.$router.push({name:'Mais'})
-        return
-      }
-      this.$router.push({name:this.paginaAnterior})
+      if(this.paginaAtual == "MeusNegocios"){this.botaoVoltar(); return}
+      if(this.paginaAtual == "InformacaoNegocio"){this.botaoVoltar(); return}
+      if(this.paginaAtual == "CidadeNegocio"){this.botaoVoltar(); return} 
+      if(this.paginaAtual == "CategoriaNegocio"){this.botaoVoltar(); return}
+      if(this.paginaAtual == "NomeNegocio"){this.botaoVoltar(); return}  
+      if(this.paginaAtual == "ContatoNegocio"){this.botaoVoltar(); return}
+      if(this.paginaAtual == "RedesSociaisNegocio"){this.botaoVoltar(); return}
+      if(this.paginaAtual == "FotosVideosNegocio"){this.botaoVoltar(); return} 
+      if(this.paginaAtual == "DescricaoNegocio"){this.botaoVoltar(); return}
+      if(this.paginaAtual == "Fornecedores"){this.botaoVoltar(); return}
+      if(this.paginaAtual == "CobrancaDetalhes"){this.botaoVoltar(); return}
+      if(this.paginaAtual == "CobrancasFornecedor"){this.botaoVoltar(); return}
     },
     //FOOTER
     inicializarFooter(){
@@ -518,6 +465,7 @@ export default {
         return
       } 
     },
+    //AÇÕES
     logout(){
       this.mudarStatusLogado(false)
       this.drawer = false
@@ -538,7 +486,127 @@ export default {
         this.$q.localStorage.set('_capuid', info.uuid)
       }
     },
-   
+    botaoVoltar(){
+      if(this.paginaAtual == 'Categorias' || this.paginaAtual == 'Fornecedor' || this.paginaAtual == 'Favoritos'){
+        this.$router.push({name:'Home'})
+        return
+      }
+      if(this.paginaAtual == 'InicioFornecedor'){
+        this.$router.push({name:'Home'})
+        return
+      } 
+      
+      if(this.paginaAtual == 'LoginFornecedor' || this.paginaAtual == 'CadastroFornecedor'){
+        if(!this.statusLogado){
+          this.$router.push({name:'InicioFornecedor'})
+        }else{
+          this.$router.push({name:'Mais'})
+        }
+        return
+      }
+      if(this.paginaAtual == 'PlanosFornecedor'){
+        this.$router.push({name:'CadastroFornecedor' })
+        return
+      }
+      if(this.paginaAtual == 'PagamentoFornecedor'){
+        this.$router.push({name:'PlanosFornecedor'})
+        return
+      }
+      //NEGÓCIOS
+      if(this.paginaAtual == "MeusNegocios"){
+         this.$router.push({name:'Home'})
+        return
+      } 
+      if(this.paginaAtual == "InformacaoNegocio"){
+        this.$router.push({name:'MeusNegocios'})
+        return
+      } 
+      if(this.paginaAtual == "CidadeNegocio"){
+        if(this.paginaAnterior === 'InformacaoNegocio'){
+          let ultimaLojaVista = this.$q.localStorage.getItem('ultimaLojaVista')
+          this.$router.push({name:'InformacaoNegocio',params:{meuNegocio:ultimaLojaVista}})
+          return
+        }else{
+          this.$router.push({name:'MeusNegocios'})
+          return
+        }
+        
+      }  
+      if(this.paginaAtual == "CategoriaNegocio"){
+        if(this.paginaAnterior === 'InformacaoNegocio'){
+           let ultimaLojaVista = this.$q.localStorage.getItem('ultimaLojaVista')
+          this.$router.push({name:'InformacaoNegocio',params:{meuNegocio:ultimaLojaVista}})
+          return
+        }else{
+          this.$router.push({name:'CidadeNegocio'})
+          return
+        }
+      }  
+      if(this.paginaAtual == "NomeNegocio"){
+        if(this.paginaAnterior === 'InformacaoNegocio'){
+           let ultimaLojaVista = this.$q.localStorage.getItem('ultimaLojaVista')
+          this.$router.push({name:'InformacaoNegocio',params:{meuNegocio:ultimaLojaVista}})
+          return
+        }else{
+          this.$router.push({name:'CategoriaNegocio'})
+          return
+        }
+      }  
+      if(this.paginaAtual == "ContatoNegocio"){
+        if(this.paginaAnterior === 'InformacaoNegocio'){
+           let ultimaLojaVista = this.$q.localStorage.getItem('ultimaLojaVista')
+          this.$router.push({name:'InformacaoNegocio',params:{meuNegocio:ultimaLojaVista}})
+          return
+        }else{
+          this.$router.push({name:'NomeNegocio'})
+          return
+        } 
+      }
+      if(this.paginaAtual == "RedesSociaisNegocio"){
+        if(this.paginaAnterior === 'InformacaoNegocio'){
+           let ultimaLojaVista = this.$q.localStorage.getItem('ultimaLojaVista')
+          this.$router.push({name:'InformacaoNegocio',params:{meuNegocio:ultimaLojaVista}})
+          return
+        }else{
+          this.$router.push({name:'ContatoNegocio'})
+          return
+        } 
+      }
+      if(this.paginaAtual == "FotosVideosNegocio"){
+        if(this.paginaAnterior === 'InformacaoNegocio'){
+           let ultimaLojaVista = this.$q.localStorage.getItem('ultimaLojaVista')
+          this.$router.push({name:'InformacaoNegocio',params:{meuNegocio:ultimaLojaVista}})
+          return
+        }else{
+          this.$router.push({name:'RedesSociaisNegocio'})
+          return
+        }
+      }  
+      if(this.paginaAtual == "DescricaoNegocio"){
+        if(this.paginaAnterior === 'InformacaoNegocio'){
+           let ultimaLojaVista = this.$q.localStorage.getItem('ultimaLojaVista')
+          this.$router.push({name:'InformacaoNegocio',params:{meuNegocio:ultimaLojaVista}})
+          return
+        }else{
+        this.$router.push({name:'FotosVideosNegocio'})
+        return
+        } 
+      }
+      //FORNECEDOR
+      if(this.paginaAtual == "Fornecedores"){
+        this.$router.push({name:'Home'})
+        return
+      }
+      if(this.paginaAtual == "CobrancaDetalhes"){
+        this.$router.push({name:'CobrancasFornecedor'})
+        return
+      }
+      if(this.paginaAtual == "CobrancasFornecedor"){
+        this.$router.push({name:'Mais'})
+        return
+      }
+      this.$router.push({name:this.paginaAnterior})
+    }
   },
   watch:{
     $route: function(atual,anterior){

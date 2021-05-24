@@ -7,7 +7,7 @@
                     style="border-radius:10px"
                     height="90px"
                     class="col-5"
-                    src="https://cdn.quasar.dev/img/chicken-salad.jpg"
+                    :src="store['sto_image']"
                 />
            
                 <q-card-section class="col-7" >
@@ -86,20 +86,7 @@ export default {
 
       },
       limparDadosNegocio(){
-        this.$q.localStorage.set("cadastroNegocio_cidade",'')
-        this.$q.localStorage.set("cadastroNegocio_categoria",'')
-        this.$q.localStorage.set("cadastroNegocio_nome",'')
-        this.$q.localStorage.set("cadastroNegocio_endereco",'')
-        this.$q.localStorage.set("cadastroNegocio_numero",'')
-        this.$q.localStorage.set("cadastroNegocio_telefone",'')
-        this.$q.localStorage.set("cadastroNegocio_celular",'')
-        this.$q.localStorage.set("cadastroNegocio_site",'')
-        this.$q.localStorage.set("cadastroNegocio_redesSociais",'')
-        this.$q.localStorage.set("cadastroNegocio_video",'')
-        this.$q.localStorage.set("cadastroNegocio_fotoPrincipal",'')
-        this.$q.localStorage.set("cadastroNegocio_fotoCapa",'')
-        this.$q.localStorage.set("cadastroNegocio_fotosNegocio",'')
-        this.$q.localStorage.set("cadastroNegocio_descricao",'')
+       return this.$store.commit('EuQueroFesta/limparDadosNegocio')
       }
   },
   beforeMount(){

@@ -1,6 +1,6 @@
 <template>
-    <div >
-        <div class="row justify-end">
+    <div>
+        <div v-if="!editar" class="row justify-end">
            <span class="col-2 text-gre-7" style="font-size:16px">1 de 7</span>
         </div>
         <div class="row">
@@ -45,6 +45,10 @@ export default {
   name: 'PageIndex',
   data(){
     return{
+        //Edit
+        editar:false,
+        idLojaEditar:'',
+
         nomeCidadeNegocio:'',
         checkErro_nomeCidadeNegocio:false,
         msgErro_nomeCidadeNegocio:'',

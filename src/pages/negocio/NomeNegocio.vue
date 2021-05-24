@@ -1,7 +1,7 @@
 <template>
     <div >
         <div class="row justify-end">
-           <span class="col-2 text-gre-7" style="font-size:16px">3 de 7</span>
+           <span v-if="!editar" class="col-2 text-gre-7" style="font-size:16px">3 de 7</span>
         </div>
         <div class="row justify-center">
             <div  class="col-12">
@@ -19,7 +19,7 @@
         </div> 
         <q-footer class="bg-white" >
             <div class="row justify-center" style="padding:8px 0px 8px">
-                <q-btn class="col-6" color="pink" label="Salvar" @click="validarInputs" />
+                <q-btn class="col-6" color="pink" :label="editar?'Editar':'Salvar'" @click="validarInputs" />
             </div>
         </q-footer> 
     </div>
@@ -31,6 +31,10 @@ export default {
   name: 'PageIndex',
   data(){
     return{
+        //Edit
+        editar:false,
+        idLojaEditar:'',
+
         nomeNegocio:'',
         checkErro_nomeNegocio:false,
         msgErro_nomeNegocio:'',
@@ -48,15 +52,27 @@ export default {
             this.prosseguirCadastroLoja()
         }
     },
-    prosseguirCadastroLoja(){
-        this.$q.localStorage.set('cadastroNegocio_nome',this.nomeNegocio)
-            this.$router.push({name:'ContatoNegocio'})
+    editarLoja(){
+        return this.$store.dispatch('EuQueroFesta/editarLoja',{nomeNegocio:this.nomeNegocio, idLojaEditar:this.idLojaEditar})
     },
-   
+    prosseguirCadastroLoja(){
+        if(!this.editar){
+            this.$q.localStorage.set('cadastroNegocio_nome',this.nomeNegocio)
+            this.$router.push({name:'ContatoNegocio'})
+        }else{
+            this.editarLoja()
+        }
+    },
   },
   mounted(){
-      if(this.$q.localStorage.getItem('cadastroNegocio_nome')){
+      if(this.$route.params.editar){
+          this.editar = true;
+          this.nomeNegocio = this.$route.params.negocioAlterar['sto_title'];
+          this.idLojaEditar = this.$route.params.negocioAlterar['id'];
+      }else{
+        if(this.$q.localStorage.getItem('cadastroNegocio_nome')){
           this.nomeNegocio = this.$q.localStorage.getItem('cadastroNegocio_nome')
+        }
       }
   }
 }

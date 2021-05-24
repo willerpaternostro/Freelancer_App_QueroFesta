@@ -3,27 +3,28 @@
         <q-img
         src="~assets/home_primeira_fundo.png"
         style="height: 200px;margin-bottom:8px"
+        
         >
-            <p style="padding-bottom:40px" class="text-h6 text-black absolute-center full-width text-center">Encontre fornecedores para sua festa </p>
+            <p style="padding-bottom:40px" class="text-h6 absolute-center full-width text-center text-white">.</p>
             <div class="absolute-bottom text-subtitle1 text-center">
                 <q-input 
                     bg-color="white" 
-                    color="orange" 
+                    color="pink" 
                     outlined  
                     v-model="text" 
                     label="Encontre um fornecedor"
                     hint="Você está em: São Carlos"
                 >
                     <template v-slot:prepend>
-                        <q-icon color="orange" name="search" />
+                        <q-icon color="pink" name="search" />
                     </template>
                     <template v-slot:append>
-                        <q-btn flat :to="{name:'Localizacao'}" color="orange" icon="fas fa-map-marker-alt" />  
+                        <q-btn flat :to="{name:'Localizacao'}" color="pink" icon="fas fa-map-marker-alt" />  
                     </template>
                 </q-input>
             </div>
         </q-img>
-        
+    <div style="padding:2px">
         <q-carousel
             v-model="slides"
             transition-prev="slide-right"
@@ -60,7 +61,7 @@
                 </div>
             </q-carousel-slide>
         </q-carousel>
-        <div class="row" style="">
+        <div class="row" >
             <div class="col-6"> 
                 <span @click="$router.push({name:'Categorias'})" class="text-h6 text-grey-9 text-weight-bold">
                     Categorias
@@ -116,6 +117,7 @@
         </q-carousel-slide>
      
         </q-carousel>
+    </div>
     </div>
 </template>
 <script>
@@ -189,8 +191,5 @@ export default {
 .q-img__content > div {
     background: rgba(0,0,0,0);
 }
-input#f_2fac663e-5f38-4461-89e1-55c43f7fa20f.q-field__native.q-placeholder{
-    color: orange !important;
-    font-size: 18px;
-}
+
 </style>

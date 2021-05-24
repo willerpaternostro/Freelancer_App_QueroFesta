@@ -7,17 +7,18 @@
         </template>
       </q-input>
     </div>
-    <div v-for="(item,index) in items" :key="index" class="row" style="padding-top:8px">
-        <q-img @click="$router.push({name:'Fornecedores'})" class="col" style="margin-right:16px; border-radius:8px" height="85px" src="https://cdn.quasar.dev/img/chicken-salad.jpg" >
-        <div class="absolute-top-left text-h6 ">
-            Mercado
+   
+        <div class="row "  >
+        <div 
+            v-for="(categoria,index) in items" :key="index"
+            class="col-xs-6 col-sm-4 row" 
+            style="padding:4px"
+        >
+        <div class="col-xs-4  text-center "  > 
+           <q-img  src="~assets/bolo.jpg" />
         </div>
-        </q-img>
-            <q-img @click="$router.push({name:'Fornecedores'})" style=" border-radius:10px" class="col"  height="85px" src="https://cdn.quasar.dev/img/donuts.png" >
-        <div class="absolute-top-left text-h6 ">
-            Salgado
+            <span style="font-size:16px;line-height: normal;" class="self-center col-xs-8 text-center text-pink ">Categoria {{index}} teste teste</span>
         </div>
-        </q-img>
     </div>
 </div>
 </template>
