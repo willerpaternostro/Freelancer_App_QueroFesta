@@ -5,7 +5,14 @@ import {Notify} from 'quasar'
 
 
 export async function requisitarCategories ({commit}) {
-    
+    axiosInstance.get('categories/list').then((response) => {
+        console.log("requisitarCategorias")
+        console.log(response.data);
+        commit('atualizarCategorias',response.data.categories)
+    }).catch((erro) => { 
+        console.log(erro);
+        console.log("Erro")
+    })
 }
 export async function requisitarBanners({commit}) {
     axiosInstance.get('Banners/get/').then((response) => {
@@ -15,7 +22,7 @@ export async function requisitarBanners({commit}) {
     }).catch((erro) => { console.log("Erro")})
 }
 export async function requisitarStores({commit}){
-    await axiosInstance.get('Stores/list').then((response) => {
+    axiosInstance.get('Stores/list').then((response) => {
         console.log(response);
         LocalStorage.set('stores',response.data.stores)
         commit('atualizarStores',response.data.stores);
@@ -129,19 +136,15 @@ export async function editarLoja({state,commit},dados){
             formdata.append('sto_cover',state.fotoCapa[0])
         }
         if(dados.fotoEditada === 'fotosNegocio' && state.fotosNegocio){
-            console.log("Entrou fotos Negocio");
-            console.log(state.fotosNegocio);
             state.fotosNegocio.forEach((element,index) => {
                 formdata.append('sto_photos_data',element)
             });
         }
-        if(dados.fotoEditada === 'linkVideo' )formdata.set('sto_video',dados.videoNegocio);
+        if(dados.fotoEditada === 'linkVideo' )formdata.set('sto_video',LocalStorage.getItem('cadastroNegocio_video'));
     }
 
     await axiosInstance.post("Stores/update/",formdata, config).then((response) => {
-        console.log("Entrou API /Stores/update/")
         console.log(response);
-        console.log(dados.idLojaEditar);
         this.$router.push({name:'InformacaoNegocio', params:{ meuNegocio:response.data.stores[0]}})
     }).catch((erro) => { 
         console.log("Erro")

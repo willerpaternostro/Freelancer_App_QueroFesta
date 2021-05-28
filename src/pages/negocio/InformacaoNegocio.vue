@@ -60,31 +60,35 @@
             </q-item>
              <q-item clickable v-ripple v-for="(redeSocial) in redesSociais" :key="redeSocial.nome">
                 <q-item-section avatar>
-                <q-avatar size="30px" :color="redeSocial.corIcone" text-color="white" :icon="redeSocial.icone" />
+                <q-btn round size="12px" :color="redeSocial.corIcone" text-color="white" :icon="redeSocial.icone" />
                 </q-item-section>
                 <q-item-section>{{redeSocial.link}}</q-item-section>
             </q-item>
         </q-list>
          <!-- FOTOS  -->
         <div class="row" style="padding-left:16px; margin-top:20px">
-            <div class="col-5 text-grey-7">Foto Principal </div>
-            <q-icon  @click="$router.push({name:'FotosVideosNegocio', params:{editar:'editar',negocioAlterar:meuNegocio,fotoEditar:'fotoPrincipal'}})" class="col-1" size="15px" name="fas fa-pen" color="grey-9" style="padding-bottom:8px;" />
-            <div class="offset-1 col-4 text-grey-7">Foto de Capa</div>
-            <q-icon  @click="$router.push({name:'FotosVideosNegocio', params:{editar:'editar',negocioAlterar:meuNegocio,fotoEditar:'fotoCapa'}})" class="col-1" size="15px" name="fas fa-pen" color="grey-9" style="padding-bottom:8px;"  />
-        </div>
-        <div class="row" style="padding-left:16px">
+            <div class="col-6 row text-grey-7">
+                <span class="col-10">Foto Principal</span> 
+                 <q-icon  @click="$router.push({name:'FotosVideosNegocio', params:{editar:'editar',negocioAlterar:meuNegocio,fotoEditar:'fotoPrincipal'}})"  size="15px" name="fas fa-pen" color="grey-9" style="padding-bottom:8px;" />
+            </div>
+           <div class="col-6 row text-grey-7" >
+               <span class="col-10" style="padding-left:4px">Foto de Capa </span>
+                <q-icon class="col-2"  @click="$router.push({name:'FotosVideosNegocio', params:{editar:'editar',negocioAlterar:meuNegocio,fotoEditar:'fotoCapa'}})" size="15px" name="fas fa-pen" color="grey-9" style="padding-bottom:8px;"  />
+            </div>
+       </div>
+        <div class="row" style="padding:2px 2px 2px 16px">
             <div class="col-6">
                   <q-img
                     :src="fotoPrincipal"
                     spinner-color="white"
-                    style="height: 70px; max-width: 150px"
+                    style="height: 100px; "
                     />
             </div>
-            <div class="offset-1 col-5">
+            <div class="col-6"  style="padding:2px 2px 2px 4px">
                 <q-img
                     :src="fotoCapa"
                     spinner-color="white"
-                    style="height: 70px; max-width: 150px"
+                    style="height: 100px;"
                     />
             </div>
         </div>
@@ -97,11 +101,12 @@
             </div>  
         </div>
          <div class="row" style="padding-left:16px">
-            <div v-for="(foto, index) in fotosDoNegocio" :key="index" class="col-3">
+            <div v-for="(foto, index) in fotosDoNegocio" :key="index" class="col-6" style="padding:2px">
                 <q-img
+                 @click="verFotosNegocio(index)"  
                 :src="foto"
                 spinner-color="white"
-                style="height: 70px; max-width: 90px"
+                height="100px"
                 />
             </div>
         </div>
@@ -114,7 +119,7 @@
             <div class="col-12" style="padding:0px 16px 0px 16px">
                 <q-video
                     :ratio="16/9"
-                    src="https://www.youtube.com/embed/k3_tw44QsZQ?rel=0"
+                    :src="meuNegocio['sto_video']?meuNegocio['sto_video']:'https://www.youtube.com/embed/k3_tw44QsZQ?rel=0'"
                 />
             </div>
         </div>
@@ -138,6 +143,27 @@
             </q-list>
             <q-btn style="margin-top:10px" @click="statusBotao = !statusBotao" :label="statusBotao?'Publicado':'Não Publicado'" no-caps class="full-width" :color="statusBotao?'positive':'red'" />
         </div>
+        <!-- DIALOG FOTOS DO NEGÓCIO -->
+        <q-dialog
+            v-model="dialogImagens"
+            full-width
+        >
+           
+            <q-carousel
+            animated
+            v-model="slide"
+            arrows
+            navigation
+            infinite
+            class="bg-black "
+            
+            >
+            <q-carousel-slide    v-for="(foto,index) in fotosDoNegocio" :key="index" :name="index"  >
+                <q-img contain class="full-height" :src="foto" /> 
+            </q-carousel-slide>
+            </q-carousel>
+            
+        </q-dialog>
     </div>
 </template>
 <script>
@@ -153,7 +179,9 @@ export default {
         fotoPrincipal:'',
         fotoCapa:'',
         redesSociais:[],
-        statusBotao:false
+        statusBotao:false,
+        dialogImagens:false,
+        slide:1
       }
   },
   methods:{
@@ -229,6 +257,11 @@ export default {
                     } 
                 }
       },
+      verFotosNegocio(index){
+          console.log("VER FOTOS");
+          this.dialogImagens = true;
+          this.slide = index
+      }
 
   },
   beforeMount(){

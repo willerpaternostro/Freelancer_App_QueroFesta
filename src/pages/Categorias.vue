@@ -10,14 +10,15 @@
    
         <div class="row "  >
         <div 
-            v-for="(categoria,index) in items" :key="index"
-            class="col-xs-6 col-sm-4 row" 
-            style="padding:4px"
+          @click="$router.push({name:'Fornecedores'})"
+          v-for="(categoria,index) in categorias" :key="index"
+          class="col-xs-6 col-sm-4 row" 
+          style="padding:4px"
         >
         <div class="col-xs-4  text-center "  > 
-           <q-img  src="~assets/bolo.jpg" />
+           <q-img  :src="categoria['cat_icon']" />
         </div>
-            <span style="font-size:16px;line-height: normal;" class="self-center col-xs-8 text-center text-pink ">Categoria {{index}} teste teste</span>
+            <span style="font-size:16px;line-height: normal;padding-left:10px" class="self-center col-xs-8 text-start text-grey-8 ">{{categoria['cat_description']}}</span>
         </div>
     </div>
 </div>
@@ -33,10 +34,16 @@ export default {
         items:[1,2,3,4,5]
       }
   },
+  computed:{
+    categorias(){
+      return this.$store.state.EuQueroFesta.categorias
+    }
+  },
   methods:{
    
-  
-
+  },
+  mounted(){
+    
   }
 }
 </script>

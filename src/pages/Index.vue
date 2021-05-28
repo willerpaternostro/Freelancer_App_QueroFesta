@@ -77,21 +77,18 @@ export default {
         this.slide = 'slide3'
         return
       }
-      
       if(this.slide == 'slide3')
         this.$router.push({name:'Localizacao'})
     },
     requisitarCategories(){
-         console.log("Vai chamar requisitar Categories");
-         return this.$store.dispatch('EuQueroFesta/requisitarCategories')
-     },
-     requisitarBanners(){
-         console.log("REQUISITAR BANNERS");
-         return this.$store.dispatch('EuQueroFesta/requisitarBanners')
-     },
-     requisitarStores(){
-         return this.$store.dispatch('EuQueroFesta/requisitarStores')
-     }
+      return this.$store.dispatch('EuQueroFesta/requisitarCategories')
+    },
+    requisitarBanners(){
+      return this.$store.dispatch('EuQueroFesta/requisitarBanners')
+    },
+    requisitarStores(){
+      return this.$store.dispatch('EuQueroFesta/requisitarStores')
+    }
  
   },
 

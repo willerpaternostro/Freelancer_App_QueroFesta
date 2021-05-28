@@ -1,7 +1,7 @@
 <template>
     <div>
         <q-img
-        src="~assets/home_primeira_fundo.png"
+        src="~assets/festa_party.png"
         style="height: 200px;margin-bottom:8px"
         
         >
@@ -32,43 +32,30 @@
             swipeable
             animated
             arrows
+            infinite
             height="150px"
             class="bg-grey-1  rounded-borders"
             style="padding:0px"
         >
             <q-carousel-slide :name="1" class="column no-wrap">
                 <div class="row fit justify-start items-center q-gutter-xs q-col-gutter no-wrap">
-                    <q-img  class="rounded-borders col-10 full-height" src="https://cdn.quasar.dev/img/chicken-salad.jpg"  />
-                    <q-img class="rounded-borders col-2 full-height"  src="https://cdn.quasar.dev/img/donuts.png"  />
+                    <q-img  class="rounded-borders col-12 full-height" src="https://cdn.quasar.dev/img/chicken-salad.jpg"  />
                 </div>
             </q-carousel-slide>
             <q-carousel-slide :name="2" class="column no-wrap">
                 <div class="row fit justify-start items-center q-gutter-xs q-col-gutter no-wrap">
-                    <q-img class="rounded-borders col-10 full-height"  src="https://cdn.quasar.dev/img/donuts.png"  />
-                    <q-img class="rounded-borders col-2 full-height" src="https://cdn.quasar.dev/img/chicken-salad.jpg"  />
-                </div>
-            </q-carousel-slide>
-            <q-carousel-slide :name="3" class="column no-wrap">
-                <div class="row fit justify-start items-center q-gutter-xs q-col-gutter no-wrap">
-                <q-img class="rounded-borders col-6 full-height" src="https://cdn.quasar.dev/img/chicken-salad.jpg"  />
-                <q-img class="rounded-borders col-6 full-height"  src="https://cdn.quasar.dev/img/donuts.png" />
-                </div>
-            </q-carousel-slide>
-            <q-carousel-slide :name="4" class="column no-wrap">
-                <div class="row fit justify-start items-center q-gutter-xs q-col-gutter no-wrap">
-                    <q-img class="rounded-borders col-6 full-height" src="https://cdn.quasar.dev/img/donuts.png" />
-                    <q-img class="rounded-borders col-6 full-height" src="https://cdn.quasar.dev/img/chicken-salad.jpg"  />
+                    <q-img class="rounded-borders col-12 full-height"  src="https://cdn.quasar.dev/img/donuts.png"  /> 
                 </div>
             </q-carousel-slide>
         </q-carousel>
-        <div class="row" >
+        <div class="row" style="margin-top:10px">
             <div class="col-6"> 
                 <span @click="$router.push({name:'Categorias'})" class="text-h6 text-grey-9 text-weight-bold">
                     Categorias
                 </span>
             </div>
              <div class="col-6 row justify-end"> 
-                <q-btn no-caps flat color="red" label="Ver todas"  />
+                <q-btn @click="$router.push({name:'Categorias'})" no-caps flat color="red" label="Ver todas"  />
             </div>
         </div>
         <q-carousel
@@ -79,25 +66,32 @@
             animated
             infinite
             arrows
-            height="150px"
+            height="100px"
             class="bg-grey-1  rounded-borders"
+            style="margin-top:10px"
         >
-        <!-- Obs: elementos dinâmicos em carrossel não podem ter mesmo nome de váriavel -->
- 
-        <q-carousel-slide :name="1" class="column no-wrap">
-            <div class="row fit justify-start items-center q-gutter-xs q-col-gutter no-wrap">
-            <q-img class="rounded-borders col-6 full-height" src="https://cdn.quasar.dev/img/mountains.jpg" />
-            <q-img class="rounded-borders col-6 full-height" src="https://cdn.quasar.dev/img/parallax1.jpg" />
-            </div> 
-        </q-carousel-slide>
+            <!-- Obs: elementos dinâmicos em carrossel não podem ter mesmo nome de váriavel -->
+            <q-carousel-slide :name="index" class="column no-wrap" v-for="(slide,index) in qtdCarrousselCategoria" :key="index" style="height:100px;">
+                <div class="row fit justify-start items-center  no-wrap" style="height:70px;">
+                    <div class="col-3" v-for="(categoria,pos) in categoriasPorSlide[index]" :key="pos">
+                        <q-img contain height="70px" @click="$router.push({name:'Fornecedores'})"    class="rounded-borders col-3" :src="categoria['cat_image']" />
+                        <div   class="col-3 text-center text-caption text-grey-8">
+                            {{categoria['cat_title']}}
+                        </div>
+                    </div>
+                </div>
+                 
+            </q-carousel-slide>
+            
         </q-carousel>
+           
         <!-- SUGESTÕES DE FORNECEDORES -->
-        <div class="row" style="">
+        <div class="row" style="margin-top:10px">
             <span class="text-h6 text-grey-9 text-weight-bold">Últimos vistos</span>
         </div>
-       <q-carousel
+        <q-carousel
+            style="margin-bottom:60px;margin-top:10px"
             v-model="slidesUltimosVistos"
-          
             transition-prev="slide-right"
             transition-next="slide-left"
             swipeable
@@ -106,80 +100,119 @@
             arrows
             height="150px"
             class="bg-grey-1  rounded-borders"
-            style="margin-bottom:80px"
         >
-        <!-- Obs: elementos dinâmicos em carrossel não podem ter mesmo nome de váriavel -->
- 
-        <q-carousel-slide   v-for="(element,index) in categorias"  :key="index"  :name="index" >
-           <div class="row fit justify-start items-center q-gutter-xs q-col-gutter no-wrap" >
-                <q-img height="150px" class=" col-xs-6 " :src="element.cat_image"  />
-            </div>
-        </q-carousel-slide>
-     
+            <!-- Obs: elementos dinâmicos em carrossel não podem ter mesmo nome de váriavel -->
+            <q-carousel-slide :name="index" class="column no-wrap overflow-hidden" v-for="(slide,index) in qtdCarrousseisUltimos" :key="index">
+                <div class="row fit justify-start items-center q-gutter-xs q-col-gutter no-wrap" >
+                    <div class="col-6 row"  v-for="(loja,pos) in ultimosVistos[index]" :key="pos" >
+                    <q-img height="120px"  @click="$router.push({name:'Fornecedores'})"  class="rounded-borders col-12" :src="loja['sto_image']" />
+                      <div style="padding-top:10px;margin-bottom:10px"  class="col-12 text-center text-caption text-grey-8">
+                            {{loja['sto_title']}}
+                        </div>
+                    </div>
+                </div>
+            </q-carousel-slide>
         </q-carousel>
-    </div>
+    </div><br>
     </div>
 </template>
 <script>
 import { axiosInstance } from 'boot/axios'
 
 export default {
-  name: 'PageIndex',
-  data(){
-    return{
-        text:'',
-        slides:1,
-        //Categorias
-        slidesCategorias:1,
-        qtdCarrousselCategoria:[],
-        novasCategorias:[],
-        // Últimos vistos
-        slidesUltimosVistos:1,
-        ultimosVistos:null,
-        categorias:[],
-        qtdCategoria:[]
-      }
-  },
-  computed:{
-    
-  },
-  methods:{
-    async requisitarCategories(){
-        await axiosInstance.get('categories/list').then((response) => {
-        console.log("requisitarCategorias")
-        console.log(response.data);
-  
-        let qtdCarroussel = Math.ceil(response.data.categories.length/2)
-        console.log(qtdCarroussel);
-        for(let i=0; i<qtdCarroussel; i++){
-            this.qtdCarrousselCategoria.push(i)
-            if( i == (qtdCarroussel-1)){
-                 response.data.categories.forEach(element => {
-                this.categorias.push(element)
-            });
-        console.log(this.categorias);
+    name: 'PageIndex',
+    data(){
+        return{
+            text:'',
+            slides:1,
+            //Categorias
+            slidesCategorias:1,
+            qtdCarrousselCategoria:[],
+            categoriasPorSlide:[],
+            // Últimos vistos
+            slidesUltimosVistos:1,
+            ultimosVistos:[],
+            qtdCarrousseisUltimos:[]
+        }
+    },
+    computed:{
+        categorias(){
+            return this.$store.state.EuQueroFesta.categorias
+        },
+        stores(){
+            return this.$store.state.EuQueroFesta.stores
+        }
+    },
+    methods:{
+        atualizandoCategorias(){
+            let qtdCarrousseis = Math.ceil(this.categorias.length/3)
+            for(let i = 0; i<qtdCarrousseis;i++){
+                this.qtdCarrousselCategoria.push(i)
             }
-        } 
-    }).catch((erro) => { 
-        console.log(erro);
-        console.log("Erro")})
-     },
-  
-  },
-  watch:{
-
-  },
-  created(){
-      
-  },
-  beforeMount(){
     
- 
-  },
-  mounted(){
-    console.log("MOUNTED-HOME");  
-    this.requisitarCategories()
-  }
+            let Elementos = 0;
+            let obj = []
+            this.categorias.forEach(element => {
+                obj.push(element)
+                Elementos +=1
+                if(Elementos === 4){
+                    this.categoriasPorSlide.push(obj)
+                    obj = [];
+                   Elementos =0;
+                }
+            });
+            if(obj.length > 0){
+                this.categoriasPorSlide.push(obj)
+            }
+        },
+        atualizandoUltimosVistos(){
+            let qtdCarrousseis = Math.ceil(this.stores.length/3)
+            for(let i = 0; i<qtdCarrousseis;i++){
+                this.qtdCarrousseisUltimos.push(i)
+            }
+    
+            let Elementos = 0;
+            let obj = []
+            this.stores.forEach(element => {
+                obj.push(element)
+                Elementos +=1
+                if(Elementos === 3){
+                    this.ultimosVistos.push(obj)
+                    obj = [];
+                   Elementos =0;
+                }
+            });
+            if(obj.length > 0){
+                this.ultimosVistos.push(obj)
+            }
+        },
+        requisitarCategories(){
+            return this.$store.dispatch('EuQueroFesta/requisitarCategories')
+        },
+        requisitarStores(){
+            return this.$store.dispatch('EuQueroFesta/requisitarStores')
+        }
+    },
+    watch:{
+
+    },
+    created(){
+        
+    },
+    beforeMount(){
+        this.atualizandoCategorias()
+        this.atualizandoUltimosVistos()
+        
+       
+        this.requisitarCategories()
+        this.requisitarStores()
+        
+          
+    },
+    mounted(){
+        console.log("MOUNTED-HOME");  
+     
+    }
   
 }
 </script>
@@ -190,6 +223,9 @@ export default {
 }
 .q-img__content > div {
     background: rgba(0,0,0,0);
+}
+div.q-field__messages.col{
+    color: white;
 }
 
 </style>

@@ -1,7 +1,7 @@
 <template>
     <div >
         <q-card flat class="my-card">
-            <q-img height="250px" src="~assets/fornecedor_fundo.png" >
+            <q-img height="250px" :src="loja['sto_cover']" >
                 <div class="absolute-top-left">
                     <q-btn :to="{name:'Fornecedores'}" flat icon="arrow_back_ios"  />
                 </div>
@@ -11,7 +11,7 @@
                 </div>
                 <div class="absolute-bottom-right ">
                     <q-badge  transparent align="middle" color="grey-7">
-                        <q-icon size="21px" name="insert_photo" /> <span style="margin-left:5px">3</span>
+                        <q-icon @click="dialogImagens = !dialogImagens" size="21px" name="insert_photo" /> <span style="margin-left:5px">{{imagensNegocio.length}}</span>
                      </q-badge>
                 </div>
             </q-img>
@@ -24,18 +24,18 @@
                 style="top: 0; left: 12px; transform: translateY(-60%);"
                 >
                     <q-avatar size="70px">
-                        <img src="~assets/fornecedor_logo.png" >
+                        <q-img height="70px" :src="loja['sto_image']" />
                     </q-avatar>
                 </q-btn>
 
             </q-card-section>
         </q-card>
-        <div >
-            <div class="row" style="margin-top:8px;margin-bottom:8px">
-                <span class="col text-h5 text-weight-bold">McDonald's - Hoang Dao Thuy</span>
+        <div style="padding-left:6px">
+            <div class="row" style="margin-top:16px;margin-bottom:8px">
+                <span class="col text-h5 text-weight-bold text-grey-8">{{loja['sto_title']}}</span>
             </div>
             <div class="row">
-                <span class="col  text-grey-6">Fast Food</span>
+                <span class="col  text-grey-6">{{loja['sto_categories']?loja['sto_categories']:'Categoria'}}</span>
             </div>
             <div class="row justify-end">
                 <div class="col-6"> 
@@ -51,37 +51,85 @@
                         <span class="text-grey-7 col-1 text-weight-bold" >(500+)</span>
                 </div>  
             </div>
-            <q-list >
-                <q-item v-for="(item,index) in items" :key="index" clickable v-ripple>
-                    <q-item-section avatar>
-                    <q-icon color="pink" name="bluetooth" />
-                    </q-item-section>
-                    <q-item-section class="text-grey-6">Icon as avatar</q-item-section>
-                </q-item>
-            </q-list>
-            <div class="row justify-end">
-                <div class="col-6 row justify-end">
-                    <q-btn round style="margin-right:10px" size="10px" color="blue-10" icon="fab fa-facebook" />
-                    <q-btn round style="margin-right:10px" size="10px" color="blue" icon="fab fa-twitter" />
-                    <q-btn round style="margin-right:10px" size="10px" color="pink" icon="fab fa-instagram" />
-                    <q-btn round style="margin-right:10px" size="10px" color="red-8" icon="fab fa-youtube" />
+                <div class="row  text-grey-7" style="padding:6px">
+                    <div class="col-12 text-capitalize " style="padding:6px">
+                        <q-icon size="18px" name="fas fa-map-marker-alt" color="grey-9" />
+                        <span style="margin-left:10px">{{loja['sto_address'] +', '+loja['sto_adnumber']+', '+loja['sto_city']}}</span> 
+                    </div>
+                    <div class="col-12" style="padding:6px">
+                        <q-icon size="18px" name="fas fa-phone-alt" color="grey-9" />
+                        <span class="text-primary" style="margin-left:10px">{{loja['sto_phone']}}</span> 
+                    </div>
+                    <div class="col-12" style="padding:6px">
+                        <q-icon size="18px" name="fab fa-whatsapp" color="green" />
+                        <span class="text-primary" style="margin-left:10px">{{loja['sto_celphone']}}</span> 
+                    </div>
+                    <div class="col-12" style="padding:6px">
+                        <q-icon size="18px" name="fas fa-globe" color="grey-9" />
+                        <span class="text-primary" style="margin-left:10px">{{loja['sto_website']}}</span> 
+                    </div>
+                
+                </div>
+         
+            <div class="row ">
+                <div class="col-12 row justify-end" >
+                    <q-btn  
+                        v-for="(redeSocial) in redesSociais" :key="redeSocial.nome" 
+                        round style="margin-right:10px" size="14px" 
+                        :color="redeSocial.corIcone"  
+                        :icon="redeSocial.icone" 
+                    />
                 </div>
             </div>
             <div class="row" style="margin-top:8px;margin-bottom:8px">
-                <span class="col text-h5  text-grey-8">Informações</span>
+                <span class="col text-h6  text-grey-8">Informações</span>
             </div>
             <div class="row" style="margin-top:8px;margin-bottom:8px">
-                <p class="col text-grey-7">{{informacoes}}</p>
+                <p class="col text-grey-7">{{loja['sto_description']}}</p>
             </div>
-            <div class="row">
+            <div class="row text-h6 text-grey-8" >
+                <div class="col-6">
+                    <span>Fotos do Negócio</span> 
+                </div>  
+            </div>
+         <div class="row" >
+            <div v-for="(foto, index) in imagensNegocio" :key="index" class="col-4" style="padding:2px">
+                <q-img
+                @click="verFotosNegocio(index)"
+                :src="foto"
+                spinner-color="white"
+                style="height: 70px;  "
+                />
+            </div>
+        </div>
+        <div class="row text-h6 text-grey-8" style="margin-top:20px">
+                <div class="col-6">
+                    <span>Video</span> 
+                </div>  
+            </div>
+            <div class="row" style="margin-bottom:20px;">
                 <q-video
                 class="col"
-                src="https://www.youtube.com/embed/T-J7xFezJW8"
+                :src="loja['sto_video']"
                 />
-                
             </div>
 
         </div>
+        <q-dialog v-model="dialogImagens" full-width>
+            <q-carousel
+                animated
+                v-model="slide"
+                arrows
+                navigation
+                infinite
+                class="bg-black"
+            >
+             <q-carousel-slide    v-for="(foto,index) in imagensNegocio" :key="index" :name="index"  >
+                <q-img contain class="full-height" :src="foto" /> 
+            </q-carousel-slide>
+            </q-carousel>
+            
+        </q-dialog>
     </div>
 </template>
 <script>
@@ -91,14 +139,112 @@ export default {
   name: 'PageIndex',
   data(){
     return{
+        dialogImagens:false,
         text:'',
+        slide:1,
         estrelas: 4.5,
-        items:[1,2,3,4],
-        informacoes:"klakljfças  mlaksmç am çm çlms lasçmçasmmç çamsklnfklfnaçfmaççmlçm ç   m çasmlçm lçm"
+        redesSociais:[],
+        informacoes:"",
+        loja:'',
+        imagensNegocio:[]
       }
   },
   methods:{
-  
+       verificarRedesSociais(redesSociais){
+            for(var prop in redesSociais){
+                let icone = '';
+                let corIcone = '';
+                let link = '';
+                let nome = '';
+                let verificador = false;
+                if(prop === 'facebook'){
+                    if(redesSociais[prop]){
+                        verificador = true
+                        icone = 'fab fa-facebook'
+                        corIcone = 'blue'
+                        link = redesSociais[prop]
+                        nome = prop
+                    }
+                }
+                if(prop === 'instagram'){
+                    if(redesSociais[prop]){
+                        verificador = true
+                        icone = 'fab fa-instagram'
+                        corIcone = 'pink'
+                        link = redesSociais[prop]
+                        nome = prop
+                    }
+                    
+                }
+                if(prop === 'youtube'){
+                    if(redesSociais[prop]){
+                        verificador = true
+                        icone = 'fab fa-youtube'
+                        corIcone = 'red'
+                        link = redesSociais[prop]
+                        nome = prop
+                    }
+                }
+                if(prop === 'twitter'){
+                    if(redesSociais[prop]){
+                        verificador = true
+                        icone = 'fab fa-twitter'
+                        corIcone = 'info'
+                        link = redesSociais[prop]
+                        nome = prop
+                    }
+                    
+                }
+                if(prop === 'tiktok'){
+                    if(redesSociais[prop]){
+                        verificador = true
+                        icone = 'fab fa-tiktok'
+                        corIcone = 'black'
+                        link = redesSociais[prop]
+                        nome = prop
+                    }
+                }
+                if(prop === 'linkedin'){
+                    if(redesSociais[prop]){
+                        verificador = true
+                        icone = 'fab fa-linkedin'
+                        corIcone = 'info'
+                        link = redesSociais[prop]
+                        nome = prop
+                    }
+                }
+                
+                if(verificador){
+                    let redeSocial = { icone:icone, link:link, nome:nome, corIcone:corIcone}
+                    this.redesSociais.push(redeSocial)
+                }else{
+                    console.log("Rede "+ prop + ' não informada');
+                } 
+            }
+       },
+         verFotosNegocio(index){
+          console.log("VER FOTOS");
+          this.dialogImagens = true;
+          this.slide = index
+      }
+  },
+    beforeMount(){
+          if(this.$route.params.loja){
+            this.loja = this.$route.params.loja
+         
+            let redesSociais = this.loja['sto_social_data']
+            if(typeof redesSociais === 'string'){
+                redesSociais = JSON.parse(redesSociais)
+            }
+            this.verificarRedesSociais(redesSociais)
+
+            let imagensNegocio = JSON.parse(this.loja['sto_photos_data'])
+            this.imagensNegocio = imagensNegocio['photos']
+            console.log(this.imagensNegocio);
+      }
+    },
+    mounted(){
+      
   }
 }
 </script>

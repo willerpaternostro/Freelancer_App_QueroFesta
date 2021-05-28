@@ -153,6 +153,9 @@ export default {
             this.fotosNegocio.push(files[0])
         },
         validarInputs(){ 
+              if(this.$route.params.fotoEditar == 'linkVideo'){
+                this.$q.localStorage.set('cadastroNegocio_video',this.video)
+            }
             this.prosseguirCadastroLoja()
         },
         salvarFotosNegocios(dados){
@@ -185,8 +188,9 @@ export default {
             }
         },
         prosseguirCadastroLoja(){
-            console.log("Prosseguir");
-            this.salvarFotosNegocios({nomeFoto:'fotosNegocio',imagem:this.fotosNegocio})
+            if(this.$route.params.fotoEditar === 'fotosNegocio')
+                this.salvarFotosNegocios({nomeFoto:'fotosNegocio',imagem:this.fotosNegocio})
+            
             if(!this.editar){
                 this.$router.push({name:'DescricaoNegocio'})
             }else{
@@ -200,7 +204,6 @@ export default {
 
     mounted(){
         if(this.$route.params.editar){
-            console.log(this.$route.params);
             this.editar = true;
             this.idLojaEditar = this.$route.params.negocioAlterar['id'];
             this.inicializarPaginaEdicao(this.$route.params.fotoEditar);

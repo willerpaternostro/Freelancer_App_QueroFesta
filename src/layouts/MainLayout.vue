@@ -347,6 +347,7 @@ export default {
       if(this.paginaAtual == "Fornecedores"){this.botaoVoltar(); return}
       if(this.paginaAtual == "CobrancaDetalhes"){this.botaoVoltar(); return}
       if(this.paginaAtual == "CobrancasFornecedor"){this.botaoVoltar(); return}
+      this.botaoVoltar()
     },
     //FOOTER
     inicializarFooter(){
@@ -605,8 +606,10 @@ export default {
         this.$router.push({name:'Mais'})
         return
       }
+     
       this.$router.push({name:this.paginaAnterior})
     }
+    
   },
   watch:{
     $route: function(atual,anterior){

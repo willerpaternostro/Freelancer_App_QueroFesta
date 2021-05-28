@@ -1,34 +1,34 @@
 <template>
     <div>
         <div class="row">
-            <q-input class="col" bg-color="grey-2" filled color="pink" bottom-slots v-model="text" label="Find a food recipient" >
+            <q-input class="col" bg-color="grey-2" filled color="pink" bottom-slots v-model="text" label="Encontre um fornecedor ..." >
                 <template v-slot:append>
                     <q-icon color="pink" name="search" />
                 </template>
             </q-input>
         </div>
-        <div  v-if="stores" >
-            <q-card @click="irFornecedor" flat v-for="(item,index) in stores" :key="index" class="my-card">
+        <div  v-if="stores" style="margin-bottom:60px">
+            <q-card @click="$router.push({name:'Fornecedor',params:{loja:loja}})" flat v-for="(loja,index) in stores" :key="index" class="my-card">
                 <q-card-section horizontal class="row">
                     <q-img
                     style="border-radius:10px"
                     height="90px"
                     class="col-5"
-                    src="https://cdn.quasar.dev/img/chicken-salad.jpg"
+                    :src="loja['sto_image']"
                     />
                     <q-card-section class="col-7">
                         <div class="row">
                             <span class="text-h6 col" >
-                                Título fornecedor {{index}}
+                                {{loja['sto_title']}}
                             </span>
                         </div>
                         <div class="row" style="margin-top:10px">
                             <span class=" text-grey-6" >
-                                Categoria {{index}}
+                               {{loja['sto_categories']}}
                             </span><br>
                         </div>
-                        <span class=" text-black text-subtitle1 text-weight-bold row justify-end">
-                            <q-icon size="19px" name="far fa-heart" color="pink" />  
+                        <span  class=" text-black text-subtitle1 text-weight-bold row justify-end">
+                            <q-icon style="padding:5px" size="19px" name="far fa-heart" color="pink" />  
                         </span>
                     </q-card-section>
                 </q-card-section>
@@ -44,16 +44,18 @@ export default {
   data(){
     return{
         text:'',
-        stores:null
       }
   },
+  computed:{
+    stores(){
+        return this.$store.state.EuQueroFesta.stores
+    }
+  },
   methods:{
-    irFornecedor(){
-        this.$router.push({name:'Fornecedor'})
-    },
+ 
   },
   mounted(){
-      this.stores = this.$q.localStorage.getItem('stores')
+   console.log(this.stores);
   }
 }
 </script>

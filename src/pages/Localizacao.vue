@@ -37,18 +37,9 @@ export default {
   },
   methods:{
   
-   requisitarCategorias(){
-         console.log("Vai chamar requisitar Categories");
-         return this.$store.dispatch('EuQueroFesta/requisitarCategorias')
-     },
-     requisitarBanners(){
-         console.log("REQUISITAR BANNERS");
-         return this.$store.dispatch('EuQueroFesta/requisitarBanners')
-     },
   },
   mounted(){
-       this.requisitarCategorias()
-      //this.requisitarBanners()
+     
   }
 }
 </script>
