@@ -466,6 +466,8 @@ export default {
         return
       } 
     },
+
+   
     //AÇÕES
     logout(){
       this.mudarStatusLogado(false)
@@ -608,14 +610,16 @@ export default {
       }
      
       this.$router.push({name:this.paginaAnterior})
-    }
+    },
+  
     
   },
   watch:{
     $route: function(atual,anterior){
-      console.log("WATCH - $route")
       this.paginaAtual = atual.name
       this.paginaAnterior = anterior.name
+      this.$q.localStorage.set('paginaAtual',this.paginaAtual)
+      this.$q.localStorage.set('paginaAnterior',this.paginaAnterior)
       this.tab = this.$route.name
 
       this.inicializarHeader()

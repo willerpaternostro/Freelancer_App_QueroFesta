@@ -22,9 +22,9 @@
                 </q-item-section>
             </q-item>
              <!-- CONTATO -->
-            <q-item>
+            <q-item >
                 <q-item-section>
-                <q-item-label class="text-h6 text-grey-7">Contato</q-item-label>
+                <q-item-label  class="text-h6 text-grey-7">Contato</q-item-label>
                 <q-item-label v-if="meuNegocio['sto_address']"   class="text-grey-9"  lines="2" style="margin-top:10px">
                     <q-icon name="fas fa-map-marker-alt" />
                     {{meuNegocio['sto_address']?meuNegocio['sto_address']:''}}
@@ -50,7 +50,7 @@
         </q-list>
              <!-- REDES SOCIAIS -->
         <q-list >
-            <q-item>
+            <q-item >
                 <q-item-section>
                 <q-item-label class="text-h6 text-grey-7">Redes Sociais</q-item-label>
                 </q-item-section>
@@ -58,7 +58,7 @@
                     <q-icon  @click="$router.push({name:'RedesSociaisNegocio', params:{editar:'editar',negocioAlterar:meuNegocio}})" size="15px" name="fas fa-pen" color="grey-9" />
                 </q-item-section>
             </q-item>
-             <q-item clickable v-ripple v-for="(redeSocial) in redesSociais" :key="redeSocial.nome">
+             <q-item  clickable v-ripple v-for="(redeSocial) in redesSociais" :key="redeSocial.nome">
                 <q-item-section avatar>
                 <q-btn round size="12px" :color="redeSocial.corIcone" text-color="white" :icon="redeSocial.icone" />
                 </q-item-section>
@@ -67,24 +67,24 @@
         </q-list>
          <!-- FOTOS  -->
         <div class="row" style="padding-left:16px; margin-top:20px">
-            <div class="col-6 row text-grey-7">
+            <div v-if="fotoPrincipal" class="col-6 row text-grey-7">
                 <span class="col-10">Foto Principal</span> 
                  <q-icon  @click="$router.push({name:'FotosVideosNegocio', params:{editar:'editar',negocioAlterar:meuNegocio,fotoEditar:'fotoPrincipal'}})"  size="15px" name="fas fa-pen" color="grey-9" style="padding-bottom:8px;" />
             </div>
-           <div class="col-6 row text-grey-7" >
+           <div v-if="fotoCapa" class="col-6 row text-grey-7" >
                <span class="col-10" style="padding-left:4px">Foto de Capa </span>
                 <q-icon class="col-2"  @click="$router.push({name:'FotosVideosNegocio', params:{editar:'editar',negocioAlterar:meuNegocio,fotoEditar:'fotoCapa'}})" size="15px" name="fas fa-pen" color="grey-9" style="padding-bottom:8px;"  />
             </div>
        </div>
         <div class="row" style="padding:2px 2px 2px 16px">
-            <div class="col-6">
+            <div v-if="fotoPrincipal" class="col-6">
                   <q-img
                     :src="fotoPrincipal"
                     spinner-color="white"
                     style="height: 100px; "
                     />
             </div>
-            <div class="col-6"  style="padding:2px 2px 2px 4px">
+            <div v-if="fotoCapa" class="col-6"  style="padding:2px 2px 2px 4px">
                 <q-img
                     :src="fotoCapa"
                     spinner-color="white"
@@ -94,6 +94,7 @@
         </div>
 
         <!-- Fotos do negócio    -->
+        <div v-if="fotosDoNegocio">
         <div class="row" style="padding:16px 0px 0px 16px">
             <div class="col-6 text-grey-7">
                 <span>Foto do Negócio</span> 
@@ -110,8 +111,9 @@
                 />
             </div>
         </div>
+        </div>
         <!-- Video Apresentação  -->
-        <div class="row" >
+        <div v-if="meuNegocio['sto_video']" class="row" >
             <div class="col-12 text-grey-7" style="padding:16px 0px 0px 16px">
                 <span>Video de apresentação</span> 
                 <q-icon  @click="$router.push({name:'FotosVideosNegocio', params:{editar:'editar',negocioAlterar:meuNegocio,fotoEditar:'linkVideo'}})" class="col-1" size="15px" name="fas fa-pen" color="grey-9" style="padding-bottom:8px;padding-left:16px" />
@@ -119,12 +121,12 @@
             <div class="col-12" style="padding:0px 16px 0px 16px">
                 <q-video
                     :ratio="16/9"
-                    :src="meuNegocio['sto_video']?meuNegocio['sto_video']:'https://www.youtube.com/embed/k3_tw44QsZQ?rel=0'"
+                    :src="meuNegocio['sto_video']?meuNegocio['sto_video']:''"
                 />
             </div>
         </div>
         <!-- Estatísticas -->
-        <div  >
+        <div  v-if="false"  >
             <q-list class="rounded-borders" style="padding:16px 0px 0px 0px">
                 <q-expansion-item
                     dense
@@ -141,7 +143,9 @@
                     </q-card>
                 </q-expansion-item>
             </q-list>
-            <q-btn style="margin-top:10px" @click="statusBotao = !statusBotao" :label="statusBotao?'Publicado':'Não Publicado'" no-caps class="full-width" :color="statusBotao?'positive':'red'" />
+        </div>
+        <div style="margin:10px 0px 4px 0px">
+         <q-btn style="margin-top:10px" @click="publicarNegocio" :label="statusNegocio == '1'?'Publicado':'Não Publicado'" no-caps class="full-width" :color="statusNegocio=='1'?'positive':'red'" />
         </div>
         <!-- DIALOG FOTOS DO NEGÓCIO -->
         <q-dialog
@@ -179,11 +183,25 @@ export default {
         fotoPrincipal:'',
         fotoCapa:'',
         redesSociais:[],
-        statusBotao:false,
         dialogImagens:false,
-        slide:1
+        slide:1,
+        statusNegocio:''
       }
   },
+    computed:{
+        stores(){
+            return this.$store.state.EuQueroFesta.stores
+        }
+    },
+    watch:{
+        stores:function(val){
+            console.log("SOTER");
+            let pos = val.findIndex(element => {element['id'] === this.meuNegocio['id']})
+            if(pos > 0){
+                this.meuNegocio = val[pos]
+            }
+        }
+    },
   methods:{
       verificarRedesSociais(redesSociais){
               for(var prop in redesSociais){
@@ -261,19 +279,40 @@ export default {
           console.log("VER FOTOS");
           this.dialogImagens = true;
           this.slide = index
-      }
+      },
+      publicarNegocio(){
+          let statusAtual = this.statusNegocio 
+             console.log(statusAtual);
+            if(statusAtual == null){
+                statusAtual = '1'
+            }else{
+                  if(statusAtual == '0'){
+                statusAtual = '1'
+            }else{
+                statusAtual = '0'
+            }
+            }
+          this.statusNegocio  = statusAtual
+        console.log(statusAtual);
+          return this.$store.dispatch('EuQueroFesta/editarLoja',{idLojaEditar:this.meuNegocio['id'], statusAtual:statusAtual}) 
+      },
+     
 
   },
   beforeMount(){
        if(this.$route.params.meuNegocio){
            console.log(this.$route.params.meuNegocio);
           this.meuNegocio = this.$route.params.meuNegocio 
+          this.statusNegocio = this.meuNegocio['sto_status']
           //FOTOS DO NEGÓCIO
           if(this.meuNegocio.sto_photos_data){
+              console.log("TEM FOTO");
               let fotosDoMeuNegocio = this.meuNegocio.sto_photos_data;
               if(typeof this.meuNegocio.sto_photos_data === 'string'){
                   fotosDoMeuNegocio = JSON.parse(this.meuNegocio.sto_photos_data)
               }
+              console.log("FOTOO");
+              console.log(fotosDoMeuNegocio);
               fotosDoMeuNegocio = fotosDoMeuNegocio.photos
               fotosDoMeuNegocio.forEach(element => {
                   this.fotosDoNegocio.push(element)

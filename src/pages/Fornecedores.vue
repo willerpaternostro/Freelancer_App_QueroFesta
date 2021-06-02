@@ -8,7 +8,7 @@
             </q-input>
         </div>
         <div  v-if="stores" style="margin-bottom:60px">
-            <q-card @click="$router.push({name:'Fornecedor',params:{loja:loja}})" flat v-for="(loja,index) in stores" :key="index" class="my-card">
+            <q-card @click="verLoja(loja)" flat v-for="(loja,index) in stores" :key="index" class="my-card">
                 <q-card-section horizontal class="row">
                     <q-img
                     style="border-radius:10px"
@@ -38,12 +38,12 @@
 </template>
 <script>
 
-
 export default {
   name: 'PageIndex',
   data(){
     return{
         text:'',
+        
       }
   },
   computed:{
@@ -51,9 +51,27 @@ export default {
         return this.$store.state.EuQueroFesta.stores
     }
   },
-  methods:{
- 
-  },
+    methods:{
+        verLoja(loja){
+            this.adicionarUltimosVistos(loja)
+            this.$router.push({name:'Fornecedor',params:{loja:loja}})
+        },
+      
+        adicionarUltimosVistos(loja){
+            let meusUltimosVistos = this.$q.localStorage.getItem('meusUltimosVistos');
+            let verifica = false;
+
+            if(Array.isArray(meusUltimosVistos)){
+                if(meusUltimosVistos.length > 0){
+                    verifica = meusUltimosVistos.find(element => { return element['id'] === loja['id']})
+                }
+            }
+            if(!verifica){
+                meusUltimosVistos.push(loja)
+                this.$q.localStorage.set('meusUltimosVistos',meusUltimosVistos)
+            }
+        }
+    },
   mounted(){
    console.log(this.stores);
   }

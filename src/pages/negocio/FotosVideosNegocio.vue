@@ -150,7 +150,9 @@ export default {
            this.salvarFotosNegocios({nomeFoto:'fotoCapa',imagem:files[0]})
         },
         addFotosNegocio(files){
+            console.log("add foto negocio");
             this.fotosNegocio.push(files[0])
+            console.log(this.fotosNegocio);
         },
         validarInputs(){ 
               if(this.$route.params.fotoEditar == 'linkVideo'){
@@ -192,8 +194,10 @@ export default {
                 this.salvarFotosNegocios({nomeFoto:'fotosNegocio',imagem:this.fotosNegocio})
             
             if(!this.editar){
+                this.salvarFotosNegocios({nomeFoto:'fotosNegocio',imagem:this.fotosNegocio})
                 this.$router.push({name:'DescricaoNegocio'})
             }else{
+                console.log(this.fotosNegocio);
                 this.editarLoja()
             }
         },

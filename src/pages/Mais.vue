@@ -36,6 +36,7 @@
           </q-item-section>
         </q-item>
         <q-item
+          v-if="false"
           clickable
           v-ripple
           @click="$router.push({name:'Home'})"
@@ -52,6 +53,7 @@
         </q-item>
         
         <q-item
+          v-if="false"
           clickable
           v-ripple
           @click="$router.push({name:'CobrancasFornecedor'})"

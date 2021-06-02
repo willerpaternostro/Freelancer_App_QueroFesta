@@ -19,11 +19,11 @@
                     <div class="row" style="margin-top:10px">
                         <div class="col-10" @click="irMeuNegocio(store)"> 
                             <span class=" text-grey-6" >
-                                <q-icon name="room" color="grey-6" /> {{store.sto_city && store.sto_uf?store.sto_city + ' - ' + store.sto_uf:'Não informado'}}
+                                <q-icon v-if="store['sto_uf'] || store['sto_city']" name="room" color="grey-6" /> {{verificarLocalizacao(store)}}
                             </span>
                         </div>
                         <div class="col-2">
-                             <q-icon size="21px" name="delete" color="grey-7"  @click="excluirNegocio = !excluirNegocio" />
+                             <q-icon size="21px" name="delete" color="grey-7"  @click="abrirDialogExcluir(store)" />
                         </div>
                     </div>
                 </q-card-section>
@@ -34,20 +34,20 @@
         </q-page-sticky>
 
         <!-- EXCLUIR NEGÓCIO --> 
-        <q-dialog v-model="excluirNegocio" >
+        <q-dialog persistent v-model="excluirNegocio" >
             <q-card style="width: 300px; ">
                 <q-card-section >
                 <div class="text-h5 text-center text-weight-bold" style="padding-top:40px ">
-                    Delete this Recipe?</div>
+                    Excluir esta loja?</div>
                 </q-card-section>
 
                 <q-card-section class=" text-center text-grey-6" style="font-size:18px">
-                    Are you shure you want to delete Cafe latte Milkshake?
+                   Você tem certeza que deseja excluir a loja <span class="text-weight-bold text-grey-9">{{nomeLojaExcluir}} </span>?
                 </q-card-section>
 
                 <q-card-actions  class="bg-white row justify-center" style="padding-bottom:30px">
                     <q-btn class="col-4" color="grey" text-color="white" label="Cancelar" v-close-popup style="margin-right:30px" />
-                    <q-btn class="col-4" color="green" text-color="white" label="OK" v-close-popup />
+                    <q-btn @click="excluirLoja" class="col-4" color="red" text-color="white" label="Excluir" v-close-popup />
                 </q-card-actions>
             </q-card>
         </q-dialog>
@@ -62,8 +62,11 @@ export default {
   data(){
     return{
         excluirNegocio:false,
-
         text:'',
+
+        //Excluir
+        idExluir:'',
+        nomeLojaExcluir:''
       
       }
   },
@@ -73,21 +76,37 @@ export default {
         }
     },
   methods:{
-      requisitarStores(){
-          return this.$store.dispatch('EuQueroFesta/requisitarStores')
-      },
-      irMeuNegocio(store){
-          console.log("LOJA SELECIONADA");
-          this.$router.push({name:'InformacaoNegocio', params:{ meuNegocio:store }})
-      },
-      adicionarNovoNegocio(){
-          this.limparDadosNegocio()
-          this.$router.push({name:'CidadeNegocio'})
+        requisitarStores(){
+            return this.$store.dispatch('EuQueroFesta/requisitarStores')
+        },
+        irMeuNegocio(store){
+            console.log("LOJA SELECIONADA");
+            this.$router.push({name:'InformacaoNegocio', params:{ meuNegocio:store }})
+        },
+        abrirDialogExcluir(dados){
+            this.excluirNegocio = true;
+            this.idExluir = dados['id'];
+            this.nomeLojaExcluir = dados['sto_title']
+        },
+        adicionarNovoNegocio(){
+            this.limparDadosNegocio()
+            this.$router.push({name:'CidadeNegocio'})
 
-      },
-      limparDadosNegocio(){
-       return this.$store.commit('EuQueroFesta/limparDadosNegocio')
-      }
+        },
+        excluirLoja(){
+            return this.$store.dispatch('EuQueroFesta/excluirLoja',{id:this.idExluir})
+        },
+        limparDadosNegocio(){
+            return this.$store.commit('EuQueroFesta/limparDadosNegocio')
+        },
+        verificarLocalizacao(store){
+            let cidade =  store.sto_city?store.sto_city:''
+            let estado = store.sto_uf?' - '+store.sto_uf:''
+            if(!cidade && !estado){
+                return ''
+            }
+            return cidade + estado
+        }
   },
   beforeMount(){
        this.requisitarStores()

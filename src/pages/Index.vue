@@ -66,6 +66,12 @@ export default {
       }
   },
   methods:{
+     inicializacaoLocalStorage(){
+      this.$q.localStorage.set('primeiraVezApp',false)
+      this.$q.localStorage.set('meusUltimosVistos',[])
+      this.$q.localStorage.set('meusFavoritos',[])
+    },
+
     continuar(){
       console.log(this.slide)
       if(this.slide == 'slide1'){
@@ -77,8 +83,10 @@ export default {
         this.slide = 'slide3'
         return
       }
-      if(this.slide == 'slide3')
+      if(this.slide == 'slide3'){
+        this.$q.localStorage.set('primeiraVezApp',true)
         this.$router.push({name:'Localizacao'})
+      }
     },
     requisitarCategories(){
       return this.$store.dispatch('EuQueroFesta/requisitarCategories')
@@ -91,15 +99,30 @@ export default {
     }
  
   },
-
-  mounted(){
-    console.log(this)
+  created(){
+     if(!this.$q.localStorage.getItem('primeiraVezApp')){
+      this.inicializacaoLocalStorage()
+    }
+    if(this.$q.localStorage.getItem('primeiraVezApp')){
+      this.$router.push({name:'Home'})
+    }
+  },
+  beforeMount(){
     this.height = this.$q.screen.height-50
     this.height = parseInt(this.height/2)
     this.height = this.height.toString()
 
-    this.requisitarStores()
-    this.requisitarCategories()
+    console.log("BeforeMount-Index");
+   
+  },
+
+  mounted(){
+    console.log("MOUNTED-INDEX")
+    if(!this.$q.localStorage.getItem('primeiraVezApp')){
+      this.requisitarStores()
+      this.requisitarCategories()
+    }
+    
   }
 }
 </script>

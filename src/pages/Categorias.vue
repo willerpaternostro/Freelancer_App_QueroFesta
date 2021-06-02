@@ -1,45 +1,65 @@
 <template>
 <div>
     <div class="row">
-        <q-input class="col" bg-color="grey-2" filled color="pink" bottom-slots v-model="text" label="Item ou loja" style="padding:8px">
+        <q-input @input="procurarCategoria(inputBusca)" class="col" bg-color="grey-2" filled color="pink" bottom-slots v-model="inputBusca" label="Procurar categoria ..." style="padding:8px">
         <template v-slot:prepend>
           <q-icon color="pink" name="search" />
         </template>
       </q-input>
     </div>
    
-        <div class="row "  >
-        <div 
-          @click="$router.push({name:'Fornecedores'})"
-          v-for="(categoria,index) in categorias" :key="index"
-          class="col-xs-6 col-sm-4 row" 
-          style="padding:4px"
-        >
-        <div class="col-xs-4  text-center "  > 
-           <q-img  :src="categoria['cat_icon']" />
-        </div>
-            <span style="font-size:16px;line-height: normal;padding-left:10px" class="self-center col-xs-8 text-start text-grey-8 ">{{categoria['cat_description']}}</span>
-        </div>
+    <div v-if="inputBusca.length == 0" class="row " style="margin-bottom:100px" >
+      <div 
+        @click="$router.push({name:'Fornecedores'})"
+        v-for="(categoria,index) in CATEGORIAS" :key="index"
+        class="col-xs-6 col-sm-4 row" 
+        style="padding:4px"
+      >
+      <div class="col-xs-4  text-center "  > 
+          <q-img  :src="'/iconesCategoria/'+categoria['imagem']" />
+      </div>
+          <span style="font-size:16px;line-height: normal;padding-left:10px" class="self-center col-xs-8 text-start text-grey-8 ">{{categoria['nome']}}</span>
+      </div>
+    </div>
+    <div v-if="inputBusca.length >0" class="row " style="margin-bottom:100px" >
+      <div 
+        @click="$router.push({name:'Fornecedores'})"
+        v-for="(categoria,index) in busca" :key="index"
+        class="col-xs-6 col-sm-4 row" 
+        style="padding:4px"
+      >
+      <div class="col-xs-4  text-center "  > 
+          <q-img  :src="'/iconesCategoria/'+categoria['imagem']" />
+      </div>
+          <span style="font-size:16px;line-height: normal;padding-left:10px" class="self-center col-xs-8 text-start text-grey-8 ">{{categoria['nome']}}</span>
+      </div>
     </div>
 </div>
 </template>
-<script>
-
-
+<script> 
 export default {
   name: 'PageIndex',
   data(){
     return{
-        text:'',
-        items:[1,2,3,4,5]
+        inputBusca:'',
+        items:[1,2,3,4,5],
+        busca:[]
       }
   },
   computed:{
     categorias(){
       return this.$store.state.EuQueroFesta.categorias
+    },
+    CATEGORIAS(){
+      return this.$store.state.EuQueroFesta.CATEGORIAS
     }
   },
   methods:{
+    procurarCategoria(nomeBusca){
+      nomeBusca = nomeBusca.toUpperCase()
+      this.busca = this.CATEGORIAS.filter(element =>{return element.nome.toUpperCase().includes(nomeBusca)})
+      console.log(this.busca);
+    }
    
   },
   mounted(){

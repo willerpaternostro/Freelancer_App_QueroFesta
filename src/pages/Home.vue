@@ -3,7 +3,6 @@
         <q-img
         src="~assets/festa_party.png"
         style="height: 200px;margin-bottom:8px"
-        
         >
             <p style="padding-bottom:40px" class="text-h6 absolute-center full-width text-center text-white">.</p>
             <div class="absolute-bottom text-subtitle1 text-center">
@@ -86,10 +85,11 @@
         </q-carousel>
            
         <!-- SUGESTÕES DE FORNECEDORES -->
-        <div class="row" style="margin-top:10px">
+        <div v-if="ultimosVistos" class="row" style="margin-top:10px">
             <span class="text-h6 text-grey-9 text-weight-bold">Últimos vistos</span>
         </div>
         <q-carousel
+            v-if="ultimosVistos"
             style="margin-bottom:60px;margin-top:10px"
             v-model="slidesUltimosVistos"
             transition-prev="slide-right"
@@ -104,7 +104,7 @@
             <!-- Obs: elementos dinâmicos em carrossel não podem ter mesmo nome de váriavel -->
             <q-carousel-slide :name="index" class="column no-wrap overflow-hidden" v-for="(slide,index) in qtdCarrousseisUltimos" :key="index">
                 <div class="row fit justify-start items-center q-gutter-xs q-col-gutter no-wrap" >
-                    <div class="col-6 row"  v-for="(loja,pos) in ultimosVistos[index]" :key="pos" >
+                    <div @click="$router.push({name:'Fornecedor',params:{loja:loja}})" class="col-6 row"  v-for="(loja,pos) in ultimosVistos[index]" :key="pos" >
                     <q-img height="120px"  @click="$router.push({name:'Fornecedores'})"  class="rounded-borders col-12" :src="loja['sto_image']" />
                       <div style="padding-top:10px;margin-bottom:10px"  class="col-12 text-center text-caption text-grey-8">
                             {{loja['sto_title']}}
@@ -131,7 +131,7 @@ export default {
             categoriasPorSlide:[],
             // Últimos vistos
             slidesUltimosVistos:1,
-            ultimosVistos:[],
+            ultimosVistos:null,
             qtdCarrousseisUltimos:[]
         }
     },
@@ -145,46 +145,61 @@ export default {
     },
     methods:{
         atualizandoCategorias(){
-            let qtdCarrousseis = Math.ceil(this.categorias.length/3)
-            for(let i = 0; i<qtdCarrousseis;i++){
-                this.qtdCarrousselCategoria.push(i)
-            }
-    
-            let Elementos = 0;
-            let obj = []
-            this.categorias.forEach(element => {
-                obj.push(element)
-                Elementos +=1
-                if(Elementos === 4){
-                    this.categoriasPorSlide.push(obj)
-                    obj = [];
-                   Elementos =0;
+            if(this.categorias){
+                 let qtdCarrousseis = Math.ceil(this.categorias.length/3)
+                for(let i = 0; i<qtdCarrousseis;i++){
+                    this.qtdCarrousselCategoria.push(i)
                 }
-            });
-            if(obj.length > 0){
-                this.categoriasPorSlide.push(obj)
+        
+                let Elementos = 0;
+                let obj = []
+                this.categorias.forEach(element => {
+                    obj.push(element)
+                    Elementos +=1
+                    if(Elementos === 4){
+                        this.categoriasPorSlide.push(obj)
+                        obj = [];
+                    Elementos =0;
+                    }
+                });
+                if(obj.length > 0){
+                    this.categoriasPorSlide.push(obj)
+                }
             }
+           
         },
         atualizandoUltimosVistos(){
-            let qtdCarrousseis = Math.ceil(this.stores.length/3)
-            for(let i = 0; i<qtdCarrousseis;i++){
-                this.qtdCarrousseisUltimos.push(i)
-            }
-    
-            let Elementos = 0;
-            let obj = []
-            this.stores.forEach(element => {
-                obj.push(element)
-                Elementos +=1
-                if(Elementos === 3){
-                    this.ultimosVistos.push(obj)
-                    obj = [];
-                   Elementos =0;
+            console.log("ATUALIZANDO ULTIMOS VISTOS");
+            let meusUltimosVistos = this.$q.localStorage.getItem('meusUltimosVistos')
+            console.log(meusUltimosVistos);
+            if(Array.isArray(meusUltimosVistos)){
+                if(meusUltimosVistos.length > 0){
+                    console.log("ENTROU VERIFICAÇÃO");
+                    let qtdCarrousseis = Math.ceil(meusUltimosVistos.length/2)
+                    console.log("MEUS CARROUSSEIS:"+qtdCarrousseis);
+                    for(let i = 0; i <qtdCarrousseis ;i++){
+                        this.qtdCarrousseisUltimos.push(i)
+                    }
+                    this.ultimosVistos = []
+                    let Elementos = 0;
+                    let obj = []
+                    
+                    meusUltimosVistos.forEach(element => {
+                        obj.push(element)
+                        Elementos +=1
+                        if(Elementos === 2){
+                            this.ultimosVistos.push(obj)
+                            obj = [];
+                        Elementos =0;
+                        }
+                    });
+                    if(obj.length > 0){
+                        this.ultimosVistos.push(obj)
+                    }
                 }
-            });
-            if(obj.length > 0){
-                this.ultimosVistos.push(obj)
             }
+            console.log("ULTIOMOSSS");
+            console.log(this.ultimosVistos);
         },
         requisitarCategories(){
             return this.$store.dispatch('EuQueroFesta/requisitarCategories')
@@ -194,7 +209,9 @@ export default {
         }
     },
     watch:{
-
+        categorias:function(val){
+            this.atualizandoCategorias()
+        },
     },
     created(){
         
@@ -202,14 +219,12 @@ export default {
     beforeMount(){
         this.atualizandoCategorias()
         this.atualizandoUltimosVistos()
-        
-       
         this.requisitarCategories()
-        this.requisitarStores()
-        
-          
+        this.requisitarStores()  
     },
     mounted(){
+        this.slidesCategorias = 0
+        this.slidesUltimosVistos = 0
         console.log("MOUNTED-HOME");  
      
     }

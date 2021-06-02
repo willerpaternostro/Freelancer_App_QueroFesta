@@ -37,8 +37,8 @@ export async function cadastrarLoja({state,commit}){
     formdata.set('users_id',LocalStorage.getItem('user').id)
     formdata.set('compananies_id',1)
     formdata.set('categories_id',2)
-    //formdata.set('plans_id',null)
-    formdata.set('sto_city',LocalStorage.getItem("cadastroNegocio_cidade")) 
+    //formdata.set('plans_id',null) 
+    formdata.set('sto_city',LocalStorage.getItem("cadastroNegocio_nomeCidadeNegocio")) 
     formdata.set('sto_categories',LocalStorage.getItem("cadastroNegocio_categoria")) 
     formdata.set('sto_title',LocalStorage.getItem("cadastroNegocio_nome")) 
     
@@ -58,6 +58,7 @@ export async function cadastrarLoja({state,commit}){
         formdata.append('sto_cover',state.fotoCapa[0])
     }
     if(state.fotosNegocio){
+        console.log(state.fotosNegocio);
         state.fotosNegocio.forEach((element,index) => {
             formdata.append('sto_photos_data',element)
         });
@@ -65,7 +66,7 @@ export async function cadastrarLoja({state,commit}){
     formdata.set('sto_description',LocalStorage.getItem("cadastroNegocio_descricao"))
   
     //formdata.set('usu_fcm_token',LocalStorage.email)
-    await axiosInstance.post("Stores/add/",formdata, config).then((response) => {
+    await axiosInstance.post("Stores/",formdata, config).then((response) => {
         console.log("Entrou API Store/add/")
         console.log(response);
         let meuNegocio = response.data.stores[0]
@@ -92,7 +93,7 @@ export async function cadastrarUsuario({commit},dados) {
     if(dados.fotoPerfil)
         formdata.append('usu_image',dados.fotoPerfil[0])
     //formdata.set('usu_fcm_token',LocalStorage.email)
-    await axiosInstance.post("Users/add/",formdata, config).then((response) => {
+    await axiosInstance.post("Users/",formdata, config).then((response) => {
         console.log("Entrou API Users/add/")
         console.log(response);
         let user = response.data.user
@@ -109,6 +110,19 @@ export async function cadastrarUsuario({commit},dados) {
       
     })
 }
+//DELETAR
+export async function excluirLoja({commit},dados){
+    const config = { headers: { 'Content-Type': 'multipart/form-data', 'Authorization': LocalStorage.getItem('user').token} };
+  
+    console.log("token: "+LocalStorage.getItem('user').token);
+    await axiosInstance.delete("/stores/"+dados['id'], config).then((response) => {
+        console.log(response);
+        commit('excluirLojaFornecedores',dados)
+    }).catch((erro) => { 
+        console.log("Erro")
+        console.log(erro)
+    })
+}
 
 //EDITAR
 export async function editarLoja({state,commit},dados){
@@ -116,7 +130,7 @@ export async function editarLoja({state,commit},dados){
     const formdata = new FormData();
  
     formdata.set('id',dados.idLojaEditar);
-    console.log(dados.idLojaEditar);
+    console.log(dados);
     //formdata.set('sto_adnumber',LocalStorage.getItem("cadastroNegocio_numero"));
 
     if(dados.nomeNegocio)formdata.set('sto_title',dados.nomeNegocio);
@@ -142,10 +156,19 @@ export async function editarLoja({state,commit},dados){
         }
         if(dados.fotoEditada === 'linkVideo' )formdata.set('sto_video',LocalStorage.getItem('cadastroNegocio_video'));
     }
+    if(dados.statusAtual){formdata.set('sto_status',dados.statusAtual)}
 
-    await axiosInstance.post("Stores/update/",formdata, config).then((response) => {
+    await axiosInstance.put("Stores/",formdata, config).then((response) => {
         console.log(response);
-        this.$router.push({name:'InformacaoNegocio', params:{ meuNegocio:response.data.stores[0]}})
+        if(response.data.stores){
+            commit('atualizarStore',response.data.stores[0])
+            if(LocalStorage.getItem('paginaAtual') != 'InformacaoNegocio'){
+                
+                this.$router.push({name:'InformacaoNegocio', params:{ meuNegocio:response.data.stores[0]}})
+            }
+        }
+      
+           
     }).catch((erro) => { 
         console.log("Erro")
         console.log(erro)

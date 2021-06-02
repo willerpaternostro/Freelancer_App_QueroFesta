@@ -9,9 +9,9 @@
                     <q-btn round color="pink" icon="share" style="margin-right:10px" />
                     <q-btn round color="pink" icon="far fa-heart" flat />
                 </div>
-                <div class="absolute-bottom-right ">
+                <div class="absolute-bottom-right" v-if="imagensNegocio">
                     <q-badge  transparent align="middle" color="grey-7">
-                        <q-icon @click="dialogImagens = !dialogImagens" size="21px" name="insert_photo" /> <span style="margin-left:5px">{{imagensNegocio.length}}</span>
+                        <q-icon @click="dialogImagens = !dialogImagens" size="21px" name="insert_photo" /> <span style="margin-left:5px">{{imagensNegocio?imagensNegocio.length:''}}</span>
                      </q-badge>
                 </div>
             </q-img>
@@ -31,13 +31,18 @@
             </q-card-section>
         </q-card>
         <div style="padding-left:6px">
-            <div class="row" style="margin-top:16px;margin-bottom:8px">
+            <!-- TÍTULO-->
+            <div v-if="loja['sto_title']" class="row" style="margin-top:16px;margin-bottom:8px">
                 <span class="col text-h5 text-weight-bold text-grey-8">{{loja['sto_title']}}</span>
             </div>
-            <div class="row">
-                <span class="col  text-grey-6">{{loja['sto_categories']?loja['sto_categories']:'Categoria'}}</span>
+
+            <!-- CATEGORIA-->
+            <div v-if="loja['sto_categories']" class="row" >
+                <span class="col  text-grey-6">{{loja['sto_categories']}}</span>
             </div>
-            <div class="row justify-end">
+
+            <!-- ESTRELAS PONTUAÇÃO--->
+            <div  class="row justify-end">
                 <div class="col-6"> 
                      <q-rating
                         v-model="estrelas"
@@ -51,71 +56,89 @@
                         <span class="text-grey-7 col-1 text-weight-bold" >(500+)</span>
                 </div>  
             </div>
-                <div class="row  text-grey-7" style="padding:6px">
-                    <div class="col-12 text-capitalize " style="padding:6px">
-                        <q-icon size="18px" name="fas fa-map-marker-alt" color="grey-9" />
-                        <span style="margin-left:10px">{{loja['sto_address'] +', '+loja['sto_adnumber']+', '+loja['sto_city']}}</span> 
-                    </div>
-                    <div class="col-12" style="padding:6px">
-                        <q-icon size="18px" name="fas fa-phone-alt" color="grey-9" />
-                        <span class="text-primary" style="margin-left:10px">{{loja['sto_phone']}}</span> 
-                    </div>
-                    <div class="col-12" style="padding:6px">
-                        <q-icon size="18px" name="fab fa-whatsapp" color="green" />
-                        <span class="text-primary" style="margin-left:10px">{{loja['sto_celphone']}}</span> 
-                    </div>
-                    <div class="col-12" style="padding:6px">
-                        <q-icon size="18px" name="fas fa-globe" color="grey-9" />
-                        <span class="text-primary" style="margin-left:10px">{{loja['sto_website']}}</span> 
-                    </div>
-                
+
+             <!-- CONTATO -->
+            <div class="row  text-grey-7" style="padding:6px">
+                <div v-if="loja['sto_address']" class="col-12 text-capitalize " style="padding:6px">
+                    <q-icon size="18px" name="fas fa-map-marker-alt" color="grey-9" />
+                    <q-btn  no-caps  flat text-color="blue-6">
+                        {{loja['sto_address']?loja['sto_address']:'' +', '+loja['sto_adnumber']?loja['sto_adnumber']:''+', '+loja['sto_city']?loja['sto_city']:''}}
+                    </q-btn> 
                 </div>
-         
-            <div class="row ">
+
+                <div v-if="loja['sto_phone']" class="col-12" style="padding:6px">
+                    <q-icon size="18px" name="fas fa-phone-alt" color="grey-9" />
+                    <q-btn flat text-color="blue-6">{{loja['sto_phone']}}</q-btn> 
+                </div>
+
+                <div v-if="loja['sto_celphone']" class="col-12" style="padding:6px">
+                    <q-icon size="18px" name="fab fa-whatsapp" color="green" />
+                    <q-btn type="a" target="_blank" :href="'https://api.whatsapp.com/send?phone=+55'+loja['sto_celphone']" flat text-color="blue-6" :label="loja['sto_celphone']"  /> 
+                </div>
+
+                <div v-if="loja['sto_website']" class="col-12" style="padding:6px">
+                    <q-icon size="18px" name="fas fa-globe" color="grey-9" />
+                    <q-btn type="a" target="_blank" :href="loja['sto_website']" flat no-caps text-color="blue-6">{{loja['sto_website']}}</q-btn> 
+                </div>
+            </div>
+
+            <!-- REDES SOCIAIS --> 
+            <div v-if="Array.isArray(redesSociais)" class="row ">
                 <div class="col-12 row justify-end" >
                     <q-btn  
                         v-for="(redeSocial) in redesSociais" :key="redeSocial.nome" 
                         round style="margin-right:10px" size="14px" 
+                        type="a"
+                        target="_blank"
+                        :href="redeSocial['link']"
                         :color="redeSocial.corIcone"  
                         :icon="redeSocial.icone" 
+
                     />
                 </div>
             </div>
-            <div class="row" style="margin-top:8px;margin-bottom:8px">
+
+            <!-- INFORMAÇÕES -->
+            <div v-if="loja['sto_description']" class="row" style="margin-top:8px;margin-bottom:8px">
                 <span class="col text-h6  text-grey-8">Informações</span>
             </div>
-            <div class="row" style="margin-top:8px;margin-bottom:8px">
+            <div v-if="loja['sto_description']" class="row" style="margin-top:8px;margin-bottom:8px">
                 <p class="col text-grey-7">{{loja['sto_description']}}</p>
             </div>
-            <div class="row text-h6 text-grey-8" >
+
+            <!-- FOTOS DO NEGÓCIO -->
+            <div v-if="imagensNegocio" class="row text-h6 text-grey-8" >
                 <div class="col-6">
                     <span>Fotos do Negócio</span> 
                 </div>  
             </div>
-         <div class="row" >
-            <div v-for="(foto, index) in imagensNegocio" :key="index" class="col-4" style="padding:2px">
-                <q-img
-                @click="verFotosNegocio(index)"
-                :src="foto"
-                spinner-color="white"
-                style="height: 70px;  "
-                />
+            <div v-if="imagensNegocio" class="row" >
+                <div v-for="(foto, index) in imagensNegocio" :key="index" class="col-4" style="padding:2px">
+                    <q-img
+                    @click="verFotosNegocio(index)"
+                    :src="foto"
+                    spinner-color="white"
+                    style="height: 70px;  "
+                    />
+                </div>
             </div>
-        </div>
-        <div class="row text-h6 text-grey-8" style="margin-top:20px">
+
+            <!-- VIDEO -->
+            <div v-if="loja['sto_video']" class="row text-h6 text-grey-8" style="margin-top:20px">
                 <div class="col-6">
                     <span>Video</span> 
                 </div>  
             </div>
-            <div class="row" style="margin-bottom:20px;">
+            <div v-if="loja['sto_video']" class="row" style="margin-bottom:20px;">
                 <q-video
                 class="col"
                 :src="loja['sto_video']"
                 />
             </div>
-
         </div>
-        <q-dialog v-model="dialogImagens" full-width>
+
+        <!-- DIALOG IMAGENS -->
+        <q-dialog v-model="dialogImagens" full-width v-if="imagensNegocio">
             <q-carousel
                 animated
                 v-model="slide"
@@ -146,10 +169,10 @@ export default {
         redesSociais:[],
         informacoes:"",
         loja:'',
-        imagensNegocio:[]
+        imagensNegocio:null
       }
   },
-  methods:{
+    methods:{
        verificarRedesSociais(redesSociais){
             for(var prop in redesSociais){
                 let icone = '';
@@ -222,12 +245,26 @@ export default {
                 } 
             }
        },
-         verFotosNegocio(index){
-          console.log("VER FOTOS");
+       verificarFotosNegocio(){
+            if( this.loja['sto_photos_data']){
+                let imagensNegocio = this.loja['sto_photos_data']
+         
+                if(typeof imagensNegocio === 'string'){
+                    imagensNegocio = JSON.parse(this.loja['sto_photos_data'])
+                }
+                imagensNegocio = imagensNegocio['photos']
+                if(Array.isArray(imagensNegocio)){
+                    if(imagensNegocio.length > 0){
+                        this.imagensNegocio = imagensNegocio
+                    }
+                }
+            }   
+        },
+        verFotosNegocio(index){
           this.dialogImagens = true;
           this.slide = index
-      }
-  },
+        }
+    },
     beforeMount(){
           if(this.$route.params.loja){
             this.loja = this.$route.params.loja
@@ -236,11 +273,11 @@ export default {
             if(typeof redesSociais === 'string'){
                 redesSociais = JSON.parse(redesSociais)
             }
+
             this.verificarRedesSociais(redesSociais)
 
-            let imagensNegocio = JSON.parse(this.loja['sto_photos_data'])
-            this.imagensNegocio = imagensNegocio['photos']
-            console.log(this.imagensNegocio);
+            this.verificarFotosNegocio()
+            
       }
     },
     mounted(){

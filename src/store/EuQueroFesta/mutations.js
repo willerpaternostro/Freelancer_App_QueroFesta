@@ -22,7 +22,28 @@ export const atualizarUsuario = (state,dado) => {
 export const atualizarStores = (state,dado) => {
     state.stores = dado
 }
-
+export const atualizarStore = (state, dado) =>{
+    console.log(dado);
+    if(dado){
+        let posicao = state.stores.findIndex (element => {return element['id'] === dado['id']})
+        console.log(posicao);
+        if(posicao > 0){
+            state.stores.splice(posicao,1,dado)
+        }
+    }
+   
+}
+export const excluirLojaFornecedores = (state,dado) => {
+    let lojas = state.stores;
+    console.log(lojas);
+    console.log(dado);
+    let posicao = lojas.findIndex(element => {return element['id'] === dado['id']})
+    console.log(posicao);
+    if(posicao > 0){
+        state.stores.splice(posicao,1)
+    }
+    
+}
 export const logout = (state) => {
     LocalStorage.set('user',null)
     state.user = null
@@ -30,7 +51,7 @@ export const logout = (state) => {
 }
 
 export const salvarFotosNegocios = (state, dados) => {
-    console.log(dados);
+   
     if(dados.nomeFoto === 'fotoPrincipal'){
         if(state.fotoPrincipal.length > 0)
             state.fotoPrincipal.pop()
@@ -46,7 +67,7 @@ export const salvarFotosNegocios = (state, dados) => {
         dados.imagem.forEach(element => {
             state.fotosNegocio.push(element)
         });
-        console.log(state.fotosNegocio);
+       
     }
 }
 
